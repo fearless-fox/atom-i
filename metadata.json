@@ -1,0 +1,6 @@
+{
+  "name": "Goal Atomizer",
+  "description": "An AI-powered goal decomposition application with an interactive particle task map, futuristic cyberpunk aesthetic, AI coach, and dynamic Eisenhower Matrix.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

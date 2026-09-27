@@ -1,0 +1,15 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Public read for success stories on landing page
+    match /success_stories/{storyId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+
+    // Standard rule specified by user: authenticated access across all documents
+    match /{document=**} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}

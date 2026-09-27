@@ -1,0 +1,12 @@
+{
+  "projectId": "atom-i",
+  "appId": "1:322797484774:web:cd8f4e371219d176691927",
+  "apiKey": "***REMOVED***",
+  "authDomain": "atom-i.firebaseapp.com",
+  "firestoreDatabaseId": "ai-studio-goalatomizer-65229a0a-b651-407b-873f-036f7e612071",
+  "storageBucket": "atom-i.firebasestorage.app",
+  "messagingSenderId": "322797484774",
+  "measurementId": "",
+  "oAuthClientId": "322797484774-44tu4c2toc6els7pkv50ka8luhp0rg1o.apps.googleusercontent.com",
+  "recaptchaSiteKey": ""
+}

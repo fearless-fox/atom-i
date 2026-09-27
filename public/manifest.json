@@ -1,0 +1,32 @@
+{
+  "id": "/",
+  "name": "A.T.O.M-i Tactical OS",
+  "short_name": "A.T.O.M-i",
+  "description": "Tactical Goal Decomposition OS with interactive node maps, Eisenhower triage, and Chrono planning.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "theme_color": "#080d14",
+  "background_color": "#05080e",
+  "icons": [
+    {
+      "src": "/pwa-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

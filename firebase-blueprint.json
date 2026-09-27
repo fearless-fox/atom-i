@@ -1,0 +1,71 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile data",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid"]
+    },
+    "GoalDocument": {
+      "title": "GoalDocument",
+      "description": "Decomposed goal project created by user",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "category": { "type": "string" },
+        "progress": { "type": "number" },
+        "targetDate": { "type": "string" },
+        "phases": { "type": "array" },
+        "insight": { "type": "string" },
+        "encouragement": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "userId", "title"]
+    },
+    "PlannerTaskItem": {
+      "title": "PlannerTaskItem",
+      "description": "Scheduled planner item for a user",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "taskId": { "type": "string" },
+        "title": { "type": "string" },
+        "date": { "type": "string" },
+        "time": { "type": "string" },
+        "duration": { "type": "number" },
+        "completed": { "type": "boolean" },
+        "priority": { "type": "string" },
+        "category": { "type": "string" },
+        "notes": { "type": "string" }
+      },
+      "required": ["id", "userId", "title", "date"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profile collection"
+    },
+    "/users/{userId}/goals/{goalId}": {
+      "schema": "GoalDocument",
+      "description": "User saved goals and decomposition maps"
+    },
+    "/users/{userId}/planner/{plannerId}": {
+      "schema": "PlannerTaskItem",
+      "description": "User scheduled calendar planner tasks"
+    }
+  }
+}
