@@ -28,6 +28,7 @@ interface LandingPageProps {
   successStories: SuccessStory[];
   onSelectTier: (tier: UserTier) => Promise<void>;
   onOpenFounderPerks?: () => void;
+  onOpenTerms?: (tab?: "terms" | "privacy" | "refunds") => void;
 }
 
 export default function LandingPage({
@@ -37,6 +38,7 @@ export default function LandingPage({
   successStories,
   onSelectTier,
   onOpenFounderPerks,
+  onOpenTerms,
 }: LandingPageProps) {
   const [selectedStoryIndex, setSelectedStoryIndex] = useState(0);
 
@@ -496,6 +498,29 @@ export default function LandingPage({
             <p className="text-xs text-gray-500 font-mono mt-1">
               Firestore: <span className="text-gray-400">atom-i</span> • Engine: <span className="text-cyan-400">Multi-Model Neural Core</span> • Security: <span className="text-emerald-400">Encrypted Cloud Storage</span>
             </p>
+            {/* Legal Links */}
+            <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 mt-3 text-[11px] font-mono text-gray-400">
+              <button
+                onClick={() => onOpenTerms && onOpenTerms("terms")}
+                className="hover:text-cyan-300 underline transition-colors"
+              >
+                Terms of Service
+              </button>
+              <span>•</span>
+              <button
+                onClick={() => onOpenTerms && onOpenTerms("refunds")}
+                className="hover:text-cyan-300 underline transition-colors"
+              >
+                Refunds &amp; Cancellations
+              </button>
+              <span>•</span>
+              <button
+                onClick={() => onOpenTerms && onOpenTerms("privacy")}
+                className="hover:text-cyan-300 underline transition-colors"
+              >
+                Privacy Policy
+              </button>
+            </div>
           </div>
 
           <div className="flex items-center gap-4">

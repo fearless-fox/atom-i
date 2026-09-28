@@ -21,6 +21,7 @@ import {
   Package
 } from "lucide-react";
 import { cyberAudio } from "../lib/cyberAudio";
+import { STRIPE_PAYMENT_LINKS } from "../lib/stripeConfig";
 
 interface PaywallModalProps {
   isOpen: boolean;
@@ -34,6 +35,7 @@ interface PaywallModalProps {
   atomizationsCount?: number;
   onOpenFounderPerks?: () => void;
   onRedeemPromoCode?: (code: string) => Promise<{ success: boolean; message: string; tierName?: string }>;
+  onOpenTerms?: (tab?: "terms" | "privacy" | "refunds") => void;
 }
 
 export const TIERS_CONFIG: Record<
@@ -44,6 +46,12 @@ export const TIERS_CONFIG: Record<
     tagline: string;
     price: string;
     period: string;
+    priceMonthly: string;
+    priceYearly: string;
+    periodMonthly: string;
+    periodYearly: string;
+    yearlyMonthlyEquivalent?: string;
+    yearlySavingsBadge?: string;
     color: string;
     border: string;
     bg: string;
@@ -64,6 +72,10 @@ export const TIERS_CONFIG: Record<
     tagline: "Visual Decomposition & Core Planning",
     price: "$0",
     period: "Free Forever",
+    priceMonthly: "$0",
+    priceYearly: "$0",
+    periodMonthly: "Free Forever",
+    periodYearly: "Free Forever",
     color: "text-gray-300",
     border: "border-gray-800",
     bg: "bg-gray-950/40",
@@ -80,6 +92,12 @@ export const TIERS_CONFIG: Record<
     tagline: "Eisenhower Matrix & Chrono Schedule",
     price: "$15",
     period: "/month",
+    priceMonthly: "$15",
+    priceYearly: "$150",
+    periodMonthly: "/month",
+    periodYearly: "/year",
+    yearlyMonthlyEquivalent: "$12.50/mo billed annually",
+    yearlySavingsBadge: "Save $30 (17% off)",
     color: "text-cyan-400",
     border: "border-cyan-500/50",
     bg: "bg-cyan-950/20",
@@ -97,6 +115,12 @@ export const TIERS_CONFIG: Record<
     tagline: "Live Voice Cockpit & Standup Briefs",
     price: "$25",
     period: "/month",
+    priceMonthly: "$25",
+    priceYearly: "$250",
+    periodMonthly: "/month",
+    periodYearly: "/year",
+    yearlyMonthlyEquivalent: "$20.83/mo billed annually",
+    yearlySavingsBadge: "Save $50 (17% off)",
     color: "text-fuchsia-400",
     border: "border-fuchsia-500/60",
     bg: "bg-fuchsia-950/20",
@@ -129,7 +153,9 @@ export default function PaywallModal({
   atomizationsCount = 1,
   onOpenFounderPerks,
   onRedeemPromoCode,
+  onOpenTerms,
 }: PaywallModalProps) {
+  const [billingInterval, setBillingInterval] = useState<"monthly" | "yearly">("yearly");
   const [purchasingVoicePack, setPurchasingVoicePack] = useState<string | null>(null);
   const [processingTier, setProcessingTier] = useState<string | null>(null);
   const [checkoutMessage, setCheckoutMessage] = useState<string | null>(null);
@@ -169,6 +195,14 @@ export default function PaywallModal({
   };
 
   const handleClaimFounder = async () => {
+    const stripeUrl = STRIPE_PAYMENT_LINKS.founderLifetime;
+    if (stripeUrl && stripeUrl.trim().length > 0) {
+      setProcessingTier("founder_lifetime");
+      setCheckoutMessage("Redirecting to Secure Stripe Checkout ($99 Founder Pass)...");
+      window.location.href = stripeUrl.trim();
+      return;
+    }
+
     setProcessingTier("founder_lifetime");
     setCheckoutMessage("Initiating Secure 256-Bit Checkout for Founder Pass ($99)...");
     try {
@@ -181,11 +215,31 @@ export default function PaywallModal({
   };
 
   const handleActivateTier = async (tier: UserTier, name: string, price: string) => {
+    let stripeUrl = "";
+    if (tier === "tactical_pro") {
+      stripeUrl =
+        billingInterval === "yearly"
+          ? STRIPE_PAYMENT_LINKS.tacticalProYearly
+          : STRIPE_PAYMENT_LINKS.tacticalPro;
+    } else if (tier === "vanguard_live") {
+      stripeUrl =
+        billingInterval === "yearly"
+          ? STRIPE_PAYMENT_LINKS.vanguardLiveYearly
+          : STRIPE_PAYMENT_LINKS.vanguardLive;
+    }
+
+    if (stripeUrl && stripeUrl.trim().length > 0) {
+      setProcessingTier(tier);
+      setCheckoutMessage(`Redirecting to Secure Stripe Checkout for ${name} (${price})...`);
+      window.location.href = stripeUrl.trim();
+      return;
+    }
+
     setProcessingTier(tier);
     setCheckoutMessage(`Processing checkout for ${name} (${price})...`);
     try {
       await onSelectTier(tier);
-      setCheckoutMessage(`✓ ${name} Protocol Activated! Entitlements synced.`);
+      setCheckoutMessage(`✓ ${name} Protocol Activated (${billingInterval === "yearly" ? "Annual $150" : "Monthly"} Plan)! Entitlements synced.`);
       setTimeout(() => setCheckoutMessage(null), 4000);
     } finally {
       setProcessingTier(null);
@@ -193,6 +247,14 @@ export default function PaywallModal({
   };
 
   const handleBuyVoicePack = async (pack: (typeof VOICE_PACKS)[0]) => {
+    const packUrl = (STRIPE_PAYMENT_LINKS.voicePacks as any)?.[pack.id];
+    if (packUrl && packUrl.trim().length > 0) {
+      setPurchasingVoicePack(pack.id);
+      setCheckoutMessage(`Redirecting to Stripe for ${pack.label} (${pack.price})...`);
+      window.location.href = packUrl.trim();
+      return;
+    }
+
     setPurchasingVoicePack(pack.id);
     setCheckoutMessage(`Processing ${pack.price} top-up for ${pack.label}...`);
     try {
@@ -427,10 +489,61 @@ export default function PaywallModal({
         )}
 
         {/* OPTION A: EXECUTION VELOCITY TIERS */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
+          <div>
+            <h3 className="text-base font-bold text-white flex items-center gap-2">
+              <span>Subscription Protocols</span>
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-950 border border-cyan-500/40 text-cyan-300">
+                OPTION A
+              </span>
+            </h3>
+            <p className="text-xs text-gray-400 font-mono">
+              Choose monthly flexibility or unlock 2 months free with annual billing.
+            </p>
+          </div>
+
+          {/* Monthly / Yearly Switch */}
+          <div className="inline-flex items-center p-1 rounded-xl bg-black/80 border border-cyan-500/40 shrink-0">
+            <button
+              onClick={() => {
+                cyberAudio.playCyberClick(1.0);
+                setBillingInterval("monthly");
+              }}
+              className={`px-3.5 py-1.5 rounded-lg font-mono text-xs font-bold transition-all ${
+                billingInterval === "monthly"
+                  ? "bg-cyan-500 text-black shadow-md shadow-cyan-950/50"
+                  : "text-gray-400 hover:text-white"
+              }`}
+            >
+              Monthly
+            </button>
+            <button
+              onClick={() => {
+                cyberAudio.playCyberClick(1.2);
+                setBillingInterval("yearly");
+              }}
+              className={`px-3.5 py-1.5 rounded-lg font-mono text-xs font-bold transition-all flex items-center gap-1.5 ${
+                billingInterval === "yearly"
+                  ? "bg-gradient-to-r from-cyan-400 to-emerald-400 text-black shadow-md shadow-emerald-950/50 font-black"
+                  : "text-gray-400 hover:text-white"
+              }`}
+            >
+              <span>Yearly</span>
+              <span className="px-1.5 py-0.5 rounded bg-black/80 text-emerald-300 text-[9px] uppercase font-mono font-black border border-emerald-400/40">
+                SAVE 17% (2 MO FREE)
+              </span>
+            </button>
+          </div>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
           {Object.values(TIERS_CONFIG).map((config) => {
             const isCurrent =
               userProfile.tier === config.tierKey && !isFounder;
+            const currentPrice =
+              billingInterval === "yearly" ? config.priceYearly : config.priceMonthly;
+            const currentPeriod =
+              billingInterval === "yearly" ? config.periodYearly : config.periodMonthly;
 
             return (
               <div
@@ -464,13 +577,30 @@ export default function PaywallModal({
                     {config.tagline}
                   </p>
 
-                  <div className="mt-4 mb-6">
-                    <span className="text-3xl font-extrabold text-white">
-                      {config.price}
-                    </span>
-                    <span className="text-xs text-gray-400 font-mono ml-1">
-                      {config.period}
-                    </span>
+                  <div className="mt-4 mb-5">
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-3xl font-extrabold text-white">
+                        {currentPrice}
+                      </span>
+                      <span className="text-xs text-gray-400 font-mono">
+                        {currentPeriod}
+                      </span>
+                    </div>
+                    {billingInterval === "yearly" && config.yearlyMonthlyEquivalent && (
+                      <div className="mt-1 flex flex-wrap items-center gap-1.5">
+                        <span className="text-[11px] font-mono text-emerald-400 font-bold">
+                          {config.yearlyMonthlyEquivalent}
+                        </span>
+                        <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                          {config.yearlySavingsBadge}
+                        </span>
+                      </div>
+                    )}
+                    {billingInterval === "monthly" && config.tierKey !== "operative" && (
+                      <div className="mt-1 text-[11px] font-mono text-gray-500">
+                        Billed monthly, cancel anytime
+                      </div>
+                    )}
                   </div>
 
                   {/* Feature Checklist */}
@@ -542,7 +672,7 @@ export default function PaywallModal({
                 <div className="mt-6 pt-4 border-t border-white/5">
                   <button
                     disabled={isCurrent || isFounder || processingTier === config.tierKey}
-                    onClick={() => handleActivateTier(config.tierKey, config.name, config.price)}
+                    onClick={() => handleActivateTier(config.tierKey, config.name, currentPrice)}
                     className={`w-full py-2.5 px-4 rounded-lg font-mono text-xs font-bold uppercase tracking-wider transition-all ${
                       isCurrent
                         ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 cursor-default"
@@ -557,7 +687,9 @@ export default function PaywallModal({
                       ? "Covered by Founder Pass"
                       : processingTier === config.tierKey
                       ? "Activating..."
-                      : `Activate ${config.name}`}
+                      : config.tierKey === "operative"
+                      ? "Stay on Operative"
+                      : `Activate ${config.name} (${currentPrice}${currentPeriod})`}
                   </button>
                 </div>
               </div>
@@ -668,8 +800,33 @@ export default function PaywallModal({
           )}
         </div>
 
+        {/* Stripe Compliance Legal Terms Disclosure */}
+        <div className="mt-4 pt-3 border-t border-white/5 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-center font-mono text-[11px] text-gray-400">
+          <span>By activating, you agree to the</span>
+          <button
+            onClick={() => onOpenTerms && onOpenTerms("terms")}
+            className="text-cyan-400 hover:text-cyan-300 underline font-bold transition-colors"
+          >
+            Terms of Service
+          </button>
+          <span>•</span>
+          <button
+            onClick={() => onOpenTerms && onOpenTerms("refunds")}
+            className="text-cyan-400 hover:text-cyan-300 underline font-bold transition-colors"
+          >
+            14-Day Refund &amp; Cancellation Policy
+          </button>
+          <span>•</span>
+          <button
+            onClick={() => onOpenTerms && onOpenTerms("privacy")}
+            className="text-cyan-400 hover:text-cyan-300 underline font-bold transition-colors"
+          >
+            Privacy Policy
+          </button>
+        </div>
+
         {/* Footer info */}
-        <div className="mt-5 text-center font-mono text-[10px] text-gray-500">
+        <div className="mt-3 text-center font-mono text-[10px] text-gray-500">
           Connected to Firestore Project: <span className="text-cyan-400">atom-i</span> • Collections: <span className="text-gray-400">users, atomizations, success_stories</span>
         </div>
       </div>

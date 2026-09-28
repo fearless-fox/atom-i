@@ -14,6 +14,7 @@ import Planner from "./components/Planner";
 import { LiveVoiceCoach } from "./components/LiveVoiceCoach";
 import LandingPage from "./components/LandingPage";
 import PaywallModal from "./components/PaywallModal";
+import TermsModal from "./components/TermsModal";
 import { FounderPerksModal } from "./components/FounderPerksModal";
 import { PromoCodeModal } from "./components/PromoCodeModal";
 import { AmbienceFocusModal } from "./components/AmbienceFocusModal";
@@ -79,8 +80,28 @@ export default function App() {
   });
 
   // --- CORE STATE ---
-  const [viewMode, setViewMode] = useState<"cockpit" | "landing">("cockpit");
+  const [viewMode, setViewMode] = useState<"cockpit" | "landing">(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("view") === "cockpit" || params.get("mode") === "cockpit") {
+        return "cockpit";
+      }
+    }
+    return "landing";
+  });
   const [showPaywallModal, setShowPaywallModal] = useState(false);
+  const [showTermsModal, setShowTermsModal] = useState<boolean>(() => {
+    if (typeof window !== "undefined") {
+      return window.location.pathname === "/terms" || window.location.search.includes("terms");
+    }
+    return false;
+  });
+  const [termsTab, setTermsTab] = useState<"terms" | "privacy" | "refunds">("terms");
+
+  const handleOpenTerms = (tab?: "terms" | "privacy" | "refunds") => {
+    setTermsTab(tab || "terms");
+    setShowTermsModal(true);
+  };
 
   const [goal, setGoal] = useState<Goal>(() => {
     const saved = localStorage.getItem("goal_atomizer_data");
@@ -916,6 +937,7 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
           successStories={successStories}
           onSelectTier={updateTier}
           onOpenFounderPerks={() => setShowFounderPerksModal(true)}
+          onOpenTerms={handleOpenTerms}
         />
         <PaywallModal
           isOpen={showPaywallModal}
@@ -929,6 +951,12 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
           onSelectEngine={setPreferredEngine}
           onOpenFounderPerks={() => setShowFounderPerksModal(true)}
           onRedeemPromoCode={redeemPromoCode}
+          onOpenTerms={handleOpenTerms}
+        />
+        <TermsModal
+          isOpen={showTermsModal}
+          onClose={() => setShowTermsModal(false)}
+          defaultTab={termsTab}
         />
         <FounderPerksModal
           isOpen={showFounderPerksModal}
@@ -1656,12 +1684,20 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
             TIER: {userProfile.tier.toUpperCase()} • LIMIT: {userGoalsList.length}/{userProfile.atomizationLimit === 999999 ? "∞" : userProfile.atomizationLimit}
           </span>
         </div>
-        <button
-          onClick={() => setShowPaywallModal(true)}
-          className="text-[9px] font-mono text-cyan-400 hover:text-cyan-300 transition-colors uppercase tracking-wider"
-        >
-          [MANAGE TIERS]
-        </button>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => handleOpenTerms("terms")}
+            className="text-[9px] font-mono text-gray-500 hover:text-cyan-300 transition-colors uppercase tracking-wider"
+          >
+            [LEGAL &amp; TERMS]
+          </button>
+          <button
+            onClick={() => setShowPaywallModal(true)}
+            className="text-[9px] font-mono text-cyan-400 hover:text-cyan-300 transition-colors uppercase tracking-wider"
+          >
+            [MANAGE TIERS]
+          </button>
+        </div>
       </footer>
 
       {/* Gemini 3.8 Live Voice Coach Cockpit Modal */}
@@ -1686,6 +1722,14 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
         onSelectEngine={setPreferredEngine}
         onOpenFounderPerks={() => setShowFounderPerksModal(true)}
         onRedeemPromoCode={redeemPromoCode}
+        onOpenTerms={handleOpenTerms}
+      />
+
+      {/* Terms of Service & Stripe Compliance Modal */}
+      <TermsModal
+        isOpen={showTermsModal}
+        onClose={() => setShowTermsModal(false)}
+        defaultTab={termsTab}
       />
 
       {/* Founder Genesis NFT Badge & Physical Freebie Merch Modal */}
