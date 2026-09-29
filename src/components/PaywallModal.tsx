@@ -21,7 +21,7 @@ import {
   Package
 } from "lucide-react";
 import { cyberAudio } from "../lib/cyberAudio";
-import { STRIPE_PAYMENT_LINKS } from "../lib/stripeConfig";
+import { STRIPE_PAYMENT_LINKS, openStripeCheckout } from "../lib/stripeConfig";
 
 interface PaywallModalProps {
   isOpen: boolean;
@@ -159,6 +159,7 @@ export default function PaywallModal({
   const [purchasingVoicePack, setPurchasingVoicePack] = useState<string | null>(null);
   const [processingTier, setProcessingTier] = useState<string | null>(null);
   const [checkoutMessage, setCheckoutMessage] = useState<string | null>(null);
+  const [lastStripeUrl, setLastStripeUrl] = useState<string | null>(null);
   const [showDevOverrides, setShowDevOverrides] = useState(false);
 
   // VIP Promo Code State
@@ -198,8 +199,10 @@ export default function PaywallModal({
     const stripeUrl = STRIPE_PAYMENT_LINKS.founderLifetime;
     if (stripeUrl && stripeUrl.trim().length > 0) {
       setProcessingTier("founder_lifetime");
-      setCheckoutMessage("Redirecting to Secure Stripe Checkout ($99 Founder Pass)...");
-      window.location.href = stripeUrl.trim();
+      setLastStripeUrl(stripeUrl.trim());
+      setCheckoutMessage("Opening Secure Stripe Checkout in a new tab...");
+      openStripeCheckout(stripeUrl);
+      setTimeout(() => setProcessingTier(null), 1200);
       return;
     }
 
@@ -230,8 +233,10 @@ export default function PaywallModal({
 
     if (stripeUrl && stripeUrl.trim().length > 0) {
       setProcessingTier(tier);
-      setCheckoutMessage(`Redirecting to Secure Stripe Checkout for ${name} (${price})...`);
-      window.location.href = stripeUrl.trim();
+      setLastStripeUrl(stripeUrl.trim());
+      setCheckoutMessage(`Opening Secure Stripe Checkout for ${name} (${price})...`);
+      openStripeCheckout(stripeUrl);
+      setTimeout(() => setProcessingTier(null), 1200);
       return;
     }
 
@@ -250,8 +255,10 @@ export default function PaywallModal({
     const packUrl = (STRIPE_PAYMENT_LINKS.voicePacks as any)?.[pack.id];
     if (packUrl && packUrl.trim().length > 0) {
       setPurchasingVoicePack(pack.id);
-      setCheckoutMessage(`Redirecting to Stripe for ${pack.label} (${pack.price})...`);
-      window.location.href = packUrl.trim();
+      setLastStripeUrl(packUrl.trim());
+      setCheckoutMessage(`Opening Stripe Checkout for ${pack.label} (${pack.price})...`);
+      openStripeCheckout(packUrl);
+      setTimeout(() => setPurchasingVoicePack(null), 1200);
       return;
     }
 
@@ -295,9 +302,21 @@ export default function PaywallModal({
 
         {/* Checkout / Status Notification Banner */}
         {checkoutMessage && (
-          <div className="mb-5 p-3 rounded-xl bg-cyan-950/80 border border-cyan-400 text-cyan-200 font-mono text-xs flex items-center gap-2 animate-fade-in shadow-lg shadow-cyan-950/50">
-            <Sparkles className="w-4 h-4 text-cyan-400 animate-spin" />
-            <span className="font-bold">{checkoutMessage}</span>
+          <div className="mb-5 p-3 rounded-xl bg-cyan-950/80 border border-cyan-400 text-cyan-200 font-mono text-xs flex flex-wrap items-center justify-between gap-2 animate-fade-in shadow-lg shadow-cyan-950/50">
+            <div className="flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-cyan-400 shrink-0 animate-spin" />
+              <span className="font-bold">{checkoutMessage}</span>
+            </div>
+            {lastStripeUrl && (
+              <a
+                href={lastStripeUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-3 py-1.5 rounded-lg bg-cyan-400 hover:bg-cyan-300 text-black font-bold uppercase text-[11px] tracking-wider transition-colors inline-flex items-center gap-1.5 shadow-md shadow-cyan-950/40"
+              >
+                <span>Click Here to Open Stripe ↗</span>
+              </a>
+            )}
           </div>
         )}
 

@@ -20,6 +20,7 @@ import {
   Waves,
 } from "lucide-react";
 import { TIERS_CONFIG, VOICE_PACKS } from "./PaywallModal";
+import { STRIPE_PAYMENT_LINKS, openStripeCheckout } from "../lib/stripeConfig";
 
 interface LandingPageProps {
   onEnterCockpit: () => void;
@@ -353,10 +354,13 @@ export default function LandingPage({
                 </button>
               )}
               <button
-                onClick={onOpenPaywall}
-                className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-black font-mono text-xs font-black uppercase tracking-wider transition-all shadow-xl shadow-amber-500/20 whitespace-nowrap"
+                onClick={() => {
+                  const opened = openStripeCheckout(STRIPE_PAYMENT_LINKS.founderLifetime);
+                  if (!opened) onOpenPaywall();
+                }}
+                className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-black font-mono text-xs font-black uppercase tracking-wider transition-all shadow-xl shadow-amber-500/20 whitespace-nowrap cursor-pointer"
               >
-                {isFounder ? "Founder Status Active" : "Claim Lifetime Pass ($99)"}
+                {isFounder ? "Founder Status Active" : "Claim Lifetime Pass ($99) ↗"}
               </button>
             </div>
           </div>
@@ -447,10 +451,21 @@ export default function LandingPage({
                   <button
                     disabled={isCurrent || isFounder}
                     onClick={() => {
-                      onSelectTier(config.tierKey);
-                      onEnterCockpit();
+                      if (config.tierKey === "operative") {
+                        onSelectTier(config.tierKey);
+                        onEnterCockpit();
+                        return;
+                      }
+                      const stripeUrl =
+                        config.tierKey === "tactical_pro"
+                          ? STRIPE_PAYMENT_LINKS.tacticalPro
+                          : STRIPE_PAYMENT_LINKS.vanguardLive;
+                      const opened = openStripeCheckout(stripeUrl);
+                      if (!opened) {
+                        onOpenPaywall();
+                      }
                     }}
-                    className={`w-full py-3 px-4 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all ${
+                    className={`w-full py-3 px-4 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
                       isCurrent
                         ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 cursor-default"
                         : isFounder
@@ -458,7 +473,13 @@ export default function LandingPage({
                         : "bg-cyan-400 hover:bg-cyan-300 text-black shadow-lg shadow-cyan-950/40 hover:scale-[1.02]"
                     }`}
                   >
-                    {isCurrent ? "Active Tier" : isFounder ? "Covered by Founder Pass" : `Activate ${config.name}`}
+                    {isCurrent
+                      ? "Active Tier"
+                      : isFounder
+                      ? "Covered by Founder Pass"
+                      : config.tierKey === "operative"
+                      ? "Launch Free Cockpit"
+                      : `Activate ${config.name} ↗`}
                   </button>
                 </div>
               </div>
