@@ -9,6 +9,7 @@ import {
 import {
   auth,
   googleProvider,
+  calendarGoogleProvider,
   testFirestoreConnection,
   setCachedAccessToken,
   getCachedAccessToken,
@@ -78,13 +79,44 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return token;
     } catch (err: any) {
       console.error("Google Sign In Error:", err);
+      if (err.code === "auth/unauthorized-domain") {
+        const domain = typeof window !== "undefined" ? window.location.hostname : "this domain";
+        const msg = `Unauthorized Domain: Please add "${domain}" to your Firebase Console under Authentication > Settings > Authorized domains.`;
+        setError(msg);
+        alert(msg);
+        return null;
+      }
+      if (err.code === "auth/popup-blocked") {
+        const msg = "Sign-in popup was blocked by your browser. Please allow popups or open in a direct tab.";
+        setError(msg);
+        alert(msg);
+        return null;
+      }
+      if (err.code === "auth/cancelled-popup-request" || err.code === "auth/popup-closed-by-user") {
+        setError("Sign-in popup was closed.");
+        return null;
+      }
       setError(err.message || "Failed to authenticate with Google.");
       return null;
     }
   };
 
   const requestCalendarAccess = async (): Promise<string | null> => {
-    return signInWithGoogle();
+    try {
+      setError(null);
+      const result = await signInWithPopup(auth, calendarGoogleProvider);
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential?.accessToken || null;
+      if (token) {
+        setCachedAccessToken(token);
+        setAccessToken(token);
+      }
+      return token;
+    } catch (err: any) {
+      console.error("Google Calendar Access Error:", err);
+      setError(err.message || "Failed to grant Google Calendar access.");
+      return null;
+    }
   };
 
   const signOut = async () => {

@@ -45,10 +45,7 @@ export function useFirestorePersistence(
 
   // User Profile with tier entitlements - Restored from localStorage immediately on refresh
   const [userProfile, setUserProfile] = useState<UserProfile>(() => {
-    const isCreatorStored =
-      typeof window !== "undefined" &&
-      (localStorage.getItem("atom_is_creator") === "true" ||
-        localStorage.getItem("atom_vip_promo") === "FAUX-VIP");
+    const isOwnerEmail = user?.email === "faux.fuax@gmail.com";
 
     const savedProfile =
       typeof window !== "undefined"
@@ -58,17 +55,8 @@ export function useFirestorePersistence(
     if (savedProfile) {
       try {
         const parsed = JSON.parse(savedProfile);
-        if (
-          isCreatorStored ||
-          parsed.isCreator === true ||
-          parsed.email === "faux.fuax@gmail.com" ||
-          parsed.founderNumber === 0 ||
-          parsed.tier === "founder_lifetime"
-        ) {
-          if (typeof window !== "undefined") {
-            localStorage.setItem("atom_is_creator", "true");
-            localStorage.setItem("atom_vip_promo", "FAUX-VIP");
-          }
+        // Only the genuine project owner email is Root Architect #000
+        if (isOwnerEmail || parsed.email === "faux.fuax@gmail.com") {
           return {
             ...parsed,
             tier: "founder_lifetime",
@@ -82,13 +70,23 @@ export function useFirestorePersistence(
             atomizationLimit: 999999,
           };
         }
+
+        // Sanitize any accidental root creator flags for other testers
+        if (parsed.founderNumber === 0 || parsed.isCreator) {
+          return {
+            ...parsed,
+            isCreator: false,
+            founderNumber: parsed.founderNumber === 0 ? undefined : parsed.founderNumber,
+          };
+        }
+
         return parsed;
       } catch {}
     }
 
-    if (isCreatorStored) {
+    if (isOwnerEmail) {
       return {
-        uid: "trial_user_test",
+        uid: "creator_faux",
         tier: "founder_lifetime",
         atomizationLimit: 999999,
         hasCalendar: true,
@@ -122,17 +120,15 @@ export function useFirestorePersistence(
     if (typeof window === "undefined") return;
     try {
       localStorage.setItem("goal_atomizer_user_profile", JSON.stringify(userProfile));
-      if (
-        userProfile.isCreator ||
-        userProfile.founderNumber === 0 ||
-        userProfile.email === "faux.fuax@gmail.com" ||
-        userProfile.isFounderLifetime
-      ) {
+      if (userProfile.email === "faux.fuax@gmail.com" || user?.email === "faux.fuax@gmail.com") {
         localStorage.setItem("atom_is_creator", "true");
         localStorage.setItem("atom_vip_promo", "FAUX-VIP");
+      } else {
+        localStorage.removeItem("atom_is_creator");
+        localStorage.removeItem("atom_vip_promo");
       }
     } catch {}
-  }, [userProfile]);
+  }, [userProfile, user]);
 
   // Success stories for landing page
   const [successStories, setSuccessStories] = useState<SuccessStory[]>([FALLBACK_SUCCESS_STORY]);
@@ -146,16 +142,9 @@ export function useFirestorePersistence(
       userDocRef,
       async (docSnap) => {
         const isCreatorAccount =
-          typeof window !== "undefined" &&
-          (localStorage.getItem("atom_is_creator") === "true" ||
-            localStorage.getItem("atom_vip_promo") === "FAUX-VIP" ||
-            user?.email === "faux.fuax@gmail.com" ||
-            effectiveUid === "creator_faux" ||
-            (docSnap.exists() && (
-              docSnap.data()?.isCreator === true ||
-              docSnap.data()?.founderNumber === 0 ||
-              docSnap.data()?.email === "faux.fuax@gmail.com"
-            )));
+          user?.email === "faux.fuax@gmail.com" ||
+          effectiveUid === "creator_faux" ||
+          (docSnap.exists() && docSnap.data()?.email === "faux.fuax@gmail.com");
 
         if (docSnap.exists()) {
           const data = docSnap.data();

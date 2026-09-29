@@ -14,10 +14,15 @@ export const WORKSPACE_SCOPES = [
   "https://www.googleapis.com/auth/calendar.events",
 ];
 
+// Base Google Auth Provider for standard sign-in (email/profile)
 export const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({ prompt: "select_account" });
+
+// Dedicated Calendar Provider for optional calendar integration
+export const calendarGoogleProvider = new GoogleAuthProvider();
+calendarGoogleProvider.setCustomParameters({ prompt: "consent" });
 WORKSPACE_SCOPES.forEach((scope) => {
-  googleProvider.addScope(scope);
+  calendarGoogleProvider.addScope(scope);
 });
 
 // In-Memory Access Token Caching (Required: Never persist in localStorage/sessionStorage)

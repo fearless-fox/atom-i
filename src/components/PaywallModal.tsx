@@ -206,18 +206,17 @@ export default function PaywallModal({
       return;
     }
 
-    setProcessingTier("founder_lifetime");
-    setCheckoutMessage("Initiating Secure 256-Bit Checkout for Founder Pass ($99)...");
-    try {
-      await onSelectTier("founder_lifetime");
-      setCheckoutMessage("✓ Founder Lifetime Pass Verified & Activated! Full privileges granted.");
-      setTimeout(() => setCheckoutMessage(null), 4000);
-    } finally {
-      setProcessingTier(null);
-    }
+    setCheckoutMessage("Stripe checkout link is temporarily offline. Please contact support.");
+    setTimeout(() => setCheckoutMessage(null), 4000);
   };
 
   const handleActivateTier = async (tier: UserTier, name: string, price: string) => {
+    if (tier === "operative") {
+      await onSelectTier("operative");
+      onClose();
+      return;
+    }
+
     let stripeUrl = "";
     if (tier === "tactical_pro") {
       stripeUrl =
@@ -240,15 +239,8 @@ export default function PaywallModal({
       return;
     }
 
-    setProcessingTier(tier);
-    setCheckoutMessage(`Processing checkout for ${name} (${price})...`);
-    try {
-      await onSelectTier(tier);
-      setCheckoutMessage(`✓ ${name} Protocol Activated (${billingInterval === "yearly" ? "Annual $150" : "Monthly"} Plan)! Entitlements synced.`);
-      setTimeout(() => setCheckoutMessage(null), 4000);
-    } finally {
-      setProcessingTier(null);
-    }
+    setCheckoutMessage(`Stripe checkout link for ${name} is initializing. Please contact support.`);
+    setTimeout(() => setCheckoutMessage(null), 4000);
   };
 
   const handleBuyVoicePack = async (pack: (typeof VOICE_PACKS)[0]) => {
@@ -262,17 +254,8 @@ export default function PaywallModal({
       return;
     }
 
-    setPurchasingVoicePack(pack.id);
-    setCheckoutMessage(`Processing ${pack.price} top-up for ${pack.label}...`);
-    try {
-      if (onAddVoiceMinutes) {
-        await onAddVoiceMinutes(pack.minutes);
-      }
-      setCheckoutMessage(`✓ Added +${pack.minutes} voice minutes to your balance!`);
-      setTimeout(() => setCheckoutMessage(null), 4000);
-    } finally {
-      setPurchasingVoicePack(null);
-    }
+    setCheckoutMessage(`Voice pack checkout for ${pack.label} is initializing. Please contact support.`);
+    setTimeout(() => setCheckoutMessage(null), 4000);
   };
 
   return (

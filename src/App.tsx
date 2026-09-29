@@ -246,12 +246,10 @@ I have parsed your strategy deck. Double-click any node inside the central parti
         }
       });
     } else if (
-      (user?.email === "faux.fuax@gmail.com" ||
-        localStorage.getItem("atom_is_creator") === "true" ||
-        localStorage.getItem("atom_vip_promo") === "FAUX-VIP") &&
+      user?.email === "faux.fuax@gmail.com" &&
       (!userProfile.isCreator || userProfile.founderNumber !== 0 || userProfile.tier !== "founder_lifetime")
     ) {
-      // Auto-grant full master creator access for app owner (#000 Genesis Pass)
+      // Auto-grant full master creator access ONLY for app owner (faux.fuax@gmail.com)
       redeemPromoCode("FAUX-VIP");
     }
 
@@ -1342,6 +1340,16 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
           </button>
         </div>
       </header>
+
+      {/* Auth Error Notification Banner */}
+      {authError && (
+        <div className="relative z-20 max-w-7xl mx-auto px-6 pt-4">
+          <div className="p-3.5 rounded-xl bg-amber-950/80 border border-amber-500/50 text-amber-200 font-mono text-xs flex items-center gap-2 shadow-lg shadow-black/50">
+            <AlertCircle className="w-4 h-4 text-amber-400 shrink-0" />
+            <span className="leading-relaxed">{authError}</span>
+          </div>
+        </div>
+      )}
 
       {/* Main Grid Deck */}
       <main className="relative z-10 flex-1 p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 max-w-7xl mx-auto w-full">
