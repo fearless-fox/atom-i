@@ -14,7 +14,7 @@ import Planner from "./components/Planner";
 import { LiveVoiceCoach } from "./components/LiveVoiceCoach";
 import LandingPage from "./components/LandingPage";
 import PaywallModal from "./components/PaywallModal";
-import TermsModal from "./components/TermsModal";
+import TermsModal, { LegalTab } from "./components/TermsModal";
 import { FounderPerksModal } from "./components/FounderPerksModal";
 import { PromoCodeModal } from "./components/PromoCodeModal";
 import { AmbienceFocusModal } from "./components/AmbienceFocusModal";
@@ -92,13 +92,36 @@ export default function App() {
   const [showPaywallModal, setShowPaywallModal] = useState(false);
   const [showTermsModal, setShowTermsModal] = useState<boolean>(() => {
     if (typeof window !== "undefined") {
-      return window.location.pathname === "/terms" || window.location.search.includes("terms");
+      const p = window.location.pathname.toLowerCase();
+      const s = window.location.search.toLowerCase();
+      return (
+        p === "/terms" ||
+        p === "/privacy" ||
+        p === "/refunds" ||
+        p === "/returns" ||
+        p === "/support" ||
+        p === "/contact" ||
+        s.includes("terms") ||
+        s.includes("privacy") ||
+        s.includes("refund") ||
+        s.includes("support") ||
+        s.includes("contact")
+      );
     }
     return false;
   });
-  const [termsTab, setTermsTab] = useState<"terms" | "privacy" | "refunds">("terms");
+  const [termsTab, setTermsTab] = useState<LegalTab>(() => {
+    if (typeof window !== "undefined") {
+      const p = window.location.pathname.toLowerCase();
+      const s = window.location.search.toLowerCase();
+      if (p === "/privacy" || s.includes("privacy")) return "privacy";
+      if (p === "/refunds" || p === "/returns" || s.includes("refund") || s.includes("return")) return "refunds";
+      if (p === "/support" || p === "/contact" || s.includes("support") || s.includes("contact")) return "support";
+    }
+    return "terms";
+  });
 
-  const handleOpenTerms = (tab?: "terms" | "privacy" | "refunds") => {
+  const handleOpenTerms = (tab?: LegalTab) => {
     setTermsTab(tab || "terms");
     setShowTermsModal(true);
   };
@@ -1689,7 +1712,19 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
             onClick={() => handleOpenTerms("terms")}
             className="text-[9px] font-mono text-gray-500 hover:text-cyan-300 transition-colors uppercase tracking-wider"
           >
-            [LEGAL &amp; TERMS]
+            [TERMS]
+          </button>
+          <button
+            onClick={() => handleOpenTerms("refunds")}
+            className="text-[9px] font-mono text-gray-500 hover:text-cyan-300 transition-colors uppercase tracking-wider"
+          >
+            [REFUNDS]
+          </button>
+          <button
+            onClick={() => handleOpenTerms("support")}
+            className="text-[9px] font-mono text-cyan-400/80 hover:text-cyan-300 transition-colors uppercase tracking-wider"
+          >
+            [SUPPORT]
           </button>
           <button
             onClick={() => setShowPaywallModal(true)}

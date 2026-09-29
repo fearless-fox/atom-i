@@ -35,7 +35,7 @@ interface PaywallModalProps {
   atomizationsCount?: number;
   onOpenFounderPerks?: () => void;
   onRedeemPromoCode?: (code: string) => Promise<{ success: boolean; message: string; tierName?: string }>;
-  onOpenTerms?: (tab?: "terms" | "privacy" | "refunds") => void;
+  onOpenTerms?: (tab?: "terms" | "privacy" | "refunds" | "support") => void;
 }
 
 export const TIERS_CONFIG: Record<
@@ -814,7 +814,7 @@ export default function PaywallModal({
             onClick={() => onOpenTerms && onOpenTerms("refunds")}
             className="text-cyan-400 hover:text-cyan-300 underline font-bold transition-colors"
           >
-            14-Day Refund &amp; Cancellation Policy
+            14-Day Return &amp; Refund Policy
           </button>
           <span>•</span>
           <button
@@ -822,6 +822,13 @@ export default function PaywallModal({
             className="text-cyan-400 hover:text-cyan-300 underline font-bold transition-colors"
           >
             Privacy Policy
+          </button>
+          <span>•</span>
+          <button
+            onClick={() => onOpenTerms && onOpenTerms("support")}
+            className="text-cyan-300 hover:text-white underline font-bold transition-colors"
+          >
+            Support Desk
           </button>
         </div>
 

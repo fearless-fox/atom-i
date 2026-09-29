@@ -28,7 +28,7 @@ interface LandingPageProps {
   successStories: SuccessStory[];
   onSelectTier: (tier: UserTier) => Promise<void>;
   onOpenFounderPerks?: () => void;
-  onOpenTerms?: (tab?: "terms" | "privacy" | "refunds") => void;
+  onOpenTerms?: (tab?: "terms" | "privacy" | "refunds" | "support") => void;
 }
 
 export default function LandingPage({
@@ -511,7 +511,7 @@ export default function LandingPage({
                 onClick={() => onOpenTerms && onOpenTerms("refunds")}
                 className="hover:text-cyan-300 underline transition-colors"
               >
-                Refunds &amp; Cancellations
+                Return &amp; Refund Policy
               </button>
               <span>•</span>
               <button
@@ -519,6 +519,13 @@ export default function LandingPage({
                 className="hover:text-cyan-300 underline transition-colors"
               >
                 Privacy Policy
+              </button>
+              <span>•</span>
+              <button
+                onClick={() => onOpenTerms && onOpenTerms("support")}
+                className="hover:text-cyan-300 underline text-cyan-400 transition-colors font-semibold"
+              >
+                Support: faux.machine@gmail.com
               </button>
             </div>
           </div>
