@@ -1,0 +1,24 @@
+diff --git a/.env.example b/.env.example
+index 7a550fe..428d3b0 100644
+--- a/.env.example
++++ b/.env.example
+@@ -7,3 +7,8 @@ GEMINI_API_KEY="MY_GEMINI_API_KEY"
+ # AI Studio automatically injects this at runtime with the Cloud Run service URL.
+ # Used for self-referential links, OAuth callbacks, and API endpoints.
+ APP_URL="MY_APP_URL"
++
++# VITE_FIREBASE_API_KEY: Firebase browser API key (restricted to your domains).
++# Set this in your local .env (gitignored) and in your host's env vars (Render dashboard).
++# Never commit the real value.
++VITE_FIREBASE_API_KEY=
+diff --git a/src/lib/firebaseConfig.ts b/src/lib/firebaseConfig.ts
+index b190740..7a1c2c8 100644
+--- a/src/lib/firebaseConfig.ts
++++ b/src/lib/firebaseConfig.ts
+@@ -15,4 +15,6 @@ export interface FirebaseAppletConfig {
+ 
+ export const firebaseConfig: FirebaseAppletConfig = {
+   ...rawConfig,
++  // API key comes from the VITE_FIREBASE_API_KEY env var (never committed).
++  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || rawConfig.apiKey,
+ };

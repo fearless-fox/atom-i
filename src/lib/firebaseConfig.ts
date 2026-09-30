@@ -15,4 +15,6 @@ export interface FirebaseAppletConfig {
 
 export const firebaseConfig: FirebaseAppletConfig = {
   ...rawConfig,
+  // API key comes from the VITE_FIREBASE_API_KEY env var (never committed).
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || rawConfig.apiKey,
 };
