@@ -7,6 +7,8 @@ import express from "express";
 import http from "http";
 import path from "path";
 import dotenv from "dotenv";
+import Stripe from "stripe";
+import admin from "firebase-admin";
 import { GoogleGenAI, Type, Modality } from "@google/genai";
 import { WebSocketServer, WebSocket } from "ws";
 import { createServer as createViteServer } from "vite";
@@ -15,6 +17,206 @@ import { createServer as createViteServer } from "vite";
 dotenv.config();
 
 const app = express();
+
+// ---------------------------------------------------------------------------
+// STRIPE WEBHOOK — registered BEFORE express.json() so the raw body survives
+// for signature verification. Endpoint: POST /api/stripe/webhook
+// Required Render env vars: STRIPE_WEBHOOK_SECRET, FIREBASE_SERVICE_ACCOUNT_JSON
+// In the Stripe dashboard, subscribe this endpoint to: checkout.session.completed
+// ---------------------------------------------------------------------------
+const FOUNDER_CAP = 199;
+
+let adminDb: admin.firestore.Firestore | null = null;
+function getAdminDb(): admin.firestore.Firestore {
+  if (!adminDb) {
+    const svcJson = process.env.FIREBASE_SERVICE_ACCOUNT_JSON;
+    if (!svcJson) {
+      throw new Error(
+        "FIREBASE_SERVICE_ACCOUNT_JSON is not set. Create a service account in the Firebase console (Project settings > Service accounts > Generate new private key) and paste the JSON into the Render env var."
+      );
+    }
+    if (admin.apps.length === 0) {
+      admin.initializeApp({ credential: admin.credential.cert(JSON.parse(svcJson)) });
+    }
+    adminDb = admin.firestore();
+  }
+  return adminDb;
+}
+
+type GrantedProduct =
+  | { kind: "founder" }
+  | { kind: "tier"; tier: "tactical_pro" | "vanguard_live" }
+  | { kind: "voice"; minutes: number }
+  | { kind: "unknown" };
+
+// Identify what was bought. Prefers explicit session metadata (set when using
+// Checkout Sessions), falls back to amount+mode mapping for Payment Links.
+function productFromSession(session: Stripe.Checkout.Session): GrantedProduct {
+  const meta = session.metadata || {};
+  if (meta.product === "founder_lifetime") return { kind: "founder" };
+  if (meta.product === "tactical_pro") return { kind: "tier", tier: "tactical_pro" };
+  if (meta.product === "vanguard_live") return { kind: "tier", tier: "vanguard_live" };
+  if (meta.product === "voice_30") return { kind: "voice", minutes: 30 };
+  if (meta.product === "voice_100") return { kind: "voice", minutes: 100 };
+  if (meta.product === "voice_300") return { kind: "voice", minutes: 300 };
+
+  const amount = session.amount_total ?? 0;
+  const mode = session.mode;
+  if (mode === "payment" && amount === 9900) return { kind: "founder" }; // $99 founder pass
+  if (mode === "payment" && amount === 500) return { kind: "voice", minutes: 30 };
+  if (mode === "payment" && amount === 1200) return { kind: "voice", minutes: 100 };
+  if (mode === "payment" && amount === 2900) return { kind: "voice", minutes: 300 };
+  if (amount === 1500 || amount === 16000) return { kind: "tier", tier: "tactical_pro" };
+  if (amount === 2500 || amount === 25000) return { kind: "tier", tier: "vanguard_live" };
+  return { kind: "unknown" };
+}
+
+async function fulfillCheckoutSession(session: Stripe.Checkout.Session): Promise<void> {
+  const db = getAdminDb();
+  const product = productFromSession(session);
+
+  // Resolve buyer -> Firestore user doc. client_reference_id is the app uid,
+  // appended to the payment link URL at click time. Falls back to email lookup.
+  let userRef: admin.firestore.DocumentReference | null = null;
+  const uid = session.client_reference_id;
+  if (uid) {
+    userRef = db.collection("users").doc(uid);
+  } else {
+    const email = session.customer_details?.email?.toLowerCase();
+    if (email) {
+      const q = await db.collection("users").where("email", "==", email).limit(1).get();
+      if (!q.empty) userRef = q.docs[0].ref;
+    }
+  }
+  if (!userRef) {
+    // Ack the event anyway — nothing to fulfill; reconcile manually in Stripe.
+    console.error(
+      `[Stripe webhook] session ${session.id}: no matching user (no client_reference_id and email lookup failed)`
+    );
+    return;
+  }
+
+  const userSnap = await userRef.get();
+  const existing: any = userSnap.exists ? userSnap.data() : {};
+
+  // Idempotency: Stripe redelivers events; never double-grant.
+  if (existing?.stripeFounderSessionId === session.id || existing?.stripeSessionId === session.id) {
+    console.log(`[Stripe webhook] session ${session.id} already fulfilled, skipping`);
+    return;
+  }
+
+  if (product.kind === "founder") {
+    if (existing?.founderNumber !== undefined && existing?.founderNumber !== null) {
+      console.log(`[Stripe webhook] user ${userRef.id} already holds a founder number, skipping`);
+      return;
+    }
+    const assigned = await db.runTransaction(async (tx) => {
+      const statsRef = db.collection("stats").doc("founder");
+      const statsSnap = await tx.get(statsRef);
+      const claimed = statsSnap.exists ? (statsSnap.data()?.claimed as number) || 0 : 0;
+      if (claimed >= FOUNDER_CAP) throw new Error("founder cap reached (199/199)");
+      const next = claimed + 1;
+      // NOTE: keep this doc to exactly { claimed } — the firestore.rules for
+      // stats/founder require hasOnly(['claimed']) so promo-code clients can
+      // still increment it.
+      tx.set(statsRef, { claimed: next }, { merge: true });
+      tx.set(
+        userRef as admin.firestore.DocumentReference,
+        {
+          tier: "founder_lifetime",
+          isFounderLifetime: true,
+          founderNumber: next,
+          hasCalendar: true,
+          hasGrid: true,
+          hasLiveVoice: true,
+          hasTeams: true,
+          teamLimit: 10,
+          featuredEligible: true,
+          atomizationLimit: 999999,
+          voiceMinutesRemaining: Math.max(existing?.voiceMinutesRemaining || 0, 60),
+          stripeFounderSessionId: session.id,
+          stripeCustomerEmail: session.customer_details?.email || null,
+        },
+        { merge: true }
+      );
+      return next;
+    });
+    console.log(`[Stripe webhook] assigned founder #${assigned} to user ${userRef.id}`);
+  } else if (product.kind === "tier") {
+    await userRef.set(
+      {
+        tier: product.tier,
+        stripeSessionId: session.id,
+        stripeSubscriptionId: (session as any).subscription || null,
+        stripeCustomerEmail: session.customer_details?.email || null,
+        ...(product.tier === "tactical_pro"
+          ? { hasCalendar: true, hasGrid: true }
+          : {
+              hasCalendar: true,
+              hasGrid: true,
+              hasLiveVoice: true,
+              hasTeams: true,
+              teamLimit: 5,
+              featuredEligible: true,
+            }),
+      },
+      { merge: true }
+    );
+    console.log(`[Stripe webhook] granted ${product.tier} to user ${userRef.id}`);
+  } else if (product.kind === "voice") {
+    await userRef.set(
+      {
+        voiceMinutesRemaining: (existing?.voiceMinutesRemaining || 0) + product.minutes,
+        hasLiveVoice: true,
+        stripeSessionId: session.id,
+      },
+      { merge: true }
+    );
+    console.log(`[Stripe webhook] added ${product.minutes} voice minutes to user ${userRef.id}`);
+  } else {
+    console.warn(
+      `[Stripe webhook] session ${session.id}: unrecognized product (amount=${session.amount_total}, mode=${session.mode})`
+    );
+  }
+}
+
+app.post("/api/stripe/webhook", express.raw({ type: "application/json" }), async (req, res) => {
+  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+  if (!webhookSecret) {
+    console.error("[Stripe webhook] STRIPE_WEBHOOK_SECRET is not set");
+    res.status(500).json({ error: "webhook not configured" });
+    return;
+  }
+  let event: Stripe.Event;
+  try {
+    // constructEvent is instance-bound but performs no API calls, so the key
+    // value is never used on the network. STRIPE_SECRET_KEY is optional.
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "sk_test_placeholder_no_api_calls_made");
+    event = stripe.webhooks.constructEvent(
+      req.body,
+      req.headers["stripe-signature"] as string,
+      webhookSecret
+    );
+  } catch (err: any) {
+    console.error("[Stripe webhook] signature verification failed:", err?.message || err);
+    res.status(400).json({ error: "invalid signature" });
+    return;
+  }
+
+  if (event.type === "checkout.session.completed") {
+    const session = event.data.object as Stripe.Checkout.Session;
+    try {
+      await fulfillCheckoutSession(session);
+    } catch (err: any) {
+      // Return 500 so Stripe retries; idempotency guard prevents double-grant.
+      console.error(`[Stripe webhook] fulfillment failed for ${session.id}:`, err?.message || err);
+      res.status(500).json({ error: "fulfillment failed" });
+      return;
+    }
+  }
+  res.json({ received: true });
+});
+
 app.use(express.json());
 
 const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;

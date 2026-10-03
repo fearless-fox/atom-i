@@ -7,6 +7,21 @@ service cloud.firestore {
       allow write: if request.auth != null;
     }
 
+    // Founder pass counter: public read so the landing page / paywall can show
+    // the live claimed count. Writes are server-side only (Stripe webhook via
+    // Admin SDK bypasses rules); clients may only increment by exactly 1 when
+    // redeeming a founder promo code, capped at 199.
+    match /stats/founder {
+      allow read: if true;
+      allow create: if request.auth != null
+        && request.resource.data.claimed == 1
+        && request.resource.data.keys().hasOnly(['claimed']);
+      allow update: if request.auth != null
+        && request.resource.data.claimed == resource.data.claimed + 1
+        && request.resource.data.claimed <= 199
+        && request.resource.data.keys().hasOnly(['claimed']);
+    }
+
     // Standard rule specified by user: authenticated access across all documents
     match /{document=**} {
       allow read, write: if request.auth != null;
