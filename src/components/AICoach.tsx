@@ -50,10 +50,13 @@ export default function AICoach({
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-  // Auto scroll to bottom when new messages arrive (unless user is in archive or reading mode)
+  // Auto scroll the chat list to bottom when new messages arrive (unless user is in archive or reading mode).
+  // Scrolls only this panel's own container — never the page (scrollIntoView
+  // on mount used to yank the whole cockpit view to the bottom).
   useEffect(() => {
     if (viewMode === "stream" && !isReadingPaused) {
-      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      const el = containerRef.current;
+      if (el) el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
     }
   }, [messages.length, isCoachTyping, viewMode, isReadingPaused]);
 

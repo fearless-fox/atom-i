@@ -75,6 +75,7 @@ export const LiveVoiceCoach: React.FC<LiveVoiceCoachProps> = ({
   const isAiSpeakingRef = useRef(false);
   const isForcedOverrideRef = useRef(false);
   const transcriptEndRef = useRef<HTMLDivElement | null>(null);
+  const transcriptContainerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     isMutedRef.current = isMuted;
@@ -89,7 +90,9 @@ export const LiveVoiceCoach: React.FC<LiveVoiceCoachProps> = ({
   }, [isForcedOverride]);
 
   useEffect(() => {
-    transcriptEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    // Scroll only the transcript's own container — never the page.
+    const el = transcriptContainerRef.current;
+    if (el) el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
   }, [liveTranscript]);
 
   // Spacebar hotkey to immediately interrupt/stop the AI if speaking
@@ -563,7 +566,10 @@ Strategic Insight: ${goal.insight || "Focus on atomic high-impact tasks."}`;
         </div>
 
         {/* Live Conversation Stream Transcript */}
-        <div className="flex-1 p-4 max-h-56 overflow-y-auto custom-scrollbar space-y-2 bg-black/40 text-xs font-sans">
+        <div
+          ref={transcriptContainerRef}
+          className="flex-1 p-4 max-h-56 overflow-y-auto custom-scrollbar space-y-2 bg-black/40 text-xs font-sans"
+        >
           {liveTranscript.length === 0 ? (
             <div className="text-center py-6 text-gray-500 font-mono text-[11px] uppercase tracking-wider">
               No live speech exchanges yet. Connect and talk naturally to atom-i powered by gemini.
