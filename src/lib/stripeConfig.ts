@@ -57,6 +57,23 @@ export const STRIPE_PAYMENT_LINKS = {
 };
 
 /**
+ * Builds the founder-pass checkout URL with the buyer's identity attached.
+ * `client_reference_id` lets the Stripe webhook (server.ts) map the completed
+ * payment back to the correct Firestore user and assign their founder number.
+ * Always call this with the signed-in user's uid — never let a buyer pay
+ * anonymously, or their pass can't be attached to their account.
+ */
+export function founderCheckoutUrl(uid?: string | null, email?: string | null): string {
+  const base = STRIPE_PAYMENT_LINKS.founderLifetime;
+  if (!base) return "";
+  const params = new URLSearchParams();
+  if (uid) params.set("client_reference_id", uid);
+  if (email) params.set("prefilled_email", email);
+  const qs = params.toString();
+  return qs ? `${base}${base.includes("?") ? "&" : "?"}${qs}` : base;
+}
+
+/**
  * Robust cross-context redirector for Stripe Payment Links.
  * Ensures payment links open properly in standard tabs, iframes, and mobile browsers.
  */
