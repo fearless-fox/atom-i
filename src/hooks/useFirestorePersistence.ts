@@ -9,26 +9,14 @@ import {
   where,
   onSnapshot,
   deleteDoc,
+  runTransaction,
 } from "firebase/firestore";
 import { db } from "../lib/firebase";
 import { useAuth } from "../contexts/AuthContext";
 import { Goal, PlannerTask, UserProfile, UserTier, SuccessStory } from "../types";
 import { offlineSyncManager } from "../lib/offlineSync";
 import { validatePromoCode } from "../lib/promoCodes";
-
-const FALLBACK_SUCCESS_STORY: SuccessStory = {
-  id: "JYvrpcFnIDKNyFqQO32e",
-  authorName: "Jane Doe",
-  goalTitle: "Build the Atom-I Landing Page",
-  isApproved: true,
-  quote: "Atom-I transformed my entire team's priority workflow!",
-  stepsCompleted: [
-    "Defined package tiers and pricing",
-    "Configured the Firestore Database",
-    "Linked Stripe to the user account",
-  ],
-  userId: "pkg_3_user_test",
-};
+import { FOUNDER_CAP } from "./useFounderStats";
 
 export function useFirestorePersistence(
   initialGoal: Goal,
@@ -131,7 +119,7 @@ export function useFirestorePersistence(
   }, [userProfile, user]);
 
   // Success stories for landing page
-  const [successStories, setSuccessStories] = useState<SuccessStory[]>([FALLBACK_SUCCESS_STORY]);
+  const [successStories, setSuccessStories] = useState<SuccessStory[]>([]);
 
   // 1. Fetch & Listen to User Profile & Entitlements
   useEffect(() => {
@@ -702,6 +690,38 @@ export function useFirestorePersistence(
             ? 999999
             : (userProfile.voiceMinutesRemaining || 0) + (match.bonusVoiceMinutes || 30);
 
+        // Resolve the founder number: pre-allocated promo codes keep their
+        // number, the creator is always #000, everyone else claims the next
+        // sequential number transactionally (capped at 199).
+        let resolvedFounderNumber: number | undefined;
+        if (match.founderNumber !== undefined) {
+          resolvedFounderNumber = match.founderNumber;
+        } else if (isCreatorCode || user?.email === "faux.fuax@gmail.com") {
+          resolvedFounderNumber = 0;
+        } else if (isFounder) {
+          try {
+            resolvedFounderNumber = await runTransaction(db, async (tx) => {
+              const statsRef = doc(db, "stats", "founder");
+              const snap = await tx.get(statsRef);
+              const claimed = snap.exists() ? (snap.data()?.claimed as number) || 0 : 0;
+              if (claimed >= FOUNDER_CAP) {
+                throw new Error("sold out");
+              }
+              const next = claimed + 1;
+              tx.set(statsRef, { claimed: next }, { merge: true });
+              return next;
+            });
+          } catch (err: any) {
+            return {
+              success: false,
+              message:
+                err?.message === "sold out"
+                  ? "All 199 Founder passes have been claimed."
+                  : "Could not assign a founder number. Please try again.",
+            };
+          }
+        }
+
         updatedProfile = {
           tier: finalTier,
           atomizationLimit: 999999,
@@ -714,10 +734,7 @@ export function useFirestorePersistence(
           hasTeams: isFounder,
           teamLimit: isCreatorCode ? 20 : (isFounder ? 10 : 3),
           featuredEligible: isFounder,
-          founderNumber:
-            match.founderNumber !== undefined
-              ? match.founderNumber
-              : (isCreatorCode ? 0 : (isFounder ? (user?.email === "faux.fuax@gmail.com" ? 0 : 138) : undefined)),
+          founderNumber: resolvedFounderNumber,
           founderPromoCodeUsed: match.code,
           isVipPromo: true,
         };
