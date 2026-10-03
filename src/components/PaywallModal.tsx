@@ -21,7 +21,9 @@ import {
   Package
 } from "lucide-react";
 import { cyberAudio } from "../lib/cyberAudio";
-import { STRIPE_PAYMENT_LINKS, openStripeCheckout } from "../lib/stripeConfig";
+import { STRIPE_PAYMENT_LINKS, openStripeCheckout, founderCheckoutUrl } from "../lib/stripeConfig";
+import { useFounderStats } from "../hooks/useFounderStats";
+import { useAuth } from "../contexts/AuthContext";
 
 interface PaywallModalProps {
   isOpen: boolean;
@@ -167,6 +169,9 @@ export default function PaywallModal({
   const [isRedeemingPromo, setIsRedeemingPromo] = useState(false);
   const [promoMessage, setPromoMessage] = useState<{ text: string; isError: boolean } | null>(null);
 
+  const { user } = useAuth();
+  const founderStats = useFounderStats();
+
   if (!isOpen) return null;
 
   const isFounder =
@@ -196,7 +201,17 @@ export default function PaywallModal({
   };
 
   const handleClaimFounder = async () => {
-    const stripeUrl = STRIPE_PAYMENT_LINKS.founderLifetime;
+    if (founderStats.soldOut) {
+      setCheckoutMessage("All 199 Founder passes are claimed.");
+      setTimeout(() => setCheckoutMessage(null), 4000);
+      return;
+    }
+    if (!user) {
+      setCheckoutMessage("Sign in with Google first — your Founder number attaches to your account.");
+      setTimeout(() => setCheckoutMessage(null), 6000);
+      return;
+    }
+    const stripeUrl = founderCheckoutUrl(user.uid, user.email);
     if (stripeUrl && stripeUrl.trim().length > 0) {
       setProcessingTier("founder_lifetime");
       setLastStripeUrl(stripeUrl.trim());
@@ -307,7 +322,7 @@ export default function PaywallModal({
         <div className="mb-6 relative overflow-hidden rounded-2xl border-2 border-amber-500/60 bg-gradient-to-r from-amber-950/50 via-purple-950/30 to-cyan-950/40 p-5 shadow-xl shadow-amber-950/40">
           <div className="absolute top-0 right-0 px-3 py-1 bg-amber-400 text-black font-mono text-[10px] font-black uppercase tracking-wider rounded-bl-xl flex items-center gap-1.5 shadow-md">
             <Flame className="w-3.5 h-3.5 fill-black animate-pulse" />
-            FOUNDER EDITION • 000 / 199 CLAIMED
+            FOUNDER EDITION • {String(founderStats.claimed).padStart(3, "0")} / 199 CLAIMED
           </div>
 
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mt-2">
@@ -319,12 +334,10 @@ export default function PaywallModal({
                 </span>
                 {isFounder && (
                   <span className="px-2 py-0.5 rounded bg-amber-400/20 border border-amber-400/50 text-amber-300 font-mono text-[9px] font-bold">
-                    OWNED & ACTIVE • OPERATOR #
-                    {String(
-                      userProfile.founderNumber !== undefined && userProfile.founderNumber !== null
-                        ? userProfile.founderNumber
-                        : (userProfile.email === "faux.fuax@gmail.com" ? 0 : 138)
-                    ).padStart(3, "0")}
+                    OWNED & ACTIVE •{" "}
+                    {userProfile.founderNumber !== undefined && userProfile.founderNumber !== null
+                      ? `OPERATOR #${String(userProfile.founderNumber).padStart(3, "0")}`
+                      : "FOUNDER NUMBER ASSIGNING…"}
                   </span>
                 )}
               </div>
@@ -373,11 +386,15 @@ export default function PaywallModal({
               {/* Urgency Counter & Progress Bar */}
               <div className="pt-2 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
                 <div className="w-48 h-2 rounded-full bg-black/60 border border-amber-500/30 overflow-hidden">
-                  <div className="h-full bg-gradient-to-r from-amber-400 to-amber-500 w-[0%]" />
+                  <div
+                    className="h-full bg-gradient-to-r from-amber-400 to-amber-500 transition-all duration-500"
+                    style={{ width: `${(founderStats.claimed / 199) * 100}%` }}
+                  />
                 </div>
                 <div className="flex items-center gap-2 font-mono text-[10px]">
                   <span className="text-amber-300 font-bold">
-                    🔥 199 SLOTS REMAINING (0% CLAIMED)
+                    🔥 {founderStats.remaining} SLOTS REMAINING (
+                    {Math.round((founderStats.claimed / 199) * 100)}% CLAIMED)
                   </span>
                   <span className="text-gray-500 hidden sm:inline">•</span>
                   <span className="text-gray-400 hidden sm:inline">Permanently locks at 199</span>
@@ -417,15 +434,17 @@ export default function PaywallModal({
                   </button>
                   <button
                     onClick={handleClaimFounder}
-                    disabled={processingTier === "founder_lifetime"}
-                    className="w-full sm:w-auto px-5 py-3 rounded-xl font-mono text-xs font-black uppercase tracking-wider transition-all shadow-lg bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-black shadow-amber-500/25 flex items-center justify-center gap-2"
+                    disabled={processingTier === "founder_lifetime" || founderStats.soldOut}
+                    className="w-full sm:w-auto px-5 py-3 rounded-xl font-mono text-xs font-black uppercase tracking-wider transition-all shadow-lg bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-black shadow-amber-500/25 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <Flame className="w-4 h-4 fill-black" />
-                    Claim Founder Pass ($
-                    {userProfile.founderDiscountPercent
-                      ? Math.round(99 * (1 - userProfile.founderDiscountPercent / 100))
-                      : 99}
-                    )
+                    {founderStats.soldOut
+                      ? "Sold Out"
+                      : `Claim Founder Pass ($${
+                          userProfile.founderDiscountPercent
+                            ? Math.round(99 * (1 - userProfile.founderDiscountPercent / 100))
+                            : 99
+                        })`}
                   </button>
                 </div>
               )}
