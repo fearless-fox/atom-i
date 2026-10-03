@@ -333,7 +333,7 @@ export default function LandingPage({
                   <Flame className="w-3 h-3 fill-black" />
                   FIRST 199 OPERATORS ONLY
                 </span>
-                <span className="text-amber-300 font-mono text-xs font-bold">137 / 199 CLAIMED • ONLY 62 REMAINING</span>
+                <span className="text-amber-300 font-mono text-xs font-bold">000 / 199 CLAIMED • 199 REMAINING</span>
               </div>
               <h3 className="text-xl sm:text-2xl font-black text-white">
                 The Founder Lifetime Pass — $99 One-Time (No Subscriptions)

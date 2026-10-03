@@ -307,7 +307,7 @@ export default function PaywallModal({
         <div className="mb-6 relative overflow-hidden rounded-2xl border-2 border-amber-500/60 bg-gradient-to-r from-amber-950/50 via-purple-950/30 to-cyan-950/40 p-5 shadow-xl shadow-amber-950/40">
           <div className="absolute top-0 right-0 px-3 py-1 bg-amber-400 text-black font-mono text-[10px] font-black uppercase tracking-wider rounded-bl-xl flex items-center gap-1.5 shadow-md">
             <Flame className="w-3.5 h-3.5 fill-black animate-pulse" />
-            FOUNDER EDITION • 137 / 199 CLAIMED
+            FOUNDER EDITION • 000 / 199 CLAIMED
           </div>
 
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mt-2">
@@ -373,11 +373,11 @@ export default function PaywallModal({
               {/* Urgency Counter & Progress Bar */}
               <div className="pt-2 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
                 <div className="w-48 h-2 rounded-full bg-black/60 border border-amber-500/30 overflow-hidden">
-                  <div className="h-full bg-gradient-to-r from-amber-400 to-amber-500 w-[68.8%]" />
+                  <div className="h-full bg-gradient-to-r from-amber-400 to-amber-500 w-[0%]" />
                 </div>
                 <div className="flex items-center gap-2 font-mono text-[10px]">
                   <span className="text-amber-300 font-bold">
-                    🔥 ONLY 62 SLOTS REMAINING (68.8% CLAIMED)
+                    🔥 199 SLOTS REMAINING (0% CLAIMED)
                   </span>
                   <span className="text-gray-500 hidden sm:inline">•</span>
                   <span className="text-gray-400 hidden sm:inline">Permanently locks at 199</span>
