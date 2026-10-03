@@ -1155,7 +1155,9 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
                 userProfile.founderNumber === 0 ||
                 userProfile.email === "faux.fuax@gmail.com"
                   ? "CREATOR #000"
-                  : `FOUNDER #${String(userProfile.founderNumber ?? 138).padStart(3, "0")}`}
+                  : userProfile.founderNumber !== undefined && userProfile.founderNumber !== null
+                  ? `FOUNDER #${String(userProfile.founderNumber).padStart(3, "0")}`
+                  : "FOUNDER"}
               </span>
             </button>
           )}
