@@ -20,7 +20,9 @@ import {
   Waves,
 } from "lucide-react";
 import { TIERS_CONFIG, VOICE_PACKS } from "./PaywallModal";
-import { STRIPE_PAYMENT_LINKS, openStripeCheckout } from "../lib/stripeConfig";
+import { STRIPE_PAYMENT_LINKS, openStripeCheckout, founderCheckoutUrl } from "../lib/stripeConfig";
+import { useFounderStats } from "../hooks/useFounderStats";
+import { useAuth } from "../contexts/AuthContext";
 
 interface LandingPageProps {
   onEnterCockpit: () => void;
@@ -42,6 +44,24 @@ export default function LandingPage({
   onOpenTerms,
 }: LandingPageProps) {
   const [selectedStoryIndex, setSelectedStoryIndex] = useState(0);
+  const [founderMsg, setFounderMsg] = useState<string | null>(null);
+
+  const { user, signInWithGoogle } = useAuth();
+  const founderStats = useFounderStats();
+
+  const handleClaimFounder = () => {
+    setFounderMsg(null);
+    if (founderStats.soldOut) {
+      setFounderMsg("All 199 Founder passes are claimed.");
+      return;
+    }
+    if (!user) {
+      setFounderMsg("Sign in with Google first — your Founder number attaches to your account.");
+      return;
+    }
+    const opened = openStripeCheckout(founderCheckoutUrl(user.uid, user.email));
+    if (!opened) onOpenPaywall();
+  };
 
   const isFounder =
     userProfile.tier === "founder_lifetime" || userProfile.isFounderLifetime;
@@ -333,7 +353,7 @@ export default function LandingPage({
                   <Flame className="w-3 h-3 fill-black" />
                   FIRST 199 OPERATORS ONLY
                 </span>
-                <span className="text-amber-300 font-mono text-xs font-bold">000 / 199 CLAIMED • 199 REMAINING</span>
+                <span className="text-amber-300 font-mono text-xs font-bold">{String(founderStats.claimed).padStart(3, "0")} / 199 CLAIMED • {founderStats.remaining} REMAINING</span>
               </div>
               <h3 className="text-xl sm:text-2xl font-black text-white">
                 The Founder Lifetime Pass — $99 One-Time (No Subscriptions)
@@ -354,16 +374,31 @@ export default function LandingPage({
                 </button>
               )}
               <button
-                onClick={() => {
-                  const opened = openStripeCheckout(STRIPE_PAYMENT_LINKS.founderLifetime);
-                  if (!opened) onOpenPaywall();
-                }}
-                className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-black font-mono text-xs font-black uppercase tracking-wider transition-all shadow-xl shadow-amber-500/20 whitespace-nowrap cursor-pointer"
+                onClick={handleClaimFounder}
+                disabled={founderStats.soldOut}
+                className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-black font-mono text-xs font-black uppercase tracking-wider transition-all shadow-xl shadow-amber-500/20 whitespace-nowrap cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isFounder ? "Founder Status Active" : "Claim Lifetime Pass ($99) ↗"}
+                {isFounder
+                  ? "Founder Status Active"
+                  : founderStats.soldOut
+                  ? "Sold Out"
+                  : "Claim Lifetime Pass ($99) ↗"}
               </button>
             </div>
           </div>
+          {founderMsg && (
+            <div className="mt-4 flex flex-wrap items-center gap-3">
+              <p className="text-xs font-mono text-amber-300">{founderMsg}</p>
+              {!user && (
+                <button
+                  onClick={() => signInWithGoogle()}
+                  className="px-4 py-2 rounded-lg bg-white text-black font-mono text-xs font-bold uppercase tracking-wider hover:bg-gray-200 transition-colors"
+                >
+                  Sign in with Google
+                </button>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Option A Tier Cards */}
