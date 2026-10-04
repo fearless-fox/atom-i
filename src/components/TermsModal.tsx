@@ -60,19 +60,19 @@ export default function TermsModal({ isOpen, onClose, defaultTab = "terms" }: Te
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md p-4 overflow-y-auto">
-      <div className="relative w-full max-w-4xl rounded-2xl bg-[#080d15] border border-cyan-500/40 p-6 md:p-8 shadow-2xl shadow-cyan-950/60 my-8 max-h-[90vh] flex flex-col">
+      <div className="relative w-full max-w-4xl rounded-2xl bg-[#0B0B0F] border border-rebel-500/40 p-6 md:p-8 shadow-2xl shadow-rebel-950/60 my-8 max-h-[90vh] flex flex-col">
         {/* Header Bar */}
         <div className="flex items-center justify-between border-b border-white/10 pb-4 shrink-0">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-400/40 flex items-center justify-center text-cyan-400 shrink-0">
+            <div className="w-10 h-10 rounded-xl bg-rebel-500/10 border border-rebel-400/40 flex items-center justify-center text-rebel-400 shrink-0">
               <Scale className="w-5 h-5" />
             </div>
             <div>
               <div className="flex items-center gap-2 flex-wrap">
                 <h2 className="text-xl font-extrabold text-white tracking-tight">
-                  A.T.O.M<span className="text-cyan-400 lowercase">-i</span> Legal &amp; Support Center
+                  A.T.O.M<span className="text-rebel-400 lowercase">-i</span> Legal &amp; Support Center
                 </h2>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-950 border border-cyan-500/30 text-cyan-300">
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-rebel-950 border border-rebel-500/30 text-rebel-300">
                   STRIPE VERIFIED
                 </span>
                 <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-950/60 border border-emerald-500/30 text-emerald-300">
@@ -100,7 +100,7 @@ export default function TermsModal({ isOpen, onClose, defaultTab = "terms" }: Te
             onClick={() => setActiveTab("terms")}
             className={`px-3.5 py-2 rounded-lg font-mono text-xs font-bold transition-all flex items-center gap-2 whitespace-nowrap ${
               activeTab === "terms"
-                ? "bg-cyan-500 text-black shadow-md shadow-cyan-950/50"
+                ? "bg-rebel-500 text-black shadow-md shadow-rebel-950/50"
                 : "text-gray-400 hover:text-white bg-white/5"
             }`}
           >
@@ -111,7 +111,7 @@ export default function TermsModal({ isOpen, onClose, defaultTab = "terms" }: Te
             onClick={() => setActiveTab("refunds")}
             className={`px-3.5 py-2 rounded-lg font-mono text-xs font-bold transition-all flex items-center gap-2 whitespace-nowrap ${
               activeTab === "refunds"
-                ? "bg-cyan-500 text-black shadow-md shadow-cyan-950/50"
+                ? "bg-rebel-500 text-black shadow-md shadow-rebel-950/50"
                 : "text-gray-400 hover:text-white bg-white/5"
             }`}
           >
@@ -122,7 +122,7 @@ export default function TermsModal({ isOpen, onClose, defaultTab = "terms" }: Te
             onClick={() => setActiveTab("privacy")}
             className={`px-3.5 py-2 rounded-lg font-mono text-xs font-bold transition-all flex items-center gap-2 whitespace-nowrap ${
               activeTab === "privacy"
-                ? "bg-cyan-500 text-black shadow-md shadow-cyan-950/50"
+                ? "bg-rebel-500 text-black shadow-md shadow-rebel-950/50"
                 : "text-gray-400 hover:text-white bg-white/5"
             }`}
           >
@@ -133,7 +133,7 @@ export default function TermsModal({ isOpen, onClose, defaultTab = "terms" }: Te
             onClick={() => setActiveTab("support")}
             className={`px-3.5 py-2 rounded-lg font-mono text-xs font-bold transition-all flex items-center gap-2 whitespace-nowrap ${
               activeTab === "support"
-                ? "bg-cyan-500 text-black shadow-md shadow-cyan-950/50"
+                ? "bg-rebel-500 text-black shadow-md shadow-rebel-950/50"
                 : "text-gray-400 hover:text-white bg-white/5"
             }`}
           >
@@ -147,9 +147,9 @@ export default function TermsModal({ isOpen, onClose, defaultTab = "terms" }: Te
           {/* TAB 1: TERMS OF SERVICE */}
           {activeTab === "terms" && (
             <div className="space-y-6">
-              <section className="bg-cyan-950/20 border border-cyan-500/20 rounded-xl p-4">
-                <h3 className="text-sm font-bold text-cyan-300 font-mono uppercase mb-2 flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-cyan-400" />
+              <section className="bg-rebel-950/20 border border-rebel-500/20 rounded-xl p-4">
+                <h3 className="text-sm font-bold text-rebel-300 font-mono uppercase mb-2 flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-rebel-400" />
                   1. Agreement to Terms
                 </h3>
                 <p>
@@ -202,9 +202,9 @@ export default function TermsModal({ isOpen, onClose, defaultTab = "terms" }: Te
                 <p>
                   A.T.O.M-i utilizes advanced machine learning architectures (including Google Gemini 3.8 Flash, Gemini Live Audio API, and Puter AI). <strong>All task breakdowns, timeline suggestions, and coaching dialogues are generated algorithmically for productivity and brainstorming purposes only.</strong>
                 </p>
-                <div className="p-3 rounded-lg bg-amber-950/30 border border-amber-500/30 text-amber-200">
+                <div className="p-3 rounded-lg bg-rust-950/30 border border-rust-500/30 text-rust-200">
                   <p className="font-semibold">⚠️ Notice Regarding Professional Advice:</p>
-                  <p className="mt-1 text-amber-300/90">
+                  <p className="mt-1 text-rust-300/90">
                     A.T.O.M-i does not provide certified legal, medical, accounting, financial, or engineering counsel. Operators are solely responsible for verifying the feasibility, safety, and legal compliance of any objective or decomposed execution plan.
                   </p>
                 </div>
@@ -245,13 +245,13 @@ export default function TermsModal({ isOpen, onClose, defaultTab = "terms" }: Te
 
               <section className="space-y-3">
                 <h3 className="text-sm font-bold text-white font-mono uppercase flex items-center gap-2">
-                  <DollarSign className="w-4 h-4 text-cyan-400" />
+                  <DollarSign className="w-4 h-4 text-rebel-400" />
                   1. 14-Day Full Money-Back Guarantee
                 </h3>
                 <p>
                   If you purchase a <strong>Tactical Pro</strong> subscription (Monthly or Yearly), <strong>Vanguard Live</strong> subscription (Monthly or Yearly), or <strong>Founder Lifetime Pass</strong>, you are entitled to a <strong>100% full refund within 14 days</strong> of your initial purchase date if you are unsatisfied for any reason.
                 </p>
-                <div className="p-3 rounded-lg bg-cyan-950/30 border border-cyan-500/30 text-cyan-200">
+                <div className="p-3 rounded-lg bg-rebel-950/30 border border-rebel-500/30 text-rebel-200">
                   <p className="font-semibold">How to Request Your Refund:</p>
                   <p className="mt-1">
                     Simply send an email to <strong className="text-white font-mono">{SUPPORT_EMAIL}</strong> with the subject line <em>&quot;Refund Request&quot;</em> and your Stripe checkout email. We process all valid refund requests within <strong>24 business hours</strong>. Refunds are credited back to your original payment method via Stripe (typically appearing in 5-10 business days depending on your bank).
@@ -281,7 +281,7 @@ export default function TermsModal({ isOpen, onClose, defaultTab = "terms" }: Te
 
               <section className="space-y-3">
                 <h3 className="text-sm font-bold text-white font-mono uppercase flex items-center gap-2">
-                  <PackageCheck className="w-4 h-4 text-amber-400" />
+                  <PackageCheck className="w-4 h-4 text-rust-400" />
                   3. Founder Pass Physical Merchandise &amp; Returns
                 </h3>
                 <p>
@@ -302,18 +302,18 @@ export default function TermsModal({ isOpen, onClose, defaultTab = "terms" }: Te
                 <h3 className="text-sm font-bold text-white font-mono uppercase">
                   5. Dedicated Support Contact for Billing
                 </h3>
-                <div className="p-4 rounded-xl bg-black/60 border border-cyan-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="p-4 rounded-xl bg-black/60 border border-rebel-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div className="flex items-center gap-3">
-                    <Mail className="w-6 h-6 text-cyan-400 shrink-0" />
+                    <Mail className="w-6 h-6 text-rebel-400 shrink-0" />
                     <div>
                       <div className="text-white font-mono font-bold text-xs">Official Billing &amp; Returns Desk</div>
-                      <div className="text-cyan-300 font-mono text-xs">{SUPPORT_EMAIL}</div>
+                      <div className="text-rebel-300 font-mono text-xs">{SUPPORT_EMAIL}</div>
                       <div className="text-gray-400 text-[11px] mt-0.5">Response Time: Under 24 hours guaranteed</div>
                     </div>
                   </div>
                   <button
                     onClick={() => setActiveTab("support")}
-                    className="px-4 py-2 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-black font-mono text-xs font-bold transition-colors shrink-0"
+                    className="px-4 py-2 rounded-lg bg-rebel-500 hover:bg-rebel-400 text-black font-mono text-xs font-bold transition-colors shrink-0"
                   >
                     Open Contact Form
                   </button>
@@ -325,9 +325,9 @@ export default function TermsModal({ isOpen, onClose, defaultTab = "terms" }: Te
           {/* TAB 3: PRIVACY POLICY */}
           {activeTab === "privacy" && (
             <div className="space-y-6">
-              <section className="bg-cyan-950/20 border border-cyan-500/20 rounded-xl p-4">
-                <h3 className="text-sm font-bold text-cyan-300 font-mono uppercase mb-2 flex items-center gap-2">
-                  <Lock className="w-4 h-4 text-cyan-400" />
+              <section className="bg-rebel-950/20 border border-rebel-500/20 rounded-xl p-4">
+                <h3 className="text-sm font-bold text-rebel-300 font-mono uppercase mb-2 flex items-center gap-2">
+                  <Lock className="w-4 h-4 text-rebel-400" />
                   Privacy &amp; Data Security Constitution
                 </h3>
                 <p>
@@ -384,9 +384,9 @@ export default function TermsModal({ isOpen, onClose, defaultTab = "terms" }: Te
           {/* TAB 4: SUPPORT CONTACT PAGE */}
           {activeTab === "support" && (
             <div className="space-y-6">
-              <section className="bg-gradient-to-r from-cyan-950/40 to-blue-950/40 border border-cyan-500/30 rounded-xl p-5">
+              <section className="bg-gradient-to-r from-rebel-950/40 to-blue-950/40 border border-rebel-500/30 rounded-xl p-5">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-400/40 flex items-center justify-center text-cyan-400 shrink-0">
+                  <div className="w-12 h-12 rounded-xl bg-rebel-500/10 border border-rebel-400/40 flex items-center justify-center text-rebel-400 shrink-0">
                     <Headphones className="w-6 h-6" />
                   </div>
                   <div>
@@ -402,10 +402,10 @@ export default function TermsModal({ isOpen, onClose, defaultTab = "terms" }: Te
 
               {/* Support Channels Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="bg-[#0b121f] border border-cyan-500/20 rounded-xl p-4 flex flex-col justify-between">
+                <div className="bg-[#0B0B0F] border border-rebel-500/20 rounded-xl p-4 flex flex-col justify-between">
                   <div>
-                    <div className="flex items-center gap-2 text-cyan-300 font-mono font-bold text-xs uppercase mb-2">
-                      <Mail className="w-4 h-4 text-cyan-400" />
+                    <div className="flex items-center gap-2 text-rebel-300 font-mono font-bold text-xs uppercase mb-2">
+                      <Mail className="w-4 h-4 text-rebel-400" />
                       Primary Support Email
                     </div>
                     <div className="text-white font-mono font-bold text-sm select-all">
@@ -425,7 +425,7 @@ export default function TermsModal({ isOpen, onClose, defaultTab = "terms" }: Te
                     </button>
                     <a
                       href={`mailto:${SUPPORT_EMAIL}`}
-                      className="px-3 py-1.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-black font-mono text-[11px] font-bold flex items-center gap-1.5 transition-colors"
+                      className="px-3 py-1.5 rounded-lg bg-rebel-500 hover:bg-rebel-400 text-black font-mono text-[11px] font-bold flex items-center gap-1.5 transition-colors"
                     >
                       <ExternalLink className="w-3.5 h-3.5" />
                       <span>Open Mail App</span>
@@ -433,7 +433,7 @@ export default function TermsModal({ isOpen, onClose, defaultTab = "terms" }: Te
                   </div>
                 </div>
 
-                <div className="bg-[#0b121f] border border-cyan-500/20 rounded-xl p-4 flex flex-col justify-between">
+                <div className="bg-[#0B0B0F] border border-rebel-500/20 rounded-xl p-4 flex flex-col justify-between">
                   <div>
                     <div className="flex items-center gap-2 text-emerald-300 font-mono font-bold text-xs uppercase mb-2">
                       <Clock className="w-4 h-4 text-emerald-400" />
@@ -454,9 +454,9 @@ export default function TermsModal({ isOpen, onClose, defaultTab = "terms" }: Te
               </div>
 
               {/* Direct Support Message Composer */}
-              <div className="bg-[#0b121f] border border-cyan-500/20 rounded-xl p-5">
+              <div className="bg-[#0B0B0F] border border-rebel-500/20 rounded-xl p-5">
                 <h4 className="text-xs font-mono font-bold uppercase text-white mb-3 flex items-center gap-2">
-                  <Send className="w-4 h-4 text-cyan-400" />
+                  <Send className="w-4 h-4 text-rebel-400" />
                   Quick Message Dispatch
                 </h4>
                 <form onSubmit={handleSendEmail} className="space-y-4">
@@ -467,7 +467,7 @@ export default function TermsModal({ isOpen, onClose, defaultTab = "terms" }: Te
                     <select
                       value={supportSubject}
                       onChange={(e) => setSupportSubject(e.target.value)}
-                      className="w-full bg-[#050911] border border-cyan-500/30 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-cyan-400 font-mono"
+                      className="w-full bg-[#050911] border border-rebel-500/30 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-rebel-400 font-mono"
                     >
                       <option value="Billing & Refund Request">Billing &amp; Refund Request (14-Day Guarantee)</option>
                       <option value="Subscription Cancellation">Subscription Cancellation</option>
@@ -487,17 +487,17 @@ export default function TermsModal({ isOpen, onClose, defaultTab = "terms" }: Te
                       onChange={(e) => setSupportMessage(e.target.value)}
                       rows={3}
                       placeholder="Include your Stripe checkout email and any details so we can assist you immediately..."
-                      className="w-full bg-[#050911] border border-cyan-500/30 rounded-lg p-3 text-xs text-white focus:outline-none focus:border-cyan-400 font-mono resize-none placeholder-gray-600"
+                      className="w-full bg-[#050911] border border-rebel-500/30 rounded-lg p-3 text-xs text-white focus:outline-none focus:border-rebel-400 font-mono resize-none placeholder-gray-600"
                     />
                   </div>
 
                   <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
                     <span className="text-[11px] text-gray-400 font-mono">
-                      Submitting opens your email client directly addressed to <span className="text-cyan-300">{SUPPORT_EMAIL}</span>
+                      Submitting opens your email client directly addressed to <span className="text-rebel-300">{SUPPORT_EMAIL}</span>
                     </span>
                     <button
                       type="submit"
-                      className="w-full sm:w-auto px-5 py-2.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-black font-mono text-xs font-bold uppercase tracking-wider transition-colors shadow-md shadow-cyan-950/40 flex items-center justify-center gap-2"
+                      className="w-full sm:w-auto px-5 py-2.5 rounded-lg bg-rebel-500 hover:bg-rebel-400 text-black font-mono text-xs font-bold uppercase tracking-wider transition-colors shadow-md shadow-rebel-950/40 flex items-center justify-center gap-2"
                     >
                       <Send className="w-3.5 h-3.5" />
                       <span>Send to {SUPPORT_EMAIL}</span>
@@ -512,7 +512,7 @@ export default function TermsModal({ isOpen, onClose, defaultTab = "terms" }: Te
                   <span className="text-gray-500">Merchant Entity:</span> <strong className="text-white">A.T.O.M-i Systems</strong>
                 </div>
                 <div>
-                  <span className="text-gray-500">Official Contact:</span> <strong className="text-cyan-300">{SUPPORT_EMAIL}</strong>
+                  <span className="text-gray-500">Official Contact:</span> <strong className="text-rebel-300">{SUPPORT_EMAIL}</strong>
                 </div>
                 <div>
                   <span className="text-gray-500">Payment Engine:</span> <strong className="text-emerald-400">Stripe Verified</strong>
@@ -528,7 +528,7 @@ export default function TermsModal({ isOpen, onClose, defaultTab = "terms" }: Te
             <span>Support:</span>
             <a
               href={`mailto:${SUPPORT_EMAIL}`}
-              className="text-cyan-400 hover:underline"
+              className="text-rebel-400 hover:underline"
             >
               {SUPPORT_EMAIL}
             </a>
@@ -536,7 +536,7 @@ export default function TermsModal({ isOpen, onClose, defaultTab = "terms" }: Te
 
           <button
             onClick={onClose}
-            className="w-full sm:w-auto px-6 py-2.5 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-black font-mono text-xs font-bold uppercase tracking-wider transition-colors shadow-md shadow-cyan-950/40"
+            className="w-full sm:w-auto px-6 py-2.5 rounded-lg bg-rebel-500 hover:bg-rebel-400 text-black font-mono text-xs font-bold uppercase tracking-wider transition-colors shadow-md shadow-rebel-950/40"
           >
             I Acknowledge &amp; Close
           </button>
