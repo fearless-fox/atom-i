@@ -30,7 +30,7 @@ export default function EisenhowerMatrix({
   // Determine priority dynamic level
   let priorityLabel = "LOW";
   let activeBarsCount = 1;
-  let barColorClass = "bg-cyan-500/40";
+  let barColorClass = "bg-rebel-500/40";
 
   if (doFirst.length >= 3) {
     priorityLabel = "CRITICAL";
@@ -39,11 +39,11 @@ export default function EisenhowerMatrix({
   } else if (doFirst.length > 0) {
     priorityLabel = "HIGH";
     activeBarsCount = 4;
-    barColorClass = "bg-amber-500/50";
+    barColorClass = "bg-rust-500/50";
   } else if (schedule.length > 0) {
     priorityLabel = "MEDIUM";
     activeBarsCount = 3;
-    barColorClass = "bg-cyan-500/40";
+    barColorClass = "bg-rebel-500/40";
   } else {
     priorityLabel = "LOW";
     activeBarsCount = 2;
@@ -135,30 +135,30 @@ export default function EisenhowerMatrix({
   };
 
   return (
-    <div className="flex flex-col bg-black/50 border border-cyan-900/40 rounded-xl overflow-hidden shadow-lg backdrop-blur-sm tactical-corner-frame hover-focus-border">
+    <div className="flex flex-col bg-black/50 border border-rebel-900/40 rounded-xl overflow-hidden shadow-lg backdrop-blur-sm tactical-corner-frame hover-focus-border">
       {/* Header */}
-      <div className="p-4 border-b border-cyan-900/30 flex justify-between items-center bg-black/35 hover-focus-trace">
+      <div className="p-4 border-b border-rebel-900/30 flex justify-between items-center bg-black/35 hover-focus-trace">
         <h3 className="text-xs font-bold text-white tracking-widest flex items-center gap-2">
-          <Zap className="w-3.5 h-3.5 text-cyan-400 animate-pulse" /> EISENHOWER OPTIMIZATION
+          <Zap className="w-3.5 h-3.5 text-rebel-400 animate-pulse" /> EISENHOWER OPTIMIZATION
         </h3>
-        <span className="text-[9px] font-mono text-cyan-400 tracking-wider bg-cyan-950/30 border border-cyan-500/20 px-2 py-0.5 rounded">
+        <span className="text-[9px] font-mono text-rebel-400 tracking-wider bg-rebel-950/30 border border-rebel-500/20 px-2 py-0.5 rounded">
           AUTO-POPULATED
         </span>
       </div>
 
       {/* Grid Quadrants */}
-      <div className="grid grid-cols-2 gap-px bg-cyan-900/20">
+      <div className="grid grid-cols-2 gap-px bg-rebel-900/20">
         {renderQuadrant("Q1: Urgent & Important", "Do first immediately", doFirst, "#ef4444", "text-red-200")}
-        {renderQuadrant("Q2: Important / Not Urgent", "Schedule strategic dates", schedule, "#06b6d4", "text-cyan-200")}
-        {renderQuadrant("Q3: Urgent / Not Important", "Delegate or streamline", delegate, "#f59e0b", "text-amber-200")}
+        {renderQuadrant("Q2: Important / Not Urgent", "Schedule strategic dates", schedule, "#06b6d4", "text-rebel-200")}
+        {renderQuadrant("Q3: Urgent / Not Important", "Delegate or streamline", delegate, "#FF4D1C", "text-rust-200")}
         {renderQuadrant("Q4: Not Urgent/Important", "Eliminate bottlenecks", eliminate, "#a1a1aa", "text-gray-400")}
       </div>
 
       {/* Dynamic priority visual indicators from Immersive UI */}
-      <div className="p-3 bg-cyan-950/10 border-t border-cyan-900/30 flex flex-col gap-2">
+      <div className="p-3 bg-rebel-950/10 border-t border-rebel-900/30 flex flex-col gap-2">
         <div className="flex justify-between items-center">
           <span className="text-[9px] uppercase tracking-wider text-gray-400 font-mono">System Priority Trajectory</span>
-          <span className={`text-[10px] font-mono font-bold ${priorityLabel === "CRITICAL" ? "text-rose-500" : priorityLabel === "HIGH" ? "text-amber-400" : "text-cyan-400"}`}>
+          <span className={`text-[10px] font-mono font-bold ${priorityLabel === "CRITICAL" ? "text-rose-500" : priorityLabel === "HIGH" ? "text-rust-400" : "text-rebel-400"}`}>
             {priorityLabel}
           </span>
         </div>

@@ -38,10 +38,10 @@ export const PWAInstallButton: React.FC<PWAInstallButtonProps> = ({ onInstalledS
     return (
       <button
         onClick={handleInstallClick}
-        className="px-2.5 py-1.5 rounded-lg bg-gradient-to-r from-cyan-500/20 to-blue-600/20 hover:from-cyan-500/30 hover:to-blue-600/30 border border-cyan-400/50 text-cyan-300 font-mono text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm shadow-cyan-950/50"
+        className="px-2.5 py-1.5 rounded-lg bg-gradient-to-r from-rebel-500/20 to-blue-600/20 hover:from-rebel-500/30 hover:to-blue-600/30 border border-rebel-400/50 text-rebel-300 font-mono text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm shadow-rebel-950/50"
         title="Install A.T.O.M-i as a standalone desktop/dock app without browser chrome"
       >
-        <Download className="w-3.5 h-3.5 text-cyan-400 animate-bounce" />
+        <Download className="w-3.5 h-3.5 text-rebel-400 animate-bounce" />
         <span className="hidden sm:inline">INSTALL OS</span>
         <span className="sm:hidden">INSTALL</span>
       </button>
@@ -54,16 +54,16 @@ export const PWAInstallButton: React.FC<PWAInstallButtonProps> = ({ onInstalledS
       <>
         <button
           onClick={() => setShowIOSGuide(true)}
-          className="px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-cyan-300 font-mono text-xs flex items-center gap-1.5 transition-colors"
+          className="px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-rebel-300 font-mono text-xs flex items-center gap-1.5 transition-colors"
           title="Install A.T.O.M-i on iOS Home Screen"
         >
-          <Smartphone className="w-3.5 h-3.5 text-cyan-400" />
+          <Smartphone className="w-3.5 h-3.5 text-rebel-400" />
           <span className="hidden sm:inline">ADD TO HOME</span>
         </button>
 
         {showIOSGuide && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-fade-in">
-            <div className="relative w-full max-w-sm rounded-2xl bg-[#080d14] border border-cyan-500/40 p-6 shadow-2xl text-left font-mono">
+            <div className="relative w-full max-w-sm rounded-2xl bg-[#0B0B0F] border border-rebel-500/40 p-6 shadow-2xl text-left font-mono">
               <button
                 onClick={() => setShowIOSGuide(false)}
                 className="absolute top-4 right-4 p-1.5 rounded-lg bg-white/5 text-gray-400 hover:text-white"
@@ -71,7 +71,7 @@ export const PWAInstallButton: React.FC<PWAInstallButtonProps> = ({ onInstalledS
                 <X className="w-4 h-4" />
               </button>
 
-              <div className="flex items-center gap-2 text-cyan-400 mb-3">
+              <div className="flex items-center gap-2 text-rebel-400 mb-3">
                 <Share className="w-4 h-4" />
                 <h3 className="text-sm font-bold uppercase tracking-wider text-white">
                   Install on iOS Home Screen
@@ -79,12 +79,12 @@ export const PWAInstallButton: React.FC<PWAInstallButtonProps> = ({ onInstalledS
               </div>
 
               <div className="space-y-3 text-xs text-gray-300 leading-relaxed">
-                <div className="p-3 rounded-lg bg-black/40 border border-cyan-900/40 space-y-2">
+                <div className="p-3 rounded-lg bg-black/40 border border-rebel-900/40 space-y-2">
                   <p>
-                    1. Tap the <strong className="text-cyan-400">Share icon</strong> in the Safari bottom toolbar.
+                    1. Tap the <strong className="text-rebel-400">Share icon</strong> in the Safari bottom toolbar.
                   </p>
                   <p>
-                    2. Scroll down and select <strong className="text-cyan-400">Add to Home Screen</strong>.
+                    2. Scroll down and select <strong className="text-rebel-400">Add to Home Screen</strong>.
                   </p>
                   <p>
                     3. Launch <strong className="text-white">A.T.O.M-i</strong> directly from your Home Screen in full standalone immersion.
@@ -94,7 +94,7 @@ export const PWAInstallButton: React.FC<PWAInstallButtonProps> = ({ onInstalledS
 
               <button
                 onClick={() => setShowIOSGuide(false)}
-                className="mt-4 w-full py-2 rounded-lg bg-cyan-500 text-black text-xs font-bold uppercase tracking-wider hover:bg-cyan-400 transition-colors"
+                className="mt-4 w-full py-2 rounded-lg bg-rebel-500 text-black text-xs font-bold uppercase tracking-wider hover:bg-rebel-400 transition-colors"
               >
                 Got It
               </button>
@@ -115,16 +115,16 @@ export const PWAInstallButton: React.FC<PWAInstallButtonProps> = ({ onInstalledS
           if (onInstalledSound) onInstalledSound();
           setShowDesktopGuide(true);
         }}
-        className="hidden md:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-gray-400 hover:text-cyan-300 font-mono text-xs transition-colors"
+        className="hidden md:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-gray-400 hover:text-rebel-300 font-mono text-xs transition-colors"
         title="Install atom-i as a Standalone App"
       >
-        <Download className="w-3.5 h-3.5 text-gray-400 group-hover:text-cyan-400" />
+        <Download className="w-3.5 h-3.5 text-gray-400 group-hover:text-rebel-400" />
         <span className="hidden lg:inline text-[11px]">INSTALL APP</span>
       </button>
 
       {showDesktopGuide && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-fade-in">
-          <div className="relative w-full max-w-sm rounded-2xl bg-[#080d14] border border-cyan-500/40 p-6 shadow-2xl text-left font-mono">
+          <div className="relative w-full max-w-sm rounded-2xl bg-[#0B0B0F] border border-rebel-500/40 p-6 shadow-2xl text-left font-mono">
             <button
               onClick={() => setShowDesktopGuide(false)}
               className="absolute top-4 right-4 p-1.5 rounded-lg bg-white/5 text-gray-400 hover:text-white"
@@ -132,7 +132,7 @@ export const PWAInstallButton: React.FC<PWAInstallButtonProps> = ({ onInstalledS
               <X className="w-4 h-4" />
             </button>
 
-            <div className="flex items-center gap-2 text-cyan-400 mb-3">
+            <div className="flex items-center gap-2 text-rebel-400 mb-3">
               <Download className="w-4 h-4" />
               <h3 className="text-sm font-bold uppercase tracking-wider text-white">
                 Install atom-i Standalone
@@ -140,12 +140,12 @@ export const PWAInstallButton: React.FC<PWAInstallButtonProps> = ({ onInstalledS
             </div>
 
             <div className="space-y-3 text-xs text-gray-300 leading-relaxed">
-              <div className="p-3 rounded-lg bg-black/40 border border-cyan-900/40 space-y-2">
+              <div className="p-3 rounded-lg bg-black/40 border border-rebel-900/40 space-y-2">
                 <p>
-                  1. Look for the <strong className="text-cyan-400">Install icon</strong> (computer with down arrow) in your browser's address bar.
+                  1. Look for the <strong className="text-rebel-400">Install icon</strong> (computer with down arrow) in your browser's address bar.
                 </p>
                 <p>
-                  2. Or click your browser's menu (<strong className="text-gray-200">⋮</strong> or <strong className="text-gray-200">⋯</strong>) and select <strong className="text-cyan-400">Install atom-i</strong> or <strong className="text-cyan-400">Add to Desktop</strong>.
+                  2. Or click your browser's menu (<strong className="text-gray-200">⋮</strong> or <strong className="text-gray-200">⋯</strong>) and select <strong className="text-rebel-400">Install atom-i</strong> or <strong className="text-rebel-400">Add to Desktop</strong>.
                 </p>
                 <p>
                   3. Launch anytime with zero browser distractions, full offline cache, and lightning performance.
@@ -155,7 +155,7 @@ export const PWAInstallButton: React.FC<PWAInstallButtonProps> = ({ onInstalledS
 
             <button
               onClick={() => setShowDesktopGuide(false)}
-              className="mt-4 w-full py-2 rounded-lg bg-cyan-500 text-black text-xs font-bold uppercase tracking-wider hover:bg-cyan-400 transition-colors"
+              className="mt-4 w-full py-2 rounded-lg bg-rebel-500 text-black text-xs font-bold uppercase tracking-wider hover:bg-rebel-400 transition-colors"
             >
               Got It
             </button>

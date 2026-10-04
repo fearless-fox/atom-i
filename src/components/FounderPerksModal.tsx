@@ -204,21 +204,21 @@ export const FounderPerksModal: React.FC<FounderPerksModalProps> = ({
           <stop offset="100%" stop-color="#021420" />
         </linearGradient>
         <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#fbbf24" />
-          <stop offset="50%" stop-color="#f59e0b" />
+          <stop offset="0%" stop-color="#FF4D1C" />
+          <stop offset="50%" stop-color="#FF4D1C" />
           <stop offset="100%" stop-color="#d97706" />
         </linearGradient>
         <linearGradient id="cyan" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#22d3ee" />
+          <stop offset="0%" stop-color="#7C3AED" />
           <stop offset="100%" stop-color="#6366f1" />
         </linearGradient>
       </defs>
-      <rect width="800" height="500" rx="24" fill="url(#bg)" stroke="#fbbf24" stroke-width="4"/>
-      <rect x="20" y="20" width="760" height="460" rx="16" fill="none" stroke="#22d3ee" stroke-width="1" stroke-opacity="0.3"/>
+      <rect width="800" height="500" rx="24" fill="url(#bg)" stroke="#FF4D1C" stroke-width="4"/>
+      <rect x="20" y="20" width="760" height="460" rx="16" fill="none" stroke="#7C3AED" stroke-width="1" stroke-opacity="0.3"/>
       
-      <text x="50" y="70" font-family="monospace" font-size="14" fill="#fbbf24" letter-spacing="4">GENESIS FOUNDER PASS • ${isCreatorRoot ? "ROOT ARCHITECT #000 EDITION" : "199 EDITION"}</text>
+      <text x="50" y="70" font-family="monospace" font-size="14" fill="#FF4D1C" letter-spacing="4">GENESIS FOUNDER PASS • ${isCreatorRoot ? "ROOT ARCHITECT #000 EDITION" : "199 EDITION"}</text>
       <text x="50" y="120" font-family="sans-serif" font-weight="900" font-size="34" fill="#ffffff">${isCreatorRoot ? "CREATOR & MASTER ARCHITECT" : "atom-i FOUNDING MEMBER"}</text>
-      <text x="50" y="150" font-family="monospace" font-size="16" fill="#22d3ee">MEMBER #${formattedNumber} / 199 ${isCreatorRoot ? "(ROOT ARCHITECT)" : ""}</text>
+      <text x="50" y="150" font-family="monospace" font-size="16" fill="#7C3AED">MEMBER #${formattedNumber} / 199 ${isCreatorRoot ? "(ROOT ARCHITECT)" : ""}</text>
       
       <line x1="50" y1="180" x2="750" y2="180" stroke="#374151" stroke-width="1" />
       
@@ -230,9 +230,9 @@ export const FounderPerksModal: React.FC<FounderPerksModalProps> = ({
       
       <rect x="50" y="390" width="300" height="50" rx="8" fill="#111827" stroke="#374151"/>
       <text x="65" y="412" font-family="monospace" font-size="10" fill="#9ca3af">CRYPTOGRAPHIC VERIFICATION HASH</text>
-      <text x="65" y="430" font-family="monospace" font-size="12" fill="#fbbf24">${authHash}</text>
+      <text x="65" y="430" font-family="monospace" font-size="12" fill="#FF4D1C">${authHash}</text>
       
-      <text x="600" y="440" font-family="monospace" font-size="12" fill="#22d3ee" text-anchor="middle">CERTIFIED ATOM-I</text>
+      <text x="600" y="440" font-family="monospace" font-size="12" fill="#7C3AED" text-anchor="middle">CERTIFIED ATOM-I</text>
     </svg>
     `;
     const blob = new Blob([svgContent], { type: "image/svg+xml" });
@@ -259,25 +259,25 @@ export const FounderPerksModal: React.FC<FounderPerksModalProps> = ({
       onClick={onClose}
     >
       <div
-        className="bg-[#070a12] border-2 border-amber-500/50 rounded-2xl w-full max-w-3xl overflow-hidden shadow-2xl shadow-amber-950/40 flex flex-col relative my-6"
+        className="bg-[#070a12] border-2 border-rust-500/50 rounded-2xl w-full max-w-3xl overflow-hidden shadow-2xl shadow-rust-950/40 flex flex-col relative my-6"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header Ribbon */}
-        <div className="p-5 bg-gradient-to-r from-amber-950/60 via-purple-950/40 to-cyan-950/60 border-b border-amber-500/30 flex items-center justify-between">
+        <div className="p-5 bg-gradient-to-r from-rust-950/60 via-purple-950/40 to-rebel-950/60 border-b border-rust-500/30 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-400 to-amber-600 p-0.5 shadow-lg shadow-amber-500/30 flex items-center justify-center text-black font-black">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-rust-400 to-rust-600 p-0.5 shadow-lg shadow-rust-500/30 flex items-center justify-center text-black font-black">
               <Award className="w-6 h-6 text-black" />
             </div>
             <div>
               <div className="flex items-center gap-2">
                 <h3 className="font-sans font-black text-base text-white tracking-wide flex items-center">
-                  atom-i <span className="text-amber-400 font-mono font-bold lowercase ml-1.5">founding member privileges</span>
+                  atom-i <span className="text-rust-400 font-mono font-bold lowercase ml-1.5">founding member privileges</span>
                 </h3>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-400 text-black font-extrabold uppercase">
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-rust-400 text-black font-extrabold uppercase">
                   199 GENESIS EDITION
                 </span>
               </div>
-              <p className="text-xs text-amber-200/70 font-mono">
+              <p className="text-xs text-rust-200/70 font-mono">
                 Operator Pass #{formattedNumber} / 199 • {isCreatorRoot ? "Master Creator Root Pass" : "Official Collectible NFT & Physical Freebie Kit"}
               </p>
             </div>
@@ -302,11 +302,11 @@ export const FounderPerksModal: React.FC<FounderPerksModalProps> = ({
             }}
             className={`pb-3 px-3 font-mono text-xs font-bold uppercase tracking-wider flex items-center gap-2 border-b-2 transition-all ${
               activeTab === "nft_badge"
-                ? "border-amber-400 text-amber-300"
+                ? "border-rust-400 text-rust-300"
                 : "border-transparent text-gray-400 hover:text-white"
             }`}
           >
-            <Sparkles className="w-4 h-4 text-amber-400" />
+            <Sparkles className="w-4 h-4 text-rust-400" />
             <span>Digital NFT Genesis Pass</span>
           </button>
 
@@ -317,11 +317,11 @@ export const FounderPerksModal: React.FC<FounderPerksModalProps> = ({
             }}
             className={`pb-3 px-3 font-mono text-xs font-bold uppercase tracking-wider flex items-center gap-2 border-b-2 transition-all ${
               activeTab === "sticker_merch"
-                ? "border-amber-400 text-amber-300"
+                ? "border-rust-400 text-rust-300"
                 : "border-transparent text-gray-400 hover:text-white"
             }`}
           >
-            <Package className="w-4 h-4 text-amber-400" />
+            <Package className="w-4 h-4 text-rust-400" />
             <span>Physical Sticker & Welcome Kit</span>
             {shippingSubmitted && (
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
@@ -357,7 +357,7 @@ export const FounderPerksModal: React.FC<FounderPerksModalProps> = ({
               >
                 {/* FRONT FACE (0 deg) */}
                 <div
-                  className="absolute inset-0 rounded-2xl p-6 overflow-hidden shadow-2xl border-2 border-amber-400/80 bg-gradient-to-br from-[#0c0d1c] via-[#1a1233] to-[#0a1622] text-white flex flex-col justify-between"
+                  className="absolute inset-0 rounded-2xl p-6 overflow-hidden shadow-2xl border-2 border-rust-400/80 bg-gradient-to-br from-[#0c0d1c] via-[#1a1233] to-[#0a1622] text-white flex flex-col justify-between"
                   style={{
                     backfaceVisibility: "hidden",
                     WebkitBackfaceVisibility: "hidden",
@@ -379,20 +379,20 @@ export const FounderPerksModal: React.FC<FounderPerksModalProps> = ({
                   />
 
                   {/* Animated Corner Brackets */}
-                  <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-amber-400/80" />
-                  <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-amber-400/80" />
-                  <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-amber-400/80" />
-                  <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-amber-400/80" />
+                  <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-rust-400/80" />
+                  <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-rust-400/80" />
+                  <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-rust-400/80" />
+                  <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-rust-400/80" />
 
                   <div className="relative flex flex-col justify-between h-full">
                     {/* Top Row */}
                     <div className="flex items-start justify-between">
                       <div className="flex items-center gap-2.5">
-                        <div className="w-8 h-8 rounded-lg bg-amber-400/20 border border-amber-400/60 flex items-center justify-center">
-                          <Cpu className="w-4 h-4 text-amber-300" />
+                        <div className="w-8 h-8 rounded-lg bg-rust-400/20 border border-rust-400/60 flex items-center justify-center">
+                          <Cpu className="w-4 h-4 text-rust-300" />
                         </div>
                         <div>
-                          <div className="text-[10px] font-mono tracking-widest text-amber-400 uppercase font-black">
+                          <div className="text-[10px] font-mono tracking-widest text-rust-400 uppercase font-black">
                             {isCreatorRoot ? "atom-i • ROOT PASS" : "atom-i • GENESIS PASS"}
                           </div>
                           <div className="text-xs font-sans font-bold text-gray-200">
@@ -404,8 +404,8 @@ export const FounderPerksModal: React.FC<FounderPerksModalProps> = ({
                       <div className="text-right">
                         <span className={`inline-block px-2.5 py-1 rounded-md font-mono text-xs font-black tracking-widest shadow-inner ${
                           isCreatorRoot
-                            ? "bg-amber-400/30 border-2 border-amber-300 text-amber-200 shadow-amber-500/30"
-                            : "bg-amber-500/20 border border-amber-400/70 text-amber-300"
+                            ? "bg-rust-400/30 border-2 border-rust-300 text-rust-200 shadow-rust-500/30"
+                            : "bg-rust-500/20 border border-rust-400/70 text-rust-300"
                         }`}>
                           #{formattedNumber} / 199
                         </span>
@@ -415,14 +415,14 @@ export const FounderPerksModal: React.FC<FounderPerksModalProps> = ({
                     {/* Center Chip & Graphic */}
                     <div className="my-auto py-1">
                       <div className="flex items-center justify-between mb-2">
-                        <div className="w-11 h-8 rounded bg-gradient-to-tr from-amber-400 via-amber-200 to-amber-500 border border-amber-300 shadow-md flex items-center justify-center">
-                          <div className="w-8 h-5 border border-amber-800/40 rounded-sm grid grid-cols-2 gap-0.5 p-0.5">
-                            <div className="bg-amber-800/30 rounded-xs" />
-                            <div className="bg-amber-800/30 rounded-xs" />
+                        <div className="w-11 h-8 rounded bg-gradient-to-tr from-rust-400 via-rust-200 to-rust-500 border border-rust-300 shadow-md flex items-center justify-center">
+                          <div className="w-8 h-5 border border-rust-800/40 rounded-sm grid grid-cols-2 gap-0.5 p-0.5">
+                            <div className="bg-rust-800/30 rounded-xs" />
+                            <div className="bg-rust-800/30 rounded-xs" />
                           </div>
                         </div>
                         <div className="text-right">
-                          <div className="text-[9px] font-mono text-cyan-300 uppercase">ACCESS LEVEL</div>
+                          <div className="text-[9px] font-mono text-rebel-300 uppercase">ACCESS LEVEL</div>
                           <div className="text-sm font-black font-sans text-white tracking-wider">
                             {isCreatorRoot ? "ROOT ARCHITECT #000" : "VANGUARD LIFETIME"}
                           </div>
@@ -436,7 +436,7 @@ export const FounderPerksModal: React.FC<FounderPerksModalProps> = ({
                         </div>
                         <div className="flex justify-between">
                           <span className="text-gray-400">PRIVILEGES:</span>
-                          <strong className="text-amber-300">Unlimited Core + Live Voice</strong>
+                          <strong className="text-rust-300">Unlimited Core + Live Voice</strong>
                         </div>
                       </div>
                     </div>
@@ -445,7 +445,7 @@ export const FounderPerksModal: React.FC<FounderPerksModalProps> = ({
                     <div className="pt-2 border-t border-white/10 flex items-end justify-between text-[9px] font-mono text-gray-400">
                       <div>
                         <div>CRYPTOGRAPHIC SIGNATURE</div>
-                        <div className="text-cyan-400 font-bold tracking-wider">{authHash}</div>
+                        <div className="text-rebel-400 font-bold tracking-wider">{authHash}</div>
                       </div>
                       <div className="flex items-center gap-1 text-emerald-400 font-bold">
                         <Check className="w-3 h-3" />
@@ -457,7 +457,7 @@ export const FounderPerksModal: React.FC<FounderPerksModalProps> = ({
 
                 {/* BACK FACE (180 deg) */}
                 <div
-                  className="absolute inset-0 rounded-2xl p-6 overflow-hidden shadow-2xl border-2 border-cyan-400/80 bg-gradient-to-br from-[#060814] via-[#0b1329] to-[#04060f] text-white flex flex-col justify-between"
+                  className="absolute inset-0 rounded-2xl p-6 overflow-hidden shadow-2xl border-2 border-rebel-400/80 bg-gradient-to-br from-[#060814] via-[#0b1329] to-[#04060f] text-white flex flex-col justify-between"
                   style={{
                     backfaceVisibility: "hidden",
                     WebkitBackfaceVisibility: "hidden",
@@ -480,17 +480,17 @@ export const FounderPerksModal: React.FC<FounderPerksModalProps> = ({
                   />
 
                   {/* Corner Tech Brackets */}
-                  <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-cyan-400/80" />
-                  <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-cyan-400/80" />
-                  <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-cyan-400/80" />
-                  <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-cyan-400/80" />
+                  <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-rebel-400/80" />
+                  <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-rebel-400/80" />
+                  <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-rebel-400/80" />
+                  <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-rebel-400/80" />
 
                   <div className="relative flex flex-col justify-between h-full">
                     {/* Back Header */}
-                    <div className="flex items-center justify-between border-b border-cyan-500/30 pb-2">
+                    <div className="flex items-center justify-between border-b border-rebel-500/30 pb-2">
                       <div className="flex items-center gap-2">
-                        <Shield className="w-4 h-4 text-cyan-400" />
-                        <span className="text-[10px] font-mono text-cyan-300 font-bold tracking-widest uppercase">
+                        <Shield className="w-4 h-4 text-rebel-400" />
+                        <span className="text-[10px] font-mono text-rebel-300 font-bold tracking-widest uppercase">
                           GENESIS HARDWARE SECURITY SPEC
                         </span>
                       </div>
@@ -502,8 +502,8 @@ export const FounderPerksModal: React.FC<FounderPerksModalProps> = ({
                     {/* Technical Matrix Readout */}
                     <div className="grid grid-cols-3 gap-3 items-center py-2">
                       {/* Encrypted QR Authentication Block */}
-                      <div className="col-span-1 p-2 rounded-xl bg-black/80 border border-cyan-500/40 flex flex-col items-center justify-center text-center">
-                        <QrCode className="w-14 h-14 text-cyan-300 p-0.5" />
+                      <div className="col-span-1 p-2 rounded-xl bg-black/80 border border-rebel-500/40 flex flex-col items-center justify-center text-center">
+                        <QrCode className="w-14 h-14 text-rebel-300 p-0.5" />
                         <span className="text-[8px] font-mono text-gray-400 mt-1 uppercase">
                           HASH VERIFIED
                         </span>
@@ -513,7 +513,7 @@ export const FounderPerksModal: React.FC<FounderPerksModalProps> = ({
                       <div className="col-span-2 space-y-1.5 text-[10px] font-mono">
                         <div className="flex justify-between border-b border-white/5 pb-0.5">
                           <span className="text-gray-400">ENGINE:</span>
-                          <span className="text-cyan-300 font-bold">Gemini 3.8 Live</span>
+                          <span className="text-rebel-300 font-bold">Gemini 3.8 Live</span>
                         </div>
                         <div className="flex justify-between border-b border-white/5 pb-0.5">
                           <span className="text-gray-400">SECURITY:</span>
@@ -521,7 +521,7 @@ export const FounderPerksModal: React.FC<FounderPerksModalProps> = ({
                         </div>
                         <div className="flex justify-between border-b border-white/5 pb-0.5">
                           <span className="text-gray-400">ALLOCATION:</span>
-                          <span className="text-amber-300 font-bold">
+                          <span className="text-rust-300 font-bold">
                             {isCreatorRoot ? "Genesis Slot #000 (Root Architect)" : `Slot #${formattedNumber} / 199`}
                           </span>
                         </div>
@@ -533,9 +533,9 @@ export const FounderPerksModal: React.FC<FounderPerksModalProps> = ({
                     </div>
 
                     {/* Back Footer */}
-                    <div className="pt-2 border-t border-cyan-500/30 flex items-center justify-between text-[9px] font-mono text-gray-400">
+                    <div className="pt-2 border-t border-rebel-500/30 flex items-center justify-between text-[9px] font-mono text-gray-400">
                       <div>ID: <span className="text-white font-bold">{authHash}</span></div>
-                      <div className="text-cyan-400 uppercase tracking-widest font-bold">
+                      <div className="text-rebel-400 uppercase tracking-widest font-bold">
                         ATOM-I CERTIFIED
                       </div>
                     </div>
@@ -549,7 +549,7 @@ export const FounderPerksModal: React.FC<FounderPerksModalProps> = ({
               <button
                 onClick={handleTrigger360Spin}
                 disabled={isSpinning}
-                className="px-3 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/50 text-amber-300 font-mono text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all shadow-sm disabled:opacity-50"
+                className="px-3 py-1.5 rounded-lg bg-rust-500/20 hover:bg-rust-500/30 border border-rust-400/50 text-rust-300 font-mono text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all shadow-sm disabled:opacity-50"
                 title="Perform an instant 360-degree spin"
               >
                 <RotateCw className={`w-3.5 h-3.5 ${isSpinning ? "animate-spin" : ""}`} />
@@ -581,7 +581,7 @@ export const FounderPerksModal: React.FC<FounderPerksModalProps> = ({
                 className="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/20 text-gray-300 hover:text-white font-mono text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all"
                 title="Flip between front holographic pass and back motherboard spec"
               >
-                <Eye className="w-3.5 h-3.5 text-cyan-400" />
+                <Eye className="w-3.5 h-3.5 text-rebel-400" />
                 <span>Flip 180°</span>
               </button>
 
@@ -602,7 +602,7 @@ export const FounderPerksModal: React.FC<FounderPerksModalProps> = ({
             <div className="flex flex-wrap items-center justify-center gap-3 pt-1">
               <button
                 onClick={handleDownloadCard}
-                className="px-4 py-2 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-black font-mono text-xs font-bold uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-amber-500/20 transition-all"
+                className="px-4 py-2 rounded-xl bg-gradient-to-r from-rust-400 to-rust-500 hover:from-rust-300 hover:to-rust-400 text-black font-mono text-xs font-bold uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-rust-500/20 transition-all"
               >
                 <Download className="w-4 h-4" />
                 Download Digital NFT Certificate (SVG)
@@ -615,7 +615,7 @@ export const FounderPerksModal: React.FC<FounderPerksModalProps> = ({
                 }}
                 className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 border border-white/20 text-white font-mono text-xs font-semibold uppercase tracking-wider flex items-center gap-2 transition-all"
               >
-                <Truck className="w-4 h-4 text-amber-400" />
+                <Truck className="w-4 h-4 text-rust-400" />
                 Claim Physical Sticker Kit
               </button>
             </div>
@@ -628,12 +628,12 @@ export const FounderPerksModal: React.FC<FounderPerksModalProps> = ({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
               {/* Sticker Preview Box */}
               <div className="space-y-4">
-                <div className="rounded-2xl border border-amber-500/40 bg-gradient-to-br from-amber-950/30 via-black to-cyan-950/30 p-5 space-y-3 relative overflow-hidden">
+                <div className="rounded-2xl border border-rust-500/40 bg-gradient-to-br from-rust-950/30 via-black to-rebel-950/30 p-5 space-y-3 relative overflow-hidden">
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-400/20 text-amber-300 font-bold border border-amber-400/40">
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-rust-400/20 text-rust-300 font-bold border border-rust-400/40">
                       FREE WITH FOUNDER PASS
                     </span>
-                    <Sparkles className="w-4 h-4 text-amber-400 animate-pulse" />
+                    <Sparkles className="w-4 h-4 text-rust-400 animate-pulse" />
                   </div>
 
                   <h4 className="font-sans font-black text-lg text-white">
@@ -646,25 +646,25 @@ export const FounderPerksModal: React.FC<FounderPerksModalProps> = ({
 
                   <ul className="text-xs text-gray-400 font-mono space-y-2 pl-1">
                     <li className="flex items-center gap-2">
-                      <Check className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                      <Check className="w-3.5 h-3.5 text-rust-400 shrink-0" />
                       <span>1x Large Holographic Hex-Shield <strong>atom-i</strong> emblem</span>
                     </li>
                     <li className="flex items-center gap-2">
-                      <Check className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                      <Check className="w-3.5 h-3.5 text-rust-400 shrink-0" />
                       <span>1x Brushed Chrome "GENESIS 199 FOUNDER" laptop bumper</span>
                     </li>
                     <li className="flex items-center gap-2">
-                      <Check className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                      <Check className="w-3.5 h-3.5 text-rust-400 shrink-0" />
                       <span>2x Matte Black &amp; Cyan tactical micro-crests</span>
                     </li>
                     <li className="flex items-center gap-2">
-                      <Check className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                      <Check className="w-3.5 h-3.5 text-rust-400 shrink-0" />
                       <span>Ultra-durable, waterproof, UV-proof 3M vinyl</span>
                     </li>
                   </ul>
 
                   <div className="p-3 rounded-xl bg-black/60 border border-white/10 flex items-center gap-3 mt-4">
-                    <Package className="w-5 h-5 text-amber-400 shrink-0" />
+                    <Package className="w-5 h-5 text-rust-400 shrink-0" />
                     <div className="text-[11px] font-mono text-gray-300">
                       <div>SHIPPING: <strong>100% Free Worldwide Dispatch</strong></div>
                       <div className="text-[10px] text-gray-500">Tracked shipping to your designated address</div>
@@ -696,7 +696,7 @@ export const FounderPerksModal: React.FC<FounderPerksModalProps> = ({
                         cyberAudio.playCyberClick(1.0);
                         setShippingSubmitted(false);
                       }}
-                      className="text-xs font-mono text-cyan-400 hover:text-cyan-300 underline"
+                      className="text-xs font-mono text-rebel-400 hover:text-rebel-300 underline"
                     >
                       Update Shipping Information
                     </button>
@@ -705,7 +705,7 @@ export const FounderPerksModal: React.FC<FounderPerksModalProps> = ({
                   <form onSubmit={handleShippingSubmit} className="space-y-3.5">
                     <div className="flex items-center justify-between">
                       <h4 className="font-sans font-bold text-sm text-white flex items-center gap-2">
-                        <MapPin className="w-4 h-4 text-amber-400" />
+                        <MapPin className="w-4 h-4 text-rust-400" />
                         Enter Shipping Destination
                       </h4>
                       <span className="text-[10px] font-mono text-gray-400">FREE GLOBAL</span>
@@ -721,7 +721,7 @@ export const FounderPerksModal: React.FC<FounderPerksModalProps> = ({
                         value={fullName}
                         onChange={(e) => setFullName(e.target.value)}
                         placeholder="Operative Name"
-                        className="w-full bg-black/60 border border-white/20 focus:border-amber-400 rounded-lg px-3 py-2 text-xs text-white outline-none transition-colors"
+                        className="w-full bg-black/60 border border-white/20 focus:border-rust-400 rounded-lg px-3 py-2 text-xs text-white outline-none transition-colors"
                       />
                     </div>
 
@@ -735,7 +735,7 @@ export const FounderPerksModal: React.FC<FounderPerksModalProps> = ({
                         value={street}
                         onChange={(e) => setStreet(e.target.value)}
                         placeholder="123 Tactical Sector Blvd, Apt 4B"
-                        className="w-full bg-black/60 border border-white/20 focus:border-amber-400 rounded-lg px-3 py-2 text-xs text-white outline-none transition-colors"
+                        className="w-full bg-black/60 border border-white/20 focus:border-rust-400 rounded-lg px-3 py-2 text-xs text-white outline-none transition-colors"
                       />
                     </div>
 
@@ -750,7 +750,7 @@ export const FounderPerksModal: React.FC<FounderPerksModalProps> = ({
                           value={city}
                           onChange={(e) => setCity(e.target.value)}
                           placeholder="City, State/Region"
-                          className="w-full bg-black/60 border border-white/20 focus:border-amber-400 rounded-lg px-3 py-2 text-xs text-white outline-none transition-colors"
+                          className="w-full bg-black/60 border border-white/20 focus:border-rust-400 rounded-lg px-3 py-2 text-xs text-white outline-none transition-colors"
                         />
                       </div>
                       <div>
@@ -763,7 +763,7 @@ export const FounderPerksModal: React.FC<FounderPerksModalProps> = ({
                           value={postalCode}
                           onChange={(e) => setPostalCode(e.target.value)}
                           placeholder="Postal Code"
-                          className="w-full bg-black/60 border border-white/20 focus:border-amber-400 rounded-lg px-3 py-2 text-xs text-white outline-none transition-colors"
+                          className="w-full bg-black/60 border border-white/20 focus:border-rust-400 rounded-lg px-3 py-2 text-xs text-white outline-none transition-colors"
                         />
                       </div>
                     </div>
@@ -778,7 +778,7 @@ export const FounderPerksModal: React.FC<FounderPerksModalProps> = ({
                         value={country}
                         onChange={(e) => setCountry(e.target.value)}
                         placeholder="United States, Canada, UK, etc."
-                        className="w-full bg-black/60 border border-white/20 focus:border-amber-400 rounded-lg px-3 py-2 text-xs text-white outline-none transition-colors"
+                        className="w-full bg-black/60 border border-white/20 focus:border-rust-400 rounded-lg px-3 py-2 text-xs text-white outline-none transition-colors"
                       />
                     </div>
 
@@ -791,14 +791,14 @@ export const FounderPerksModal: React.FC<FounderPerksModalProps> = ({
                         value={notes}
                         onChange={(e) => setNotes(e.target.value)}
                         placeholder="e.g. Include custom callsign on package"
-                        className="w-full bg-black/60 border border-white/20 focus:border-amber-400 rounded-lg px-3 py-2 text-xs text-white outline-none transition-colors"
+                        className="w-full bg-black/60 border border-white/20 focus:border-rust-400 rounded-lg px-3 py-2 text-xs text-white outline-none transition-colors"
                       />
                     </div>
 
                     <button
                       type="submit"
                       disabled={isSubmittingShipping}
-                      className="w-full py-2.5 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-black font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-lg shadow-amber-500/20 disabled:opacity-50 flex items-center justify-center gap-2"
+                      className="w-full py-2.5 rounded-xl bg-gradient-to-r from-rust-400 to-rust-500 hover:from-rust-300 hover:to-rust-400 text-black font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-lg shadow-rust-500/20 disabled:opacity-50 flex items-center justify-center gap-2"
                     >
                       <Truck className="w-4 h-4" />
                       {isSubmittingShipping ? "Transmitting..." : "Dispatch Free Founder Sticker Kit"}
@@ -811,7 +811,7 @@ export const FounderPerksModal: React.FC<FounderPerksModalProps> = ({
         )}
 
         {/* Footer */}
-        <div className="p-4 bg-black/80 border-t border-amber-500/20 flex items-center justify-between">
+        <div className="p-4 bg-black/80 border-t border-rust-500/20 flex items-center justify-between">
           <p className="text-[10px] font-mono text-gray-500">
             A.T.O.M-i Genesis Cohort • Restricted strictly to the initial 199 founding operators
           </p>
