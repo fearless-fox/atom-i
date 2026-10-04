@@ -83,18 +83,18 @@ export const PromoCodeModal: React.FC<PromoCodeModalProps> = ({
       onClick={onClose}
     >
       <div
-        className="bg-[#080c16] border border-cyan-500/40 rounded-2xl w-full max-w-md overflow-hidden shadow-2xl shadow-cyan-950/60 flex flex-col relative tactical-corner-frame"
+        className="bg-[#080c16] border border-rebel-500/40 rounded-2xl w-full max-w-md overflow-hidden shadow-2xl shadow-rebel-950/60 flex flex-col relative tactical-corner-frame"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="p-4 bg-gradient-to-r from-cyan-950/50 via-purple-950/30 to-black border-b border-cyan-900/40 flex items-center justify-between">
+        <div className="p-4 bg-gradient-to-r from-rebel-950/50 via-purple-950/30 to-black border-b border-rebel-900/40 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-cyan-500/20 border border-cyan-400/50 flex items-center justify-center text-cyan-300">
+            <div className="w-8 h-8 rounded-xl bg-rebel-500/20 border border-rebel-400/50 flex items-center justify-center text-rebel-300">
               <KeyRound className="w-4 h-4" />
             </div>
             <div>
               <h3 className="font-sans font-bold text-sm text-white tracking-wide flex items-center gap-1.5">
-                atom-i <span className="text-cyan-400 font-mono font-normal lowercase">vip access terminal</span>
+                atom-i <span className="text-rebel-400 font-mono font-normal lowercase">vip access terminal</span>
               </h3>
               <p className="text-[10px] text-gray-400 font-mono">
                 Redeem Founder, Family, or VIP Pass Key
@@ -150,7 +150,7 @@ export const PromoCodeModal: React.FC<PromoCodeModalProps> = ({
                       onClose();
                       onOpenFounderPerks();
                     }}
-                    className="w-full py-2.5 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-black font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-md shadow-amber-500/20 flex items-center justify-center gap-1.5"
+                    className="w-full py-2.5 rounded-xl bg-gradient-to-r from-rust-400 to-rust-500 hover:from-rust-300 hover:to-rust-400 text-black font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-md shadow-rust-500/20 flex items-center justify-center gap-1.5"
                   >
                     <Gift className="w-4 h-4" />
                     View Founder NFT Badge &amp; Freebie Kit
@@ -171,7 +171,7 @@ export const PromoCodeModal: React.FC<PromoCodeModalProps> = ({
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-[11px] font-mono text-cyan-300 uppercase tracking-wider mb-1.5">
+                <label className="block text-[11px] font-mono text-rebel-300 uppercase tracking-wider mb-1.5">
                   Enter VIP Promo or Founder Code
                 </label>
                 <div className="relative">
@@ -184,10 +184,10 @@ export const PromoCodeModal: React.FC<PromoCodeModalProps> = ({
                       setErrorMsg(null);
                     }}
                     placeholder="ENTER VIP PASS KEY"
-                    className="w-full bg-black/60 border border-cyan-500/40 focus:border-cyan-400 rounded-xl px-4 py-3 text-sm font-mono text-white placeholder-gray-600 outline-none uppercase tracking-widest transition-all"
+                    className="w-full bg-black/60 border border-rebel-500/40 focus:border-rebel-400 rounded-xl px-4 py-3 text-sm font-mono text-white placeholder-gray-600 outline-none uppercase tracking-widest transition-all"
                     autoFocus
                   />
-                  <KeyRound className="w-4 h-4 text-cyan-400/50 absolute right-3.5 top-3.5 pointer-events-none" />
+                  <KeyRound className="w-4 h-4 text-rebel-400/50 absolute right-3.5 top-3.5 pointer-events-none" />
                 </div>
               </div>
 
@@ -201,7 +201,7 @@ export const PromoCodeModal: React.FC<PromoCodeModalProps> = ({
               <button
                 type="submit"
                 disabled={isRedeeming || !code.trim()}
-                className="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-white font-sans text-xs font-bold uppercase tracking-wider transition-all shadow-lg shadow-cyan-500/20 disabled:opacity-40 flex items-center justify-center gap-2"
+                className="w-full py-3 rounded-xl bg-gradient-to-r from-rebel-500 to-indigo-600 hover:from-rebel-400 hover:to-indigo-500 text-white font-sans text-xs font-bold uppercase tracking-wider transition-all shadow-lg shadow-rebel-500/20 disabled:opacity-40 flex items-center justify-center gap-2"
               >
                 {isRedeeming ? "Verifying Cryptographic Pass..." : "Redeem Full Access Pass"}
                 <ArrowRight className="w-4 h-4" />

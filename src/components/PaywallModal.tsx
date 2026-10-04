@@ -100,9 +100,9 @@ export const TIERS_CONFIG: Record<
     periodYearly: "/year",
     yearlyMonthlyEquivalent: "$12.50/mo billed annually",
     yearlySavingsBadge: "Save $30 (17% off)",
-    color: "text-cyan-400",
-    border: "border-cyan-500/50",
-    bg: "bg-cyan-950/20",
+    color: "text-rebel-400",
+    border: "border-rebel-500/50",
+    bg: "bg-rebel-950/20",
     atomizationLimit: "Unlimited Objectives",
     hasCalendar: true,
     hasGrid: true,
@@ -123,9 +123,9 @@ export const TIERS_CONFIG: Record<
     periodYearly: "/year",
     yearlyMonthlyEquivalent: "$20.83/mo billed annually",
     yearlySavingsBadge: "Save $50 (17% off)",
-    color: "text-fuchsia-400",
-    border: "border-fuchsia-500/60",
-    bg: "bg-fuchsia-950/20",
+    color: "text-rebel-400",
+    border: "border-rebel-500/60",
+    bg: "bg-rebel-950/20",
     atomizationLimit: "Unlimited Objectives",
     hasCalendar: true,
     hasGrid: true,
@@ -275,7 +275,7 @@ export default function PaywallModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md p-4 overflow-y-auto">
-      <div className="relative w-full max-w-5xl rounded-2xl bg-[#080d14] border border-cyan-500/30 p-6 md:p-8 shadow-2xl shadow-cyan-950/50 my-8">
+      <div className="relative w-full max-w-5xl rounded-2xl bg-[#0B0B0F] border border-rebel-500/30 p-6 md:p-8 shadow-2xl shadow-rebel-950/50 my-8">
         {/* Close Button */}
         <button
           onClick={onClose}
@@ -286,9 +286,9 @@ export default function PaywallModal({
 
         {/* Top Header */}
         <div className="text-center max-w-2xl mx-auto mb-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/60 border border-cyan-500/30 text-cyan-400 font-mono text-[10px] tracking-widest mb-3">
-            <Zap className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
-            A.T.O.M<span className="text-cyan-300 font-bold lowercase">-i</span> EXECUTION VELOCITY & MONETIZATION
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rebel-950/60 border border-rebel-500/30 text-rebel-400 font-mono text-[10px] tracking-widest mb-3">
+            <Zap className="w-3.5 h-3.5 text-rebel-400 animate-pulse" />
+            A.T.O.M<span className="text-rebel-300 font-bold lowercase">-i</span> EXECUTION VELOCITY & MONETIZATION
           </div>
           <h2 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
             Select Your Tactical Protocol
@@ -300,9 +300,9 @@ export default function PaywallModal({
 
         {/* Checkout / Status Notification Banner */}
         {checkoutMessage && (
-          <div className="mb-5 p-3 rounded-xl bg-cyan-950/80 border border-cyan-400 text-cyan-200 font-mono text-xs flex flex-wrap items-center justify-between gap-2 animate-fade-in shadow-lg shadow-cyan-950/50">
+          <div className="mb-5 p-3 rounded-xl bg-rebel-950/80 border border-rebel-400 text-rebel-200 font-mono text-xs flex flex-wrap items-center justify-between gap-2 animate-fade-in shadow-lg shadow-rebel-950/50">
             <div className="flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-cyan-400 shrink-0 animate-spin" />
+              <Sparkles className="w-4 h-4 text-rebel-400 shrink-0 animate-spin" />
               <span className="font-bold">{checkoutMessage}</span>
             </div>
             {lastStripeUrl && (
@@ -310,7 +310,7 @@ export default function PaywallModal({
                 href={lastStripeUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-3 py-1.5 rounded-lg bg-cyan-400 hover:bg-cyan-300 text-black font-bold uppercase text-[11px] tracking-wider transition-colors inline-flex items-center gap-1.5 shadow-md shadow-cyan-950/40"
+                className="px-3 py-1.5 rounded-lg bg-rebel-400 hover:bg-rebel-300 text-black font-bold uppercase text-[11px] tracking-wider transition-colors inline-flex items-center gap-1.5 shadow-md shadow-rebel-950/40"
               >
                 <span>Click Here to Open Stripe ↗</span>
               </a>
@@ -319,8 +319,8 @@ export default function PaywallModal({
         )}
 
         {/* OPTION B: FOUNDER LIFETIME PASS (FIRST 199 OPERATORS) */}
-        <div className="mb-6 relative overflow-hidden rounded-2xl border-2 border-amber-500/60 bg-gradient-to-r from-amber-950/50 via-purple-950/30 to-cyan-950/40 p-5 shadow-xl shadow-amber-950/40">
-          <div className="absolute top-0 right-0 px-3 py-1 bg-amber-400 text-black font-mono text-[10px] font-black uppercase tracking-wider rounded-bl-xl flex items-center gap-1.5 shadow-md">
+        <div className="mb-6 relative overflow-hidden rounded-2xl border-2 border-rust-500/60 bg-gradient-to-r from-rust-950/50 via-purple-950/30 to-rebel-950/40 p-5 shadow-xl shadow-rust-950/40">
+          <div className="absolute top-0 right-0 px-3 py-1 bg-rust-400 text-black font-mono text-[10px] font-black uppercase tracking-wider rounded-bl-xl flex items-center gap-1.5 shadow-md">
             <Flame className="w-3.5 h-3.5 fill-black animate-pulse" />
             FOUNDER EDITION • {String(founderStats.claimed).padStart(3, "0")} / 199 CLAIMED
           </div>
@@ -328,12 +328,12 @@ export default function PaywallModal({
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mt-2">
             <div className="space-y-1.5 max-w-xl">
               <div className="flex items-center gap-2">
-                <span className="text-amber-400 font-mono text-xs font-bold uppercase tracking-widest flex items-center gap-1.5">
-                  <Sparkles className="w-4 h-4 text-amber-300" />
+                <span className="text-rust-400 font-mono text-xs font-bold uppercase tracking-widest flex items-center gap-1.5">
+                  <Sparkles className="w-4 h-4 text-rust-300" />
                   Lifetime Pro Pass (Option B)
                 </span>
                 {isFounder && (
-                  <span className="px-2 py-0.5 rounded bg-amber-400/20 border border-amber-400/50 text-amber-300 font-mono text-[9px] font-bold">
+                  <span className="px-2 py-0.5 rounded bg-rust-400/20 border border-rust-400/50 text-rust-300 font-mono text-[9px] font-bold">
                     OWNED & ACTIVE •{" "}
                     {userProfile.founderNumber !== undefined && userProfile.founderNumber !== null
                       ? `OPERATOR #${String(userProfile.founderNumber).padStart(3, "0")}`
@@ -361,7 +361,7 @@ export default function PaywallModal({
                     🏷️ {userProfile.founderDiscountPercent}% SPECIAL DISCOUNT APPLIED
                   </span>
                 ) : (
-                  <span className="text-xs font-mono text-amber-300 font-normal px-2 py-0.5 bg-amber-400/10 border border-amber-400/30 rounded">
+                  <span className="text-xs font-mono text-rust-300 font-normal px-2 py-0.5 bg-rust-400/10 border border-rust-400/30 rounded">
                     No Recurring Subscriptions
                   </span>
                 )}
@@ -371,28 +371,28 @@ export default function PaywallModal({
               </p>
 
               {/* Bonus Freebies & NFT collectible note */}
-              <div className="flex flex-wrap items-center gap-2 text-[11px] font-mono text-amber-300/90 pt-1">
+              <div className="flex flex-wrap items-center gap-2 text-[11px] font-mono text-rust-300/90 pt-1">
                 <span className="flex items-center gap-1">
-                  <Award className="w-3.5 h-3.5 text-amber-400" />
+                  <Award className="w-3.5 h-3.5 text-rust-400" />
                   Holographic Genesis NFT Badge
                 </span>
                 <span>•</span>
                 <span className="flex items-center gap-1">
-                  <Package className="w-3.5 h-3.5 text-amber-400" />
+                  <Package className="w-3.5 h-3.5 text-rust-400" />
                   Physical Die-Cut Metallic Sticker Pack Included
                 </span>
               </div>
 
               {/* Urgency Counter & Progress Bar */}
               <div className="pt-2 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
-                <div className="w-48 h-2 rounded-full bg-black/60 border border-amber-500/30 overflow-hidden">
+                <div className="w-48 h-2 rounded-full bg-black/60 border border-rust-500/30 overflow-hidden">
                   <div
-                    className="h-full bg-gradient-to-r from-amber-400 to-amber-500 transition-all duration-500"
+                    className="h-full bg-gradient-to-r from-rust-400 to-rust-500 transition-all duration-500"
                     style={{ width: `${(founderStats.claimed / 199) * 100}%` }}
                   />
                 </div>
                 <div className="flex items-center gap-2 font-mono text-[10px]">
-                  <span className="text-amber-300 font-bold">
+                  <span className="text-rust-300 font-bold">
                     🔥 {founderStats.remaining} SLOTS REMAINING (
                     {Math.round((founderStats.claimed / 199) * 100)}% CLAIMED)
                   </span>
@@ -410,12 +410,12 @@ export default function PaywallModal({
                       cyberAudio.playCyberClick(1.1);
                       if (onOpenFounderPerks) onOpenFounderPerks();
                     }}
-                    className="w-full md:w-auto px-5 py-3 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-black font-mono text-xs font-black uppercase tracking-wider transition-all shadow-lg shadow-amber-500/20 flex items-center justify-center gap-2"
+                    className="w-full md:w-auto px-5 py-3 rounded-xl bg-gradient-to-r from-rust-400 to-rust-500 hover:from-rust-300 hover:to-rust-400 text-black font-mono text-xs font-black uppercase tracking-wider transition-all shadow-lg shadow-rust-500/20 flex items-center justify-center gap-2"
                   >
                     <Award className="w-4 h-4" />
                     View Founder NFT &amp; Sticker Kit
                   </button>
-                  <span className="text-[10px] font-mono text-amber-300/80 text-center">
+                  <span className="text-[10px] font-mono text-rust-300/80 text-center">
                     Founder Privileges Active
                   </span>
                 </div>
@@ -426,16 +426,16 @@ export default function PaywallModal({
                       cyberAudio.playCyberClick(1.0);
                       if (onOpenFounderPerks) onOpenFounderPerks();
                     }}
-                    className="w-full sm:w-auto px-3.5 py-3 rounded-xl bg-white/10 hover:bg-white/15 border border-amber-400/40 text-amber-300 font-mono text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 shadow-sm"
+                    className="w-full sm:w-auto px-3.5 py-3 rounded-xl bg-white/10 hover:bg-white/15 border border-rust-400/40 text-rust-300 font-mono text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 shadow-sm"
                     title="Preview the Interactive 3D Holographic Founder Card"
                   >
-                    <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                    <Sparkles className="w-3.5 h-3.5 text-rust-400" />
                     Preview 3D NFT Badge
                   </button>
                   <button
                     onClick={handleClaimFounder}
                     disabled={processingTier === "founder_lifetime" || founderStats.soldOut}
-                    className="w-full sm:w-auto px-5 py-3 rounded-xl font-mono text-xs font-black uppercase tracking-wider transition-all shadow-lg bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-black shadow-amber-500/25 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full sm:w-auto px-5 py-3 rounded-xl font-mono text-xs font-black uppercase tracking-wider transition-all shadow-lg bg-gradient-to-r from-rust-400 to-rust-500 hover:from-rust-300 hover:to-rust-400 text-black shadow-rust-500/25 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <Flame className="w-4 h-4 fill-black" />
                     {founderStats.soldOut
@@ -453,15 +453,15 @@ export default function PaywallModal({
         </div>
 
         {/* VIP / PROMO CODE REDEMPTION SECTION */}
-        <div className="mb-6 p-4 rounded-xl bg-cyan-950/30 border border-cyan-500/30 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="mb-6 p-4 rounded-xl bg-rebel-950/30 border border-rebel-500/30 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-cyan-500/20 border border-cyan-400/40 flex items-center justify-center text-cyan-300 shrink-0">
+            <div className="w-8 h-8 rounded-lg bg-rebel-500/20 border border-rebel-400/40 flex items-center justify-center text-rebel-300 shrink-0">
               <KeyRound className="w-4 h-4" />
             </div>
             <div>
               <h4 className="text-xs font-bold text-white flex items-center gap-2">
                 <span>VIP Access or Founder Promo Code?</span>
-                <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-500/30">
+                <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-rebel-950 text-rebel-300 border border-rebel-500/30">
                   FAMILY &amp; FRIENDS
                 </span>
               </h4>
@@ -480,12 +480,12 @@ export default function PaywallModal({
                 setPromoMessage(null);
               }}
               placeholder="ENTER PROMO CODE"
-              className="bg-black/60 border border-cyan-500/40 focus:border-cyan-400 rounded-lg px-3 py-2 text-xs font-mono text-white placeholder-gray-600 outline-none uppercase tracking-wider w-full md:w-44"
+              className="bg-black/60 border border-rebel-500/40 focus:border-rebel-400 rounded-lg px-3 py-2 text-xs font-mono text-white placeholder-gray-600 outline-none uppercase tracking-wider w-full md:w-44"
             />
             <button
               type="submit"
               disabled={isRedeemingPromo || !promoCodeInput.trim()}
-              className="px-4 py-2 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-black font-mono text-xs font-bold uppercase tracking-wider transition-colors disabled:opacity-40 shrink-0"
+              className="px-4 py-2 rounded-lg bg-rebel-500 hover:bg-rebel-400 text-black font-mono text-xs font-bold uppercase tracking-wider transition-colors disabled:opacity-40 shrink-0"
             >
               {isRedeemingPromo ? "Checking..." : "Redeem"}
             </button>
@@ -514,7 +514,7 @@ export default function PaywallModal({
           <div>
             <h3 className="text-base font-bold text-white flex items-center gap-2">
               <span>Subscription Protocols</span>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-950 border border-cyan-500/40 text-cyan-300">
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-rebel-950 border border-rebel-500/40 text-rebel-300">
                 OPTION A
               </span>
             </h3>
@@ -524,7 +524,7 @@ export default function PaywallModal({
           </div>
 
           {/* Monthly / Yearly Switch */}
-          <div className="inline-flex items-center p-1 rounded-xl bg-black/80 border border-cyan-500/40 shrink-0">
+          <div className="inline-flex items-center p-1 rounded-xl bg-black/80 border border-rebel-500/40 shrink-0">
             <button
               onClick={() => {
                 cyberAudio.playCyberClick(1.0);
@@ -532,7 +532,7 @@ export default function PaywallModal({
               }}
               className={`px-3.5 py-1.5 rounded-lg font-mono text-xs font-bold transition-all ${
                 billingInterval === "monthly"
-                  ? "bg-cyan-500 text-black shadow-md shadow-cyan-950/50"
+                  ? "bg-rebel-500 text-black shadow-md shadow-rebel-950/50"
                   : "text-gray-400 hover:text-white"
               }`}
             >
@@ -545,7 +545,7 @@ export default function PaywallModal({
               }}
               className={`px-3.5 py-1.5 rounded-lg font-mono text-xs font-bold transition-all flex items-center gap-1.5 ${
                 billingInterval === "yearly"
-                  ? "bg-gradient-to-r from-cyan-400 to-emerald-400 text-black shadow-md shadow-emerald-950/50 font-black"
+                  ? "bg-gradient-to-r from-rebel-400 to-emerald-400 text-black shadow-md shadow-emerald-950/50 font-black"
                   : "text-gray-400 hover:text-white"
               }`}
             >
@@ -573,12 +573,12 @@ export default function PaywallModal({
                   config.border
                 } ${config.bg} ${
                   isCurrent
-                    ? "ring-2 ring-cyan-400 shadow-lg shadow-cyan-900/30"
+                    ? "ring-2 ring-rebel-400 shadow-lg shadow-rebel-900/30"
                     : "hover:border-white/20"
                 }`}
               >
                 {config.popular && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-cyan-500 to-fuchsia-500 text-[9px] font-mono font-bold text-black uppercase tracking-wider shadow-md">
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-rebel-500 to-rebel-500 text-[9px] font-mono font-bold text-black uppercase tracking-wider shadow-md">
                     MOST POPULAR
                   </div>
                 )}
@@ -666,13 +666,13 @@ export default function PaywallModal({
 
                     <div className="flex items-center gap-2">
                       {config.hasLiveVoice ? (
-                        <Check className="w-4 h-4 text-fuchsia-400 shrink-0" />
+                        <Check className="w-4 h-4 text-rebel-400 shrink-0" />
                       ) : (
                         <Lock className="w-4 h-4 text-gray-600 shrink-0" />
                       )}
                       <span
                         className={
-                          config.hasLiveVoice ? "text-fuchsia-300 font-bold" : "text-gray-500"
+                          config.hasLiveVoice ? "text-rebel-300 font-bold" : "text-gray-500"
                         }
                       >
                         {config.voiceMinutesIncluded > 0
@@ -682,8 +682,8 @@ export default function PaywallModal({
                     </div>
 
                     {config.featuredEligible && (
-                      <div className="flex items-center gap-2 text-amber-300 font-semibold">
-                        <Award className="w-4 h-4 text-amber-400 shrink-0" />
+                      <div className="flex items-center gap-2 text-rust-300 font-semibold">
+                        <Award className="w-4 h-4 text-rust-400 shrink-0" />
                         <span>Featured Story Eligible</span>
                       </div>
                     )}
@@ -699,7 +699,7 @@ export default function PaywallModal({
                         ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 cursor-default"
                         : isFounder
                         ? "bg-white/5 text-gray-500 cursor-not-allowed border border-white/5"
-                        : "bg-cyan-500 hover:bg-cyan-400 text-black shadow-md shadow-cyan-950/50"
+                        : "bg-rebel-500 hover:bg-rebel-400 text-black shadow-md shadow-rebel-950/50"
                     }`}
                   >
                     {isCurrent
@@ -719,12 +719,12 @@ export default function PaywallModal({
         </div>
 
         {/* OPTION C: VOICE MINUTE CREDIT PACKS UPSELL */}
-        <div className="mb-6 p-5 rounded-xl bg-black/60 border border-fuchsia-900/40 relative overflow-hidden">
+        <div className="mb-6 p-5 rounded-xl bg-black/60 border border-rebel-900/40 relative overflow-hidden">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-4">
             <div>
               <div className="flex items-center gap-2">
-                <Mic className="w-4 h-4 text-fuchsia-400" />
-                <h4 className="font-mono text-xs font-bold text-fuchsia-300 uppercase tracking-wider">
+                <Mic className="w-4 h-4 text-rebel-400" />
+                <h4 className="font-mono text-xs font-bold text-rebel-300 uppercase tracking-wider">
                   Tactical Voice Minute Top-Ups (Option C)
                 </h4>
               </div>
@@ -733,9 +733,9 @@ export default function PaywallModal({
               </p>
             </div>
 
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-fuchsia-950/60 border border-fuchsia-500/30">
-              <Radio className="w-3.5 h-3.5 text-fuchsia-400 animate-pulse" />
-              <span className="text-[11px] font-mono text-fuchsia-200">
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-rebel-950/60 border border-rebel-500/30">
+              <Radio className="w-3.5 h-3.5 text-rebel-400 animate-pulse" />
+              <span className="text-[11px] font-mono text-rebel-200">
                 BALANCE: <strong className="text-white">{userProfile.voiceMinutesRemaining || 0} Mins</strong>
               </span>
             </div>
@@ -745,20 +745,20 @@ export default function PaywallModal({
             {VOICE_PACKS.map((pack) => (
               <div
                 key={pack.id}
-                className="p-3.5 rounded-lg bg-black/40 border border-fuchsia-500/20 hover:border-fuchsia-400/60 flex items-center justify-between transition-all"
+                className="p-3.5 rounded-lg bg-black/40 border border-rebel-500/20 hover:border-rebel-400/60 flex items-center justify-between transition-all"
               >
                 <div>
                   <div className="text-xs font-mono font-bold text-white">
                     {pack.label}
                   </div>
-                  <div className="text-[11px] text-fuchsia-400 font-mono mt-0.5">
+                  <div className="text-[11px] text-rebel-400 font-mono mt-0.5">
                     {pack.price} one-time
                   </div>
                 </div>
                 <button
                   onClick={() => handleBuyVoicePack(pack)}
                   disabled={purchasingVoicePack === pack.id}
-                  className="px-3 py-1.5 rounded bg-fuchsia-500 hover:bg-fuchsia-400 text-black font-mono text-[10px] font-bold uppercase transition-colors"
+                  className="px-3 py-1.5 rounded bg-rebel-500 hover:bg-rebel-400 text-black font-mono text-[10px] font-bold uppercase transition-colors"
                 >
                   {purchasingVoicePack === pack.id ? "Adding..." : "Add"}
                 </button>
@@ -768,16 +768,16 @@ export default function PaywallModal({
         </div>
 
         {/* ENTERPRISE ENCRYPTION & SLA GUARANTEE */}
-        <div className="p-4 rounded-xl bg-black/60 border border-cyan-900/40 space-y-3">
+        <div className="p-4 rounded-xl bg-black/60 border border-rebel-900/40 space-y-3">
           <div className="flex flex-wrap items-center justify-between gap-3 text-xs font-mono">
             <div className="flex items-center gap-2 text-gray-300">
-              <Shield className="w-4 h-4 text-cyan-400" />
+              <Shield className="w-4 h-4 text-rebel-400" />
               <span className="font-bold text-white">ENTERPRISE SLA & GUARANTEE:</span>
               <span className="text-gray-400">256-Bit TLS • Real-Time Firestore Sync • Cancel Anytime</span>
             </div>
             <button
               onClick={() => setShowDevOverrides((prev) => !prev)}
-              className="text-[10px] text-gray-500 hover:text-cyan-400 font-mono underline transition-colors"
+              className="text-[10px] text-gray-500 hover:text-rebel-400 font-mono underline transition-colors"
             >
               {showDevOverrides ? "Hide Developer Controls" : "Developer Testing Override"}
             </button>
@@ -787,7 +787,7 @@ export default function PaywallModal({
           {showDevOverrides && (
             <div className="pt-3 border-t border-white/5 flex flex-wrap items-center justify-between gap-3 text-xs font-mono animate-fade-in">
               <div className="flex items-center gap-2 text-gray-400">
-                <span className="text-[10px] uppercase font-bold text-amber-400">TEST PERSONAS:</span>
+                <span className="text-[10px] uppercase font-bold text-rust-400">TEST PERSONAS:</span>
               </div>
               <div className="flex flex-wrap items-center gap-2">
                 {[
@@ -801,7 +801,7 @@ export default function PaywallModal({
                     onClick={() => onSelectPersona(persona.id)}
                     className={`px-2.5 py-1 rounded border transition-colors text-[10px] ${
                       activePersonaId === persona.id
-                        ? "bg-cyan-500/20 border-cyan-400 text-cyan-300 font-bold"
+                        ? "bg-rebel-500/20 border-rebel-400 text-rebel-300 font-bold"
                         : "bg-white/5 border-white/10 text-gray-400 hover:text-gray-200"
                     }`}
                   >
@@ -826,28 +826,28 @@ export default function PaywallModal({
           <span>By activating, you agree to the</span>
           <button
             onClick={() => onOpenTerms && onOpenTerms("terms")}
-            className="text-cyan-400 hover:text-cyan-300 underline font-bold transition-colors"
+            className="text-rebel-400 hover:text-rebel-300 underline font-bold transition-colors"
           >
             Terms of Service
           </button>
           <span>•</span>
           <button
             onClick={() => onOpenTerms && onOpenTerms("refunds")}
-            className="text-cyan-400 hover:text-cyan-300 underline font-bold transition-colors"
+            className="text-rebel-400 hover:text-rebel-300 underline font-bold transition-colors"
           >
             14-Day Return &amp; Refund Policy
           </button>
           <span>•</span>
           <button
             onClick={() => onOpenTerms && onOpenTerms("privacy")}
-            className="text-cyan-400 hover:text-cyan-300 underline font-bold transition-colors"
+            className="text-rebel-400 hover:text-rebel-300 underline font-bold transition-colors"
           >
             Privacy Policy
           </button>
           <span>•</span>
           <button
             onClick={() => onOpenTerms && onOpenTerms("support")}
-            className="text-cyan-300 hover:text-white underline font-bold transition-colors"
+            className="text-rebel-300 hover:text-white underline font-bold transition-colors"
           >
             Support Desk
           </button>
@@ -855,7 +855,7 @@ export default function PaywallModal({
 
         {/* Footer info */}
         <div className="mt-3 text-center font-mono text-[10px] text-gray-500">
-          Connected to Firestore Project: <span className="text-cyan-400">atom-i</span> • Collections: <span className="text-gray-400">users, atomizations, success_stories</span>
+          Connected to Firestore Project: <span className="text-rebel-400">atom-i</span> • Collections: <span className="text-gray-400">users, atomizations, success_stories</span>
         </div>
       </div>
     </div>

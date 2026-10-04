@@ -40,11 +40,11 @@ interface PlannerProps {
 }
 
 const CATEGORY_COLORS: Record<string, string> = {
-  general: "border-cyan-500/30 text-cyan-400 bg-cyan-950/10 hover:bg-cyan-950/20",
+  general: "border-rebel-500/30 text-rebel-400 bg-rebel-950/10 hover:bg-rebel-950/20",
   work: "border-purple-500/30 text-purple-400 bg-purple-950/10 hover:bg-purple-950/20",
   personal: "border-pink-500/30 text-pink-400 bg-pink-950/10 hover:bg-pink-950/20",
   health: "border-emerald-500/30 text-emerald-400 bg-emerald-950/10 hover:bg-emerald-950/20",
-  learning: "border-amber-500/30 text-amber-400 bg-amber-950/10 hover:bg-amber-950/20",
+  learning: "border-rust-500/30 text-rust-400 bg-rust-950/10 hover:bg-rust-950/20",
   creative: "border-violet-500/30 text-violet-400 bg-violet-950/10 hover:bg-violet-950/20",
 };
 
@@ -402,12 +402,12 @@ export default function Planner({
               <div
                 key={i}
                 className={`p-2 border-r border-white/5 text-center ${
-                  isToday ? "bg-cyan-500/10 border-b-2 border-b-cyan-400" : ""
+                  isToday ? "bg-rebel-500/10 border-b-2 border-b-rebel-400" : ""
                 }`}
               >
                 <div
                   className={`text-[10px] uppercase font-mono tracking-wider ${
-                    isToday ? "text-cyan-400 font-bold" : "text-gray-400"
+                    isToday ? "text-rebel-400 font-bold" : "text-gray-400"
                   }`}
                 >
                   {days[i]}
@@ -449,7 +449,7 @@ export default function Planner({
                       onDragOver={handleDragOver}
                       onDrop={(e) => handleDrop(e, dateStr, hour)}
                       onClick={() => handleOpenCreate(dateStr, hour)}
-                      className="min-h-[46px] border-r border-white/[0.03] p-1 relative hover:bg-cyan-500/[0.02] transition-all cursor-crosshair group flex flex-col gap-1"
+                      className="min-h-[46px] border-r border-white/[0.03] p-1 relative hover:bg-rebel-500/[0.02] transition-all cursor-crosshair group flex flex-col gap-1"
                     >
                       {/* External Google Calendar Overlay Events */}
                       {slotGcalEvents.map((ev) => (
@@ -461,10 +461,10 @@ export default function Planner({
                               window.open(ev.htmlLink, "_blank", "noopener,noreferrer");
                             }
                           }}
-                          className="p-1 rounded bg-amber-500/10 border border-amber-500/30 text-amber-300 text-[9px] font-mono leading-tight flex items-center gap-1 cursor-pointer hover:bg-amber-500/20 truncate"
+                          className="p-1 rounded bg-rust-500/10 border border-rust-500/30 text-rust-300 text-[9px] font-mono leading-tight flex items-center gap-1 cursor-pointer hover:bg-rust-500/20 truncate"
                           title={`Google Calendar: ${ev.summary || "Busy"}`}
                         >
-                          <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0" />
+                          <span className="w-1.5 h-1.5 rounded-full bg-rust-400 shrink-0" />
                           <span className="font-semibold shrink-0">[G-CAL]</span>
                           <span className="truncate">{ev.summary || "Busy"}</span>
                         </div>
@@ -493,7 +493,7 @@ export default function Planner({
                               </div>
                               {task.googleCalendarEventId && (
                                 <span
-                                  className="w-2 h-2 rounded-full bg-cyan-400 shrink-0 shadow-sm shadow-cyan-400"
+                                  className="w-2 h-2 rounded-full bg-rebel-400 shrink-0 shadow-sm shadow-rebel-400"
                                   title="Synced with Google Calendar"
                                 />
                               )}
@@ -561,18 +561,18 @@ export default function Planner({
               <div
                 key={dateStr}
                 onClick={() => handleOpenCreate(dateStr, 9)}
-                className={`p-2 min-h-[75px] border rounded-lg hover:border-cyan-400/30 hover:bg-cyan-500/[0.01] cursor-pointer transition-all ${
+                className={`p-2 min-h-[75px] border rounded-lg hover:border-rebel-400/30 hover:bg-rebel-500/[0.01] cursor-pointer transition-all ${
                   isToday
-                    ? "border-cyan-500/30 bg-cyan-950/10 shadow-md shadow-cyan-500/5"
+                    ? "border-rebel-500/30 bg-rebel-950/10 shadow-md shadow-rebel-500/5"
                     : "border-white/5 bg-white/[0.01]"
                 }`}
               >
                 <div className="flex items-center justify-between">
-                  <span className={`text-[10px] font-mono ${isToday ? "text-cyan-400 font-bold" : "text-gray-400"}`}>
+                  <span className={`text-[10px] font-mono ${isToday ? "text-rebel-400 font-bold" : "text-gray-400"}`}>
                     {date.getDate()}
                   </span>
                   {dayTasks.length > 0 && (
-                    <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-rebel-400 animate-pulse" />
                   )}
                 </div>
 
@@ -584,11 +584,11 @@ export default function Planner({
                         e.stopPropagation();
                         handleOpenEdit(task);
                       }}
-                      className="px-1 py-0.5 rounded border border-cyan-500/25 bg-cyan-500/5 text-[9px] text-cyan-300 font-sans truncate hover:bg-cyan-500/15 flex items-center justify-between gap-1"
+                      className="px-1 py-0.5 rounded border border-rebel-500/25 bg-rebel-500/5 text-[9px] text-rebel-300 font-sans truncate hover:bg-rebel-500/15 flex items-center justify-between gap-1"
                     >
                       <span className="truncate">{task.title}</span>
                       {task.googleCalendarEventId && (
-                        <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 shrink-0" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-rebel-400 shrink-0" />
                       )}
                     </div>
                   ))}
@@ -619,11 +619,11 @@ export default function Planner({
   const unsyncedCount = eligibleTasks.filter((t) => !t.googleCalendarEventId).length;
 
   return (
-    <div className="flex flex-col border border-cyan-900/40 bg-black/50 rounded-xl backdrop-blur-sm overflow-hidden p-4 shadow-lg shadow-black/60 tactical-corner-frame hover-focus-border">
+    <div className="flex flex-col border border-rebel-900/40 bg-black/50 rounded-xl backdrop-blur-sm overflow-hidden p-4 shadow-lg shadow-black/60 tactical-corner-frame hover-focus-border">
       {/* Planner Header Control Bar */}
-      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-3 pb-3 border-b border-cyan-900/30 mb-3 hover-focus-trace">
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-3 pb-3 border-b border-rebel-900/30 mb-3 hover-focus-trace">
         <div className="flex items-center gap-2">
-          <Calendar className="w-5 h-5 text-cyan-400" />
+          <Calendar className="w-5 h-5 text-rebel-400" />
           <h2 className="font-sans font-bold text-xs tracking-widest text-white uppercase">
             Tactical Chrono Matrix
           </h2>
@@ -634,7 +634,7 @@ export default function Planner({
           {!hasCalendarAccess ? (
             <button
               onClick={handleConnectCalendar}
-              className="px-3 py-1.5 rounded-lg bg-gradient-to-r from-blue-600/20 to-cyan-500/20 hover:from-blue-600/30 hover:to-cyan-500/30 border border-blue-500/40 text-blue-300 font-mono text-xs flex items-center gap-2 transition-all shadow-sm"
+              className="px-3 py-1.5 rounded-lg bg-gradient-to-r from-blue-600/20 to-rebel-500/20 hover:from-blue-600/30 hover:to-rebel-500/30 border border-blue-500/40 text-blue-300 font-mono text-xs flex items-center gap-2 transition-all shadow-sm"
               title="Connect your Google Calendar to sync tasks and prevent scheduling conflicts"
             >
               {/* Official Google 'G' icon */}
@@ -677,14 +677,14 @@ export default function Planner({
                 }}
                 className={`px-2.5 py-1.5 rounded-lg border font-mono text-[10px] flex items-center gap-1.5 transition-all ${
                   showGcalOverlay
-                    ? "bg-amber-500/20 border-amber-500/40 text-amber-300"
+                    ? "bg-rust-500/20 border-rust-500/40 text-rust-300"
                     : "bg-black/50 border-white/10 text-gray-400 hover:text-white"
                 }`}
                 title="Overlay your real Google Calendar events directly into this week's grid"
               >
-                <Radio className={`w-3 h-3 ${showGcalOverlay ? "text-amber-400 animate-pulse" : ""}`} />
+                <Radio className={`w-3 h-3 ${showGcalOverlay ? "text-rust-400 animate-pulse" : ""}`} />
                 <span>{showGcalOverlay ? "Hide G-Cal Overlay" : "Show G-Cal Overlay"}</span>
-                {isLoadingGcal && <RefreshCw className="w-2.5 h-2.5 animate-spin text-amber-400 ml-1" />}
+                {isLoadingGcal && <RefreshCw className="w-2.5 h-2.5 animate-spin text-rust-400 ml-1" />}
               </button>
 
               {/* Sync Button */}
@@ -694,13 +694,13 @@ export default function Planner({
                   setBatchSyncModalOpen(true);
                 }}
                 disabled={isSyncingGcal || eligibleTasks.length === 0}
-                className="px-3 py-1.5 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/50 text-cyan-300 font-mono text-xs flex items-center gap-1.5 transition-all disabled:opacity-50"
+                className="px-3 py-1.5 rounded-lg bg-rebel-500/20 hover:bg-rebel-500/30 border border-rebel-400/50 text-rebel-300 font-mono text-xs flex items-center gap-1.5 transition-all disabled:opacity-50"
                 title="Sync all planned tasks to your Google Calendar"
               >
-                <CalendarCheck className="w-3.5 h-3.5 text-cyan-400" />
+                <CalendarCheck className="w-3.5 h-3.5 text-rebel-400" />
                 <span>SYNC TO G-CAL</span>
                 {unsyncedCount > 0 && (
-                  <span className="px-1.5 py-0.2 rounded-full bg-cyan-400 text-black font-bold text-[9px]">
+                  <span className="px-1.5 py-0.2 rounded-full bg-rebel-400 text-black font-bold text-[9px]">
                     {unsyncedCount}
                   </span>
                 )}
@@ -710,7 +710,7 @@ export default function Planner({
 
           {/* Navigation & View controls */}
           <div className="flex items-center gap-2">
-            <div className="flex items-center gap-1 bg-black/50 border border-cyan-900/30 rounded-lg p-0.5 font-mono text-xs">
+            <div className="flex items-center gap-1 bg-black/50 border border-rebel-900/30 rounded-lg p-0.5 font-mono text-xs">
               <button
                 onClick={handlePrev}
                 className="p-1 hover:bg-white/5 rounded text-gray-400 hover:text-white transition-colors"
@@ -730,7 +730,7 @@ export default function Planner({
 
             <button
               onClick={handleToday}
-              className="px-2.5 py-1.5 rounded-lg border border-cyan-400/20 bg-black/60 hover:bg-cyan-500/10 text-cyan-400 font-mono text-[10px] transition-all"
+              className="px-2.5 py-1.5 rounded-lg border border-rebel-400/20 bg-black/60 hover:bg-rebel-500/10 text-rebel-400 font-mono text-[10px] transition-all"
             >
               TODAY
             </button>
@@ -742,7 +742,7 @@ export default function Planner({
                   setOffset(0);
                 }}
                 className={`px-2 py-1 rounded text-[10px] font-mono transition-all uppercase ${
-                  view === "week" ? "bg-cyan-400/10 text-cyan-400 font-bold" : "text-gray-500"
+                  view === "week" ? "bg-rebel-400/10 text-rebel-400 font-bold" : "text-gray-500"
                 }`}
               >
                 Week
@@ -753,7 +753,7 @@ export default function Planner({
                   setOffset(0);
                 }}
                 className={`px-2 py-1 rounded text-[10px] font-mono transition-all uppercase ${
-                  view === "month" ? "bg-cyan-400/10 text-cyan-400 font-bold" : "text-gray-500"
+                  view === "month" ? "bg-rebel-400/10 text-rebel-400 font-bold" : "text-gray-500"
                 }`}
               >
                 Month
@@ -765,9 +765,9 @@ export default function Planner({
 
       {/* Sync Status Banner */}
       {gcalFeedback && (
-        <div className="mb-3 px-3 py-2 rounded-lg bg-cyan-950/60 border border-cyan-500/40 text-cyan-300 text-xs font-mono flex items-center justify-between animate-fade-in">
+        <div className="mb-3 px-3 py-2 rounded-lg bg-rebel-950/60 border border-rebel-500/40 text-rebel-300 text-xs font-mono flex items-center justify-between animate-fade-in">
           <div className="flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-cyan-400 shrink-0" />
+            <CheckCircle2 className="w-4 h-4 text-rebel-400 shrink-0" />
             <span>{gcalFeedback}</span>
           </div>
           <button onClick={() => setGcalFeedback(null)} className="text-gray-400 hover:text-white">
@@ -784,11 +784,11 @@ export default function Planner({
           onChange={(e) => setQuickTitle(e.target.value)}
           placeholder="Enter quick task title to schedule for today..."
           onKeyDown={(e) => e.key === "Enter" && handleQuickAdd()}
-          className="flex-1 bg-black/20 border border-white/5 focus:border-cyan-400/30 rounded-lg px-3 py-1.5 text-xs text-white placeholder-gray-600 outline-none"
+          className="flex-1 bg-black/20 border border-white/5 focus:border-rebel-400/30 rounded-lg px-3 py-1.5 text-xs text-white placeholder-gray-600 outline-none"
         />
         <button
           onClick={handleQuickAdd}
-          className="px-3 py-1.5 rounded-lg bg-cyan-400/10 hover:bg-cyan-400/20 border border-cyan-400/20 text-cyan-400 font-mono text-xs flex items-center gap-1 transition-all"
+          className="px-3 py-1.5 rounded-lg bg-rebel-400/10 hover:bg-rebel-400/20 border border-rebel-400/20 text-rebel-400 font-mono text-xs flex items-center gap-1 transition-all"
         >
           <Plus className="w-3.5 h-3.5" /> ADD
         </button>
@@ -800,7 +800,7 @@ export default function Planner({
       {/* TASK ADD/EDIT MODAL */}
       {isModalOpen && editingTask && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-fade-in">
-          <div className="relative w-full max-w-md border border-cyan-500/20 bg-[#06060f] p-5 rounded-2xl shadow-xl shadow-black/50 space-y-4 font-sans">
+          <div className="relative w-full max-w-md border border-rebel-500/20 bg-[#0B0B0F] p-5 rounded-2xl shadow-xl shadow-black/50 space-y-4 font-sans">
             <button
               onClick={() => setIsModalOpen(false)}
               className="absolute top-4 right-4 text-gray-500 hover:text-white transition-colors"
@@ -809,14 +809,14 @@ export default function Planner({
             </button>
 
             <div className="flex items-center justify-between pr-8">
-              <h3 className="font-sans font-bold text-xs tracking-widest text-cyan-400 uppercase flex items-center gap-1.5">
+              <h3 className="font-sans font-bold text-xs tracking-widest text-rebel-400 uppercase flex items-center gap-1.5">
                 <Calendar className="w-4 h-4" />{" "}
                 {"id" in editingTask ? "Configure Scheduled Task" : "Schedule Atomic Task"}
               </h3>
 
               {editingTask.googleCalendarEventId && (
-                <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-cyan-950/60 border border-cyan-500/30 text-cyan-300 font-mono text-[9px]">
-                  <CheckCircle2 className="w-3 h-3 text-cyan-400" />
+                <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-rebel-950/60 border border-rebel-500/30 text-rebel-300 font-mono text-[9px]">
+                  <CheckCircle2 className="w-3 h-3 text-rebel-400" />
                   <span>SYNCED TO G-CAL</span>
                 </div>
               )}
@@ -832,7 +832,7 @@ export default function Planner({
                   value={editingTask.title || ""}
                   onChange={(e) => setEditingTask({ ...editingTask, title: e.target.value })}
                   placeholder="e.g., Code the API layer"
-                  className="w-full bg-black/40 border border-white/5 focus:border-cyan-400/40 rounded-lg px-3 py-2 text-xs text-white placeholder-gray-600 outline-none"
+                  className="w-full bg-black/40 border border-white/5 focus:border-rebel-400/40 rounded-lg px-3 py-2 text-xs text-white placeholder-gray-600 outline-none"
                 />
               </div>
 
@@ -845,7 +845,7 @@ export default function Planner({
                   onChange={(e) => setEditingTask({ ...editingTask, description: e.target.value })}
                   placeholder="Task specifications, instructions..."
                   rows={2}
-                  className="w-full bg-black/40 border border-white/5 focus:border-cyan-400/40 rounded-lg px-3 py-2 text-xs text-white placeholder-gray-600 outline-none resize-none"
+                  className="w-full bg-black/40 border border-white/5 focus:border-rebel-400/40 rounded-lg px-3 py-2 text-xs text-white placeholder-gray-600 outline-none resize-none"
                 />
               </div>
 
@@ -858,7 +858,7 @@ export default function Planner({
                     type="date"
                     value={editingTask.date || ""}
                     onChange={(e) => setEditingTask({ ...editingTask, date: e.target.value })}
-                    className="w-full bg-black/40 border border-white/5 focus:border-cyan-400/40 rounded-lg px-3 py-1.5 text-xs text-white outline-none"
+                    className="w-full bg-black/40 border border-white/5 focus:border-rebel-400/40 rounded-lg px-3 py-1.5 text-xs text-white outline-none"
                   />
                 </div>
                 <div>
@@ -871,10 +871,10 @@ export default function Planner({
                       const h = parseInt(e.target.value);
                       setEditingTask({ ...editingTask, startHour: h, endHour: h + 1 });
                     }}
-                    className="w-full bg-black/40 border border-white/5 focus:border-cyan-400/40 rounded-lg px-3 py-1.5 text-xs text-white outline-none"
+                    className="w-full bg-black/40 border border-white/5 focus:border-rebel-400/40 rounded-lg px-3 py-1.5 text-xs text-white outline-none"
                   >
                     {Array.from({ length: 15 }, (_, i) => i + 8).map((h) => (
-                      <option key={h} value={h} className="bg-[#06060f]">
+                      <option key={h} value={h} className="bg-[#0B0B0F]">
                         {h.toString().padStart(2, "0")}:00
                       </option>
                     ))}
@@ -890,14 +890,14 @@ export default function Planner({
                   <select
                     value={editingTask.category || "general"}
                     onChange={(e) => setEditingTask({ ...editingTask, category: e.target.value as any })}
-                    className="w-full bg-black/40 border border-white/5 focus:border-cyan-400/40 rounded-lg px-3 py-1.5 text-xs text-white outline-none"
+                    className="w-full bg-black/40 border border-white/5 focus:border-rebel-400/40 rounded-lg px-3 py-1.5 text-xs text-white outline-none"
                   >
-                    <option value="general" className="bg-[#06060f]">General</option>
-                    <option value="work" className="bg-[#06060f]">Work</option>
-                    <option value="personal" className="bg-[#06060f]">Personal</option>
-                    <option value="health" className="bg-[#06060f]">Health</option>
-                    <option value="learning" className="bg-[#06060f]">Learning</option>
-                    <option value="creative" className="bg-[#06060f]">Creative</option>
+                    <option value="general" className="bg-[#0B0B0F]">General</option>
+                    <option value="work" className="bg-[#0B0B0F]">Work</option>
+                    <option value="personal" className="bg-[#0B0B0F]">Personal</option>
+                    <option value="health" className="bg-[#0B0B0F]">Health</option>
+                    <option value="learning" className="bg-[#0B0B0F]">Learning</option>
+                    <option value="creative" className="bg-[#0B0B0F]">Creative</option>
                   </select>
                 </div>
                 <div>
@@ -907,11 +907,11 @@ export default function Planner({
                   <select
                     value={editingTask.priority || "medium"}
                     onChange={(e) => setEditingTask({ ...editingTask, priority: e.target.value as any })}
-                    className="w-full bg-black/40 border border-white/5 focus:border-cyan-400/40 rounded-lg px-3 py-1.5 text-xs text-white outline-none"
+                    className="w-full bg-black/40 border border-white/5 focus:border-rebel-400/40 rounded-lg px-3 py-1.5 text-xs text-white outline-none"
                   >
-                    <option value="low" className="bg-[#06060f]">Low</option>
-                    <option value="medium" className="bg-[#06060f]">Medium</option>
-                    <option value="high" className="bg-[#06060f]">High</option>
+                    <option value="low" className="bg-[#0B0B0F]">Low</option>
+                    <option value="medium" className="bg-[#0B0B0F]">Medium</option>
+                    <option value="high" className="bg-[#0B0B0F]">High</option>
                   </select>
                 </div>
               </div>
@@ -922,7 +922,7 @@ export default function Planner({
                   id="modal-completed"
                   checked={editingTask.completed || false}
                   onChange={(e) => setEditingTask({ ...editingTask, completed: e.target.checked })}
-                  className="w-3.5 h-3.5 accent-cyan-400"
+                  className="w-3.5 h-3.5 accent-rebel-400"
                 />
                 <label
                   htmlFor="modal-completed"
@@ -937,7 +937,7 @@ export default function Planner({
                 <div className="pt-2 border-t border-white/5">
                   <div className="flex items-center justify-between">
                     <span className="text-[10px] font-mono text-gray-400 uppercase tracking-wider flex items-center gap-1.5">
-                      <Calendar className="w-3.5 h-3.5 text-cyan-400" />
+                      <Calendar className="w-3.5 h-3.5 text-rebel-400" />
                       Google Calendar Integration
                     </span>
                     {editingTask.googleCalendarHtmlLink && (
@@ -945,7 +945,7 @@ export default function Planner({
                         href={editingTask.googleCalendarHtmlLink}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-[10px] font-mono text-cyan-400 hover:underline flex items-center gap-1"
+                        className="text-[10px] font-mono text-rebel-400 hover:underline flex items-center gap-1"
                       >
                         View in G-Cal <ExternalLink className="w-2.5 h-2.5" />
                       </a>
@@ -956,12 +956,12 @@ export default function Planner({
                     type="button"
                     onClick={() => handleSyncSingleTask(editingTask as PlannerTask)}
                     disabled={isSyncingGcal}
-                    className="mt-2 w-full py-1.5 rounded-lg border border-cyan-500/30 bg-cyan-950/30 hover:bg-cyan-950/50 text-cyan-300 font-mono text-xs flex items-center justify-center gap-1.5 transition-colors"
+                    className="mt-2 w-full py-1.5 rounded-lg border border-rebel-500/30 bg-rebel-950/30 hover:bg-rebel-950/50 text-rebel-300 font-mono text-xs flex items-center justify-center gap-1.5 transition-colors"
                   >
                     {isSyncingGcal ? (
-                      <RefreshCw className="w-3 h-3 animate-spin text-cyan-400" />
+                      <RefreshCw className="w-3 h-3 animate-spin text-rebel-400" />
                     ) : (
-                      <CalendarPlus className="w-3.5 h-3.5 text-cyan-400" />
+                      <CalendarPlus className="w-3.5 h-3.5 text-rebel-400" />
                     )}
                     <span>
                       {editingTask.googleCalendarEventId
@@ -976,7 +976,7 @@ export default function Planner({
             <div className="flex gap-2 pt-2">
               <button
                 onClick={handleSaveModal}
-                className="flex-1 py-2 rounded-xl bg-gradient-to-br from-cyan-500 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-white font-sans text-xs font-semibold shadow-md shadow-cyan-500/10 transition-all duration-300"
+                className="flex-1 py-2 rounded-xl bg-gradient-to-br from-rebel-500 to-purple-600 hover:from-rebel-400 hover:to-purple-500 text-white font-sans text-xs font-semibold shadow-md shadow-rebel-500/10 transition-all duration-300"
               >
                 SAVE TARGET
               </button>
@@ -997,7 +997,7 @@ export default function Planner({
       {/* MANDATORY USER CONFIRMATION DIALOG: BATCH SYNC TO GOOGLE CALENDAR */}
       {batchSyncModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-fade-in font-mono">
-          <div className="relative w-full max-w-lg border border-cyan-500/40 bg-[#060810] p-6 rounded-2xl shadow-2xl shadow-cyan-950/50 space-y-4">
+          <div className="relative w-full max-w-lg border border-rebel-500/40 bg-[#060810] p-6 rounded-2xl shadow-2xl shadow-rebel-950/50 space-y-4">
             <button
               onClick={() => setBatchSyncModalOpen(false)}
               className="absolute top-4 right-4 text-gray-500 hover:text-white"
@@ -1005,15 +1005,15 @@ export default function Planner({
               <X className="w-4 h-4" />
             </button>
 
-            <div className="flex items-center gap-2.5 text-cyan-400">
-              <CalendarCheck className="w-5 h-5 text-cyan-400" />
+            <div className="flex items-center gap-2.5 text-rebel-400">
+              <CalendarCheck className="w-5 h-5 text-rebel-400" />
               <h3 className="text-sm font-bold uppercase tracking-wider text-white">
                 Confirm Google Calendar Synchronization
               </h3>
             </div>
 
             <p className="text-xs text-gray-300 leading-relaxed font-sans">
-              This will create or update <strong className="text-cyan-400">{eligibleTasks.length} event(s)</strong>{" "}
+              This will create or update <strong className="text-rebel-400">{eligibleTasks.length} event(s)</strong>{" "}
               on your primary Google Calendar, setting reminders and tagging focus blocks directly into your schedule:
             </p>
 
@@ -1021,7 +1021,7 @@ export default function Planner({
               {eligibleTasks.map((t) => (
                 <div key={t.id} className="flex items-center justify-between p-1.5 rounded bg-white/[0.02]">
                   <div className="truncate mr-2">
-                    <span className="font-mono text-cyan-400 font-semibold">{t.date}</span>
+                    <span className="font-mono text-rebel-400 font-semibold">{t.date}</span>
                     <span className="text-gray-400 font-mono ml-1.5">{t.startHour}:00</span>
                     <span className="text-gray-200 ml-2 font-sans font-medium">{t.title}</span>
                   </div>
@@ -1041,7 +1041,7 @@ export default function Planner({
               </button>
               <button
                 onClick={handleConfirmBatchSync}
-                className="px-5 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black font-mono text-xs font-bold uppercase tracking-wider shadow-md shadow-cyan-500/20 transition-all"
+                className="px-5 py-2 rounded-xl bg-gradient-to-r from-rebel-500 to-blue-600 hover:from-rebel-400 hover:to-blue-500 text-black font-mono text-xs font-bold uppercase tracking-wider shadow-md shadow-rebel-500/20 transition-all"
               >
                 Proceed & Sync
               </button>
