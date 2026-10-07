@@ -271,8 +271,9 @@ export default function App() {
   }, [user, userProfile.tier, redeemPromoCode, playBranchSuccess]);
 
   // Auto-save active goal to Firestore whenever goal state changes and user is signed in
+  // (the default demo goal is never saved — it is not the user's data)
   useEffect(() => {
-    if (user && goal.id) {
+    if (user && goal.id && goal.id !== DEFAULT_GOAL.id) {
       const timer = setTimeout(() => {
         saveGoalToFirestore(goal);
       }, 1000);
