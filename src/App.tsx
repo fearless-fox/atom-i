@@ -18,6 +18,7 @@ import TermsModal, { LegalTab } from "./components/TermsModal";
 import { FounderPerksModal } from "./components/FounderPerksModal";
 import { PromoCodeModal } from "./components/PromoCodeModal";
 import { AmbienceFocusModal } from "./components/AmbienceFocusModal";
+import { HyperfocusMode } from "./components/HyperfocusMode";
 import { cyberAudio } from "./lib/cyberAudio";
 import { useAuth } from "./contexts/AuthContext";
 import { useFirestorePersistence } from "./hooks/useFirestorePersistence";
@@ -198,6 +199,7 @@ export default function App() {
   const [showFounderPerksModal, setShowFounderPerksModal] = useState(false);
   const [showPromoModal, setShowPromoModal] = useState(false);
   const [showAmbienceModal, setShowAmbienceModal] = useState(false);
+  const [showHyperfocus, setShowHyperfocus] = useState(false);
   const [isAmbienceActive, setIsAmbienceActive] = useState<boolean>(() => {
     return cyberAudio.getAmbienceState().isPlaying;
   });
@@ -1132,6 +1134,19 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
             )}
           </button>
 
+          {/* Hyperfocus Mode — fullscreen violet particle field + brown noise */}
+          <button
+            onClick={() => {
+              playClick();
+              setShowHyperfocus(true);
+            }}
+            className="px-2.5 py-1.5 rounded-lg bg-rebel-500/5 hover:bg-rebel-500/15 border border-rebel-500/30 hover:border-rebel-400/50 text-rebel-400 hover:text-rebel-200 font-mono text-xs flex items-center gap-1.5 transition-all"
+            title="Hyperfocus Mode — fullscreen particle field with deep brown noise"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-rebel-400" />
+            <span className="hidden sm:inline text-[10px] uppercase font-bold">Hyperfocus</span>
+          </button>
+
           {/* PWA Install Button */}
           <PWAInstallButton onInstalledSound={() => playBranchSuccess()} />
 
@@ -1812,6 +1827,11 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
         isAmbienceActive={isAmbienceActive}
         onToggleAmbience={handleToggleAmbience}
       />
+
+      {/* Hyperfocus Mode — fullscreen violet particle field + brown noise */}
+      {showHyperfocus && (
+        <HyperfocusMode goal={goal} onClose={() => setShowHyperfocus(false)} />
+      )}
 
       {/* --- DECOMPOSE GOAL SETUP DIALOG MODAL --- */}
       {showAtomizeModal && (
