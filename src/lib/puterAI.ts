@@ -61,6 +61,8 @@ export async function decomposeGoalWithPuter(
 Deconstruct the objective: "${title}"
 Context & details: "${description}"
 
+Break the objective down as deeply as it deserves: create as many sequential phases as the goal genuinely requires, decompose each phase into as many atomic tasks as needed, and split every task into its smallest actionable micro-atoms. Do NOT artificially limit the number of phases, tasks, or atoms — the example below shows the FORMAT only, not the count. A complex goal deserves a deep, exhaustive tree.
+
 You must output a single valid JSON object strictly matching this schema with no extra surrounding prose:
 {
   "title": "${title}",
@@ -90,7 +92,24 @@ You must output a single valid JSON object strictly matching this schema with no
           "deliverable": "Operational workspace",
           "atoms": [
             { "id": "a1-1", "title": "Check dependencies" },
-            { "id": "a1-2", "title": "Create configuration file" }
+            { "id": "a1-2", "title": "Create configuration file" },
+            { "id": "a1-3", "title": "Verify toolchain versions" }
+          ]
+        },
+        {
+          "id": "t1-2",
+          "title": "Establish Baseline Metrics",
+          "description": "Record starting measurements for later comparison",
+          "duration": "2 days",
+          "priority": "Medium",
+          "urgency": "Not Urgent",
+          "importance": "Important",
+          "tools": ["Notebook", "Timer"],
+          "deliverable": "Baseline report",
+          "atoms": [
+            { "id": "a1-4", "title": "Define what to measure" },
+            { "id": "a1-5", "title": "Take initial measurements" },
+            { "id": "a1-6", "title": "Log results" }
           ]
         }
       ]
@@ -115,7 +134,50 @@ You must output a single valid JSON object strictly matching this schema with no
           "deliverable": "Passing build",
           "atoms": [
             { "id": "a2-1", "title": "Build prototype" },
-            { "id": "a2-2", "title": "Run test benchmarks" }
+            { "id": "a2-2", "title": "Run test benchmarks" },
+            { "id": "a2-3", "title": "Fix failing checks" }
+          ]
+        },
+        {
+          "id": "t2-2",
+          "title": "Validate Against Requirements",
+          "description": "Confirm each deliverable meets the original objective",
+          "duration": "3 days",
+          "priority": "High",
+          "urgency": "Not Urgent",
+          "importance": "Important",
+          "tools": ["Checklist"],
+          "deliverable": "Validation sign-off",
+          "atoms": [
+            { "id": "a2-4", "title": "Review requirements list" },
+            { "id": "a2-5", "title": "Test each deliverable" },
+            { "id": "a2-6", "title": "Document gaps" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "p3",
+      "title": "Phase 3: Polish & Launch",
+      "description": "Refine, document, and ship the finished objective",
+      "duration": "1 week",
+      "priority": "Medium",
+      "milestones": ["Objective shipped"],
+      "tasks": [
+        {
+          "id": "t3-1",
+          "title": "Final Review Pass",
+          "description": "Sweep for loose ends and polish rough edges",
+          "duration": "2 days",
+          "priority": "Medium",
+          "urgency": "Not Urgent",
+          "importance": "Important",
+          "tools": ["Checklist"],
+          "deliverable": "Polished output",
+          "atoms": [
+            { "id": "a3-1", "title": "List remaining rough edges" },
+            { "id": "a3-2", "title": "Polish each item" },
+            { "id": "a3-3", "title": "Final sign-off" }
           ]
         }
       ]

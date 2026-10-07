@@ -17,13 +17,28 @@ import { Goal, PlannerTask, UserProfile, UserTier, SuccessStory } from "../types
 import { offlineSyncManager } from "../lib/offlineSync";
 import { validatePromoCode } from "../lib/promoCodes";
 import { FOUNDER_CAP } from "./useFounderStats";
+import { DEFAULT_GOAL } from "../defaultGoal";
+import { wipeStaleOwnerSession } from "../lib/sessionHardening";
+
+/** Anonymous / logged-out baseline. Never carries creator flags. */
+const DEFAULT_TRIAL_PROFILE: UserProfile = {
+  uid: "trial_user_test",
+  tier: "operative",
+  atomizationLimit: 3,
+  hasCalendar: false,
+  hasGrid: false,
+  hasLiveVoice: false,
+  voiceMinutesRemaining: 0,
+  hasTeams: false,
+  preferredEngine: "puter",
+};
 
 export function useFirestorePersistence(
   initialGoal: Goal,
   setGoal: Dispatch<SetStateAction<Goal>>,
   setPlannerTasks: Dispatch<SetStateAction<PlannerTask[]>>
 ) {
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const [syncStatus, setSyncStatus] = useState<"idle" | "saving" | "synced" | "error">("idle");
   const [userGoalsList, setUserGoalsList] = useState<Array<{ id: string; title: string; progress: number }>>([]);
   
@@ -91,15 +106,7 @@ export function useFirestorePersistence(
     }
 
     return {
-      uid: "trial_user_test",
-      tier: "operative",
-      atomizationLimit: 3,
-      hasCalendar: false,
-      hasGrid: false,
-      hasLiveVoice: false,
-      voiceMinutesRemaining: 0,
-      hasTeams: false,
-      preferredEngine: "puter",
+      ...DEFAULT_TRIAL_PROFILE,
     };
   });
 
@@ -117,6 +124,18 @@ export function useFirestorePersistence(
       }
     } catch {}
   }, [userProfile, user]);
+
+  // Logged-out hardening: once auth definitively resolves with no user, a
+  // stale owner session must not leak its creator badge, privileges, NFT
+  // access, or last decompose into the visit. Anonymous trial state (no
+  // owner markers) is left untouched so the free-trial funnel keeps working.
+  useEffect(() => {
+    if (authLoading || user) return;
+    if (!wipeStaleOwnerSession()) return;
+    setUserProfile({ ...DEFAULT_TRIAL_PROFILE });
+    setGoal(DEFAULT_GOAL);
+    setPlannerTasks([]);
+  }, [authLoading, user, setGoal, setPlannerTasks]);
 
   // Success stories for landing page
   const [successStories, setSuccessStories] = useState<SuccessStory[]>([]);
@@ -634,6 +653,15 @@ export function useFirestorePersistence(
         return { success: false, message: "Invalid or unrecognized VIP access code." };
       }
 
+      // FAUX-VIP is the project owner's master key: absolutely nobody except
+      // faux.fuax@gmail.com may redeem it or receive creator #000 privileges.
+      if (match.code === "FAUX-VIP" && user?.email !== "faux.fuax@gmail.com") {
+        return {
+          success: false,
+          message: "This master key is bound to the project owner and cannot be redeemed by other accounts.",
+        };
+      }
+
       // Check if user already redeemed this specific code
       const existingRedeemed = new Set<string>(userProfile.redeemedPromoCodes || []);
       try {
@@ -651,6 +679,43 @@ export function useFirestorePersistence(
           success: false,
           message: `Code "${match.code}" has already been redeemed by your account. Each promotional code may only be redeemed once.`,
         };
+      }
+
+      // Global single-use enforcement: an issued code dies after its allowed
+      // number of total redemptions across ALL accounts, so it can never be
+      // passed around and reused. Enforced transactionally in Firestore.
+      if (match.singleUse) {
+        const maxUses = match.maxUses || 1;
+        try {
+          await runTransaction(db, async (tx) => {
+            const claimRef = doc(db, "promo_code_claims", match.code);
+            const snap = await tx.get(claimRef);
+            const uses = snap.exists() ? Number(snap.data()?.uses || 0) : 0;
+            if (uses >= maxUses) throw new Error("code_already_claimed");
+            tx.set(
+              claimRef,
+              {
+                code: match.code,
+                uses: uses + 1,
+                lastClaimedAt: new Date().toISOString(),
+                lastClaimedBy: effectiveUid || user?.email || "anonymous",
+              },
+              { merge: true }
+            );
+          });
+        } catch (err: any) {
+          if (err?.message === "code_already_claimed") {
+            return {
+              success: false,
+              message: `Code "${match.code}" has already been claimed and is no longer valid.`,
+            };
+          }
+          console.warn("Promo claim verification failed:", err);
+          return {
+            success: false,
+            message: "Could not verify this code's status. Check your connection and try again.",
+          };
+        }
       }
 
       const updatedRedeemedList = Array.from(existingRedeemed.add(match.code));

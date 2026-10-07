@@ -18,11 +18,21 @@ export interface PromoCodeDefinition {
   founderDiscountPercent?: number;
   founderNumber?: number;
   isFounder?: boolean;
+  /**
+   * When true, the code dies after `maxUses` total redemptions across ALL
+   * accounts (enforced by a Firestore transaction), so an issued code can
+   * never be passed around and reused. Omit / false = reusable.
+   */
+  singleUse?: boolean;
+  maxUses?: number;
 }
 
 // Master VIP promo codes, upvoter discounts, and voice minute boosters
 export const VALID_PROMO_CODES: PromoCodeDefinition[] = [
   // 1. MASTER FOUNDER & OWNER BYPASS CODES
+  // FAUX-VIP is the project owner's master key. It is ONLY redeemable by
+  // faux.fuax@gmail.com (enforced in redeemPromoCode) — absolutely nobody
+  // else may receive creator #000 or its privileges through any code.
   {
     code: "FAUX-VIP",
     action: "grant_tier",
@@ -35,6 +45,7 @@ export const VALID_PROMO_CODES: PromoCodeDefinition[] = [
   },
   {
     code: "FOUNDER-VIP",
+    singleUse: true,
     action: "grant_tier",
     tier: "founder_lifetime",
     voiceMinutes: 999999,
@@ -45,6 +56,7 @@ export const VALID_PROMO_CODES: PromoCodeDefinition[] = [
   },
   {
     code: "ATOM-FAMILY",
+    singleUse: true,
     action: "grant_tier",
     tier: "founder_lifetime",
     voiceMinutes: 999999,
@@ -55,6 +67,7 @@ export const VALID_PROMO_CODES: PromoCodeDefinition[] = [
   },
   {
     code: "ATOM-FRIENDS",
+    singleUse: true,
     action: "grant_tier",
     tier: "founder_lifetime",
     voiceMinutes: 999999,
@@ -65,6 +78,7 @@ export const VALID_PROMO_CODES: PromoCodeDefinition[] = [
   },
   {
     code: "ATOM-FOUNDER",
+    singleUse: true,
     action: "grant_tier",
     tier: "founder_lifetime",
     voiceMinutes: 999999,
@@ -75,6 +89,7 @@ export const VALID_PROMO_CODES: PromoCodeDefinition[] = [
   },
   {
     code: "GENESIS-199",
+    singleUse: true,
     action: "grant_tier",
     tier: "founder_lifetime",
     voiceMinutes: 500,
@@ -85,6 +100,7 @@ export const VALID_PROMO_CODES: PromoCodeDefinition[] = [
   },
   {
     code: "VANGUARD-VIP",
+    singleUse: true,
     action: "grant_tier",
     tier: "vanguard_live",
     voiceMinutes: 300,
@@ -96,6 +112,7 @@ export const VALID_PROMO_CODES: PromoCodeDefinition[] = [
   // 2. PRODUCT HUNT & COMMUNITY UPVOTER PERKS
   {
     code: "PH-UPVOTE",
+    singleUse: true,
     action: "grant_tier",
     tier: "tactical_pro",
     bonusVoiceMinutes: 30,
@@ -105,6 +122,7 @@ export const VALID_PROMO_CODES: PromoCodeDefinition[] = [
   },
   {
     code: "PRODUCTHUNT",
+    singleUse: true,
     action: "grant_tier",
     tier: "tactical_pro",
     bonusVoiceMinutes: 30,
@@ -114,6 +132,7 @@ export const VALID_PROMO_CODES: PromoCodeDefinition[] = [
   },
   {
     code: "SHOW-HN",
+    singleUse: true,
     action: "grant_tier",
     tier: "tactical_pro",
     bonusVoiceMinutes: 30,
@@ -125,6 +144,7 @@ export const VALID_PROMO_CODES: PromoCodeDefinition[] = [
   // 3. FOUNDER PASS DISCOUNT CODES (FOR UPVOTERS & PROMOS)
   {
     code: "PH-FOUNDER-50",
+    singleUse: true,
     action: "founder_discount",
     founderDiscountPercent: 50, // 50% off $99 = $49
     bonusVoiceMinutes: 30,
@@ -133,6 +153,7 @@ export const VALID_PROMO_CODES: PromoCodeDefinition[] = [
   },
   {
     code: "UPVOTER-50",
+    singleUse: true,
     action: "founder_discount",
     founderDiscountPercent: 50,
     bonusVoiceMinutes: 30,
@@ -143,6 +164,7 @@ export const VALID_PROMO_CODES: PromoCodeDefinition[] = [
   // 4. ADDITIVE VOICE BOOSTERS (ADDS EXTRA MINUTES TO ANY TIER)
   {
     code: "VOICE-BOOST-30",
+    singleUse: true,
     action: "voice_boost",
     bonusVoiceMinutes: 30,
     label: "+30 Live Voice Minutes Recharge",
@@ -150,6 +172,7 @@ export const VALID_PROMO_CODES: PromoCodeDefinition[] = [
   },
   {
     code: "VOICE-BOOST-60",
+    singleUse: true,
     action: "voice_boost",
     bonusVoiceMinutes: 60,
     label: "+60 Live Voice Minutes Recharge",
@@ -157,6 +180,7 @@ export const VALID_PROMO_CODES: PromoCodeDefinition[] = [
   },
   {
     code: "HUNTER-VOICE",
+    singleUse: true,
     action: "voice_boost",
     bonusVoiceMinutes: 45,
     label: "+45 Hunter Live Voice Minutes",

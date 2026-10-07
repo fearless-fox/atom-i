@@ -288,7 +288,7 @@ app.post("/api/decompose", async (req, res) => {
 Goal Title: "${title}"
 Context/Constraints: "${description || "None provided"}"
 
-Make sure to assign Eisenhower matrix categories (urgency: "Urgent" | "Not Urgent" and importance: "Important" | "Not Important") for each task so we can automatically organize them. Make the tone highly analytical, encouraging, and focused on execution. Provide a detailed breakdown with 3 to 5 phases and 3 to 5 tasks per phase.`;
+Make sure to assign Eisenhower matrix categories (urgency: "Urgent" | "Not Urgent" and importance: "Important" | "Not Important") for each task so we can automatically organize them. Make the tone highly analytical, encouraging, and focused on execution. Provide a detailed, exhaustive breakdown: create as many sequential phases as the goal genuinely requires, decompose each phase into as many atomic tasks as needed, and break every task into its smallest actionable micro-atoms. Do not artificially limit the number of phases, tasks, or atoms — a complex goal deserves a deep tree.`;
 
     const responseSchema = {
       type: Type.OBJECT,
@@ -303,7 +303,7 @@ Make sure to assign Eisenhower matrix categories (urgency: "Urgent" | "Not Urgen
         },
         phases: {
           type: Type.ARRAY,
-          description: "A list of 3 to 5 sequential phases to reach the goal.",
+          description: "A list of sequential phases — as many as the goal genuinely requires for a complete, exhaustive breakdown.",
           items: {
             type: Type.OBJECT,
             properties: {
