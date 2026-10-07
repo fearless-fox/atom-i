@@ -61,6 +61,11 @@ export default function TaskMap({
   // Slowed-down pulse counter for calm, rhythmic breathing
   const pulseRef = useRef<number>(0);
   const panInitializedRef = useRef<string | null>(null);
+  // Latest pan/zoom for zoom-pivot math (refs stay fresh inside handlers)
+  const panRef = useRef({ x: 0, y: 0 });
+  const zoomRef = useRef(1.0);
+  panRef.current = pan;
+  zoomRef.current = zoom;
 
   // Pre-calculate/animate node coordinates
   useEffect(() => {
@@ -105,7 +110,7 @@ export default function TaskMap({
       const linksList: RenderLink[] = [];
 
       // High-tech vibrant palette
-      const colors = ["#00f0ff", "#ff0077", "#00ff88", "#ffbe0b", "#9d4edd", "#4cc9f0"];
+      const colors = ["#A78BFA", "#FF4D1C", "#00ff88", "#ffbe0b", "#9d4edd", "#4cc9f0"];
 
       // 1. Root Goal Node (Reactor Core / Master Atom)
       const centerNode: RenderNode = {
@@ -118,7 +123,7 @@ export default function TaskMap({
         targetX: 0,
         targetY: 0,
         radius: 38,
-        color: "#00f0ff",
+        color: "#7C3AED",
         completed: goal.completed,
         progress: goal.progress,
         item: goal,
@@ -325,7 +330,7 @@ export default function TaskMap({
         if (isSelected || isHovered) {
           const reticleRadius = node.radius + 12 + breath * 2;
           const bracketLen = 8;
-          const reticleColor = isSelected ? "#00f0ff" : "#ff0077";
+          const reticleColor = isSelected ? "#7C3AED" : "#FF4D1C";
 
           ctx.strokeStyle = reticleColor;
           ctx.lineWidth = 1.5;
@@ -389,9 +394,9 @@ export default function TaskMap({
           const ey = Math.sin(electronAngle) * (node.radius + 7);
           ctx.beginPath();
           ctx.arc(ex, ey, 2.5, 0, Math.PI * 2);
-          ctx.fillStyle = "#00f0ff";
+          ctx.fillStyle = "#7C3AED";
           ctx.shadowBlur = 8;
-          ctx.shadowColor = "#00f0ff";
+          ctx.shadowColor = "#7C3AED";
           ctx.fill();
           ctx.restore();
         } else if (node.type === "phase") {
@@ -443,7 +448,7 @@ export default function TaskMap({
         ctx.strokeStyle = node.completed
           ? "#00ff88"
           : isSelected
-          ? "#00f0ff"
+          ? "#7C3AED"
           : `${node.color}bb`;
         ctx.lineWidth = isSelected ? 2.5 : node.type === "goal" ? 2.0 : 1.4;
         ctx.shadowBlur = isSelected || isHovered ? 12 : 4;
@@ -458,7 +463,7 @@ export default function TaskMap({
           // Goal reactor circular gauge
           ctx.beginPath();
           ctx.arc(0, 0, node.radius - 5, -Math.PI / 2, (prog / 100) * Math.PI * 2 - Math.PI / 2);
-          ctx.strokeStyle = prog === 100 ? "#00ff88" : "#00f0ff";
+          ctx.strokeStyle = prog === 100 ? "#00ff88" : "#7C3AED";
           ctx.lineWidth = 2.5;
           ctx.stroke();
 
@@ -470,7 +475,7 @@ export default function TaskMap({
           ctx.fillText(`${prog}%`, 0, -1);
 
           // "CORE" micro badge
-          ctx.fillStyle = "#00f0ff";
+          ctx.fillStyle = "#7C3AED";
           ctx.font = "bold 7px monospace";
           ctx.fillText("REACTOR", 0, 11);
         } else if (node.type === "phase") {
@@ -574,7 +579,7 @@ export default function TaskMap({
         ctx.fillStyle = node.completed
           ? "#a8ffb2"
           : isSelected
-          ? "#00f0ff"
+          ? "#7C3AED"
           : isHovered
           ? "#ffffff"
           : "#cbd5e1";
@@ -605,6 +610,33 @@ export default function TaskMap({
     const x = (clientX - rect.left - pan.x) / zoom;
     const y = (clientY - rect.top - pan.y) / zoom;
     return { x, y };
+  };
+
+  // Zoom toward a world-space point, keeping it pinned at the same screen
+  // position (adjusts pan to compensate instead of swinging to the origin).
+  const zoomAt = (worldX: number, worldY: number, factor: number) => {
+    const z1 = zoomRef.current;
+    const z2 = Math.max(0.3, Math.min(2.5, z1 * factor));
+    if (z2 === z1) return;
+    setPan((p) => ({ x: p.x + worldX * (z1 - z2), y: p.y + worldY * (z1 - z2) }));
+    setZoom(z2);
+  };
+
+  // Zoom target: the locked-on (selected) node when there is one,
+  // otherwise whatever is currently at the center of the view.
+  const getZoomTarget = () => {
+    if (selectedNodeId) {
+      const node = renderNodesRef.current.find((n) => n.id === selectedNodeId);
+      if (node) return { x: node.x, y: node.y };
+    }
+    const canvas = canvasRef.current;
+    if (canvas) {
+      return {
+        x: (canvas.width / 2 - panRef.current.x) / zoomRef.current,
+        y: (canvas.height / 2 - panRef.current.y) / zoomRef.current,
+      };
+    }
+    return { x: 0, y: 0 };
   };
 
   // Check hover of nodes
@@ -664,9 +696,9 @@ export default function TaskMap({
 
   const handleWheel = (e: React.WheelEvent<HTMLCanvasElement>) => {
     e.preventDefault();
-    const zoomFactor = 1.1;
-    const nextZoom = e.deltaY < 0 ? zoom * zoomFactor : zoom / zoomFactor;
-    setZoom(Math.max(0.3, Math.min(2.5, nextZoom)));
+    // Zoom toward the cursor so the view never swings back to the center.
+    const world = getWorldCoords(e.clientX, e.clientY);
+    zoomAt(world.x, world.y, e.deltaY < 0 ? 1.1 : 1 / 1.1);
   };
 
   const handleDoubleClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
@@ -694,30 +726,34 @@ export default function TaskMap({
   return (
     <div
       ref={containerRef}
-      className="relative w-full h-full border border-cyan-500/20 rounded-2xl bg-black/60 overflow-hidden backdrop-blur-md tactical-corner-frame hover-focus-border"
+      className="relative w-full h-full border border-rebel-500/20 rounded-2xl bg-black/60 overflow-hidden backdrop-blur-md tactical-corner-frame hover-focus-border"
     >
       <div className="absolute top-4 left-4 z-10 flex gap-2">
         <button
           onClick={resetMap}
-          className="px-3 py-1.5 rounded-lg border border-cyan-400/30 bg-black/80 hover:bg-cyan-500/20 text-cyan-400 hover:text-cyan-300 font-mono text-xs tracking-wider transition-all duration-300 shadow-lg shadow-black/50"
+          className="px-3 py-1.5 rounded-lg border border-rebel-400/30 bg-black/80 hover:bg-rebel-500/20 text-rebel-400 hover:text-rebel-300 font-mono text-xs tracking-wider transition-all duration-300 shadow-lg shadow-black/50"
         >
           RE-CENTER
         </button>
         <button
           onClick={() => {
             cyberAudio.playCyberClick(1.05);
-            setZoom((z) => Math.min(2.5, z + 0.15));
+            const t = getZoomTarget();
+            zoomAt(t.x, t.y, 1.18);
           }}
-          className="px-2.5 py-1.5 rounded-lg border border-cyan-400/30 bg-black/80 hover:bg-cyan-500/20 text-cyan-400 font-mono text-xs font-bold transition-all"
+          className="px-2.5 py-1.5 rounded-lg border border-rebel-400/30 bg-black/80 hover:bg-rebel-500/20 text-rebel-400 font-mono text-xs font-bold transition-all"
+          title="Zoom in on the selected node"
         >
           +
         </button>
         <button
           onClick={() => {
             cyberAudio.playCyberClick(0.95);
-            setZoom((z) => Math.max(0.3, z - 0.15));
+            const t = getZoomTarget();
+            zoomAt(t.x, t.y, 1 / 1.18);
           }}
-          className="px-2.5 py-1.5 rounded-lg border border-cyan-400/30 bg-black/80 hover:bg-cyan-500/20 text-cyan-400 font-mono text-xs font-bold transition-all"
+          className="px-2.5 py-1.5 rounded-lg border border-rebel-400/30 bg-black/80 hover:bg-rebel-500/20 text-rebel-400 font-mono text-xs font-bold transition-all"
+          title="Zoom out from the selected node"
         >
           -
         </button>
