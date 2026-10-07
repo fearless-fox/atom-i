@@ -22,6 +22,19 @@ service cloud.firestore {
         && request.resource.data.keys().hasOnly(['claimed']);
     }
 
+    // Promo code single-use claims: each issued code dies after its allowed
+    // number of total redemptions across all accounts, so codes can never be
+    // passed around and reused. Clients may only increment the counter by
+    // exactly 1 with a fixed key shape; the app enforces the per-code limit
+    // transactionally before granting anything.
+    match /promo_code_claims/{code} {
+      allow read: if true;
+      allow create: if request.resource.data.keys().hasOnly(['code', 'uses', 'lastClaimedAt', 'lastClaimedBy'])
+        && request.resource.data.uses == 1;
+      allow update: if request.resource.data.keys().hasOnly(['code', 'uses', 'lastClaimedAt', 'lastClaimedBy'])
+        && request.resource.data.uses == resource.data.uses + 1;
+    }
+
     // Standard rule specified by user: authenticated access across all documents
     match /{document=**} {
       allow read, write: if request.auth != null;

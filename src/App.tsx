@@ -22,6 +22,7 @@ import { cyberAudio } from "./lib/cyberAudio";
 import { useAuth } from "./contexts/AuthContext";
 import { useFirestorePersistence } from "./hooks/useFirestorePersistence";
 import { isPuterAvailable, queryPuterChat, decomposeGoalWithPuter } from "./lib/puterAI";
+import { hasStaleOwnerSession } from "./lib/sessionHardening";
 import {
   Sparkles,
   Cpu,
@@ -61,6 +62,18 @@ import {
 import { useCyberAudio } from "./hooks/useCyberAudio";
 import { useOfflineSync } from "./hooks/useOfflineSync";
 import { PWAInstallButton } from "./components/PWAInstallButton";
+
+/** Fresh coach transcript for a new / logged-out visit. */
+const buildWelcomeMessages = (): ChatMessage[] => [
+  {
+    id: "welcome",
+    sender: "coach",
+    text: `[ESTABLISHING SECURE PROTOCOL]
+A.T.O.M. (Autonomous Tactical Optimization Mentor) ONLINE.
+I have parsed your strategy deck. Double-click any node inside the central particle mindmap to mark it complete, or chat with me to optimize your action items.`,
+    timestamp: new Date().toLocaleTimeString(),
+  },
+];
 
 export default function App() {
   // --- CYBER AUDIO & OFFLINE RESILIENCE ---
@@ -139,18 +152,7 @@ export default function App() {
 
   const [messages, setMessages] = useState<ChatMessage[]>(() => {
     const saved = localStorage.getItem("goal_atomizer_chat");
-    return saved
-      ? JSON.parse(saved)
-      : [
-          {
-            id: "welcome",
-            sender: "coach",
-            text: `[ESTABLISHING SECURE PROTOCOL]
-A.T.O.M. (Autonomous Tactical Optimization Mentor) ONLINE.
-I have parsed your strategy deck. Double-click any node inside the central particle mindmap to mark it complete, or chat with me to optimize your action items.`,
-            timestamp: new Date().toLocaleTimeString(),
-          },
-        ];
+    return saved ? JSON.parse(saved) : buildWelcomeMessages();
   });
 
   const [plannerTasks, setPlannerTasks] = useState<PlannerTask[]>(() => {
@@ -233,6 +235,15 @@ I have parsed your strategy deck. Double-click any node inside the central parti
     redeemPromoCode,
     claimFounderMerch,
   } = useFirestorePersistence(goal, setGoal, setPlannerTasks);
+
+  // Logged-out hardening: if a stale owner session was wiped (see
+  // useFirestorePersistence), reset the coach transcript to the fresh
+  // welcome state instead of showing the previous session's conversation.
+  useEffect(() => {
+    if (authLoading || user) return;
+    if (!hasStaleOwnerSession()) return;
+    setMessages(buildWelcomeMessages());
+  }, [authLoading, user]);
 
   // Auto-detect promo code in URL query string or auto-elevate owner email
   useEffect(() => {
@@ -996,7 +1007,7 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
   }
 
   return (
-    <div className="min-h-screen bg-[#050508] text-gray-300 font-sans selection:bg-cyan-500/30 selection:text-white flex flex-col relative overflow-x-hidden">
+    <div className="min-h-screen bg-[#050508] text-gray-300 font-sans selection:bg-rebel-500/30 selection:text-white flex flex-col relative overflow-x-hidden">
       {/* Interactive Cyber Particle Background */}
       <ParticleBackground />
 
@@ -1008,40 +1019,40 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
       </div>
 
       {/* Cyber HUD Header Control Bar */}
-      <header className="relative z-10 border-b border-cyan-900/30 bg-black/40 backdrop-blur-md px-6 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
+      <header className="relative z-10 border-b border-rebel-900/30 bg-black/40 backdrop-blur-md px-6 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded bg-gradient-to-br from-cyan-500 to-fuchsia-600 flex items-center justify-center shadow-lg shadow-cyan-500/15">
+          <div className="w-8 h-8 rounded bg-gradient-to-br from-rebel-500 to-rebel-600 flex items-center justify-center shadow-lg shadow-rebel-500/15">
             <div className="w-3.5 h-3.5 border-2 border-white rounded-full animate-pulse"></div>
           </div>
           <div>
             <div className="flex items-center gap-2">
               <h1 className="font-sans font-black text-lg tracking-tight text-white flex items-center">
-                A.T.O.M<span className="text-cyan-400 font-mono font-bold lowercase">-i</span>
+                A.T.O.M<span className="text-rebel-400 font-mono font-bold lowercase">-i</span>
               </h1>
-              <span className="font-mono text-[9px] text-cyan-400 border border-cyan-500/30 px-1.5 py-0.5 rounded bg-cyan-950/20">
+              <span className="font-mono text-[9px] text-rebel-400 border border-rebel-500/30 px-1.5 py-0.5 rounded bg-rebel-950/20">
                 v3.8
               </span>
             </div>
             <div className="flex items-center gap-2 mt-0.5">
               <p className="text-[9px] text-gray-400 font-mono tracking-wider leading-none">
-                Advanced Tactical Operation Manager • <span className="lowercase text-cyan-400 font-mono">atom-i</span>
+                Advanced Tactical Operation Manager • <span className="lowercase text-rebel-400 font-mono">atom-i</span>
               </p>
             </div>
           </div>
         </div>
 
         {/* Global Progress Indicator & Saved Goals Selector */}
-        <div className="flex items-center gap-4 bg-black/50 border border-cyan-900/40 px-4 py-2 rounded-xl backdrop-blur-sm">
+        <div className="flex items-center gap-4 bg-black/50 border border-rebel-900/40 px-4 py-2 rounded-xl backdrop-blur-sm">
           <div className="text-right">
             <div className="flex items-center gap-1.5 justify-end">
-              <span className="block text-[8px] font-mono text-cyan-400 uppercase tracking-widest font-bold">
+              <span className="block text-[8px] font-mono text-rebel-400 uppercase tracking-widest font-bold">
                 OBJECTIVE
               </span>
               {userGoalsList.length > 1 && (
                 <select
                   value={goal.id}
                   onChange={(e) => loadGoalFromFirestore(e.target.value)}
-                  className="bg-cyan-950/80 border border-cyan-500/30 text-[9px] font-mono text-cyan-300 rounded px-1 py-0.5 outline-none cursor-pointer"
+                  className="bg-rebel-950/80 border border-rebel-500/30 text-[9px] font-mono text-rebel-300 rounded px-1 py-0.5 outline-none cursor-pointer"
                   title="Switch saved goal"
                 >
                   {userGoalsList.map((g) => (
@@ -1056,7 +1067,7 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
               {goal.title}
             </span>
           </div>
-          <div className="h-6 w-px bg-cyan-900/30" />
+          <div className="h-6 w-px bg-rebel-900/30" />
           <div className="text-right">
             <span className="block text-[8px] font-mono text-gray-500 uppercase tracking-widest">
               GLOBAL SYNC LEVEL
@@ -1067,7 +1078,7 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
           </div>
           <div className="w-20 h-1.5 bg-gray-900 rounded-full overflow-hidden border border-white/5">
             <div
-              className="h-full bg-gradient-to-r from-cyan-400 to-fuchsia-500 rounded-full transition-all duration-500"
+              className="h-full bg-gradient-to-r from-rebel-400 to-rebel-500 rounded-full transition-all duration-500"
               style={{ width: `${goal.progress}%` }}
             />
           </div>
@@ -1083,13 +1094,13 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
             }}
             className={`px-2.5 py-1.5 rounded-lg border font-mono text-xs flex items-center gap-1.5 transition-colors ${
               isAudioEnabled
-                ? "bg-cyan-500/10 border-cyan-500/40 text-cyan-400 hover:bg-cyan-500/20"
+                ? "bg-rebel-500/10 border-rebel-500/40 text-rebel-400 hover:bg-rebel-500/20"
                 : "bg-white/5 border-white/10 text-gray-500 hover:text-gray-300"
             }`}
             title={isAudioEnabled ? "Cyber Audio Cues Active (Click to Mute)" : "Audio Muted (Click to Unmute)"}
           >
             {isAudioEnabled ? (
-              <Volume2 className="w-3.5 h-3.5 text-cyan-400" />
+              <Volume2 className="w-3.5 h-3.5 text-rebel-400" />
             ) : (
               <VolumeX className="w-3.5 h-3.5 text-gray-500" />
             )}
@@ -1106,17 +1117,17 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
             }}
             className={`px-2.5 py-1.5 rounded-lg border font-mono text-xs flex items-center gap-1.5 transition-all ${
               isAmbienceActive
-                ? "bg-amber-500/20 border-amber-400 text-amber-300 shadow-md shadow-amber-500/20"
-                : "bg-cyan-500/5 hover:bg-cyan-500/10 border-cyan-500/30 text-cyan-400 hover:text-cyan-200"
+                ? "bg-rust-500/20 border-rust-400 text-rust-300 shadow-md shadow-rust-500/20"
+                : "bg-rebel-500/5 hover:bg-rebel-500/10 border-rebel-500/30 text-rebel-400 hover:text-rebel-200"
             }`}
             title="Brown Noise & Deep Focus Ambience (Calms ADHD dopamine restlessness and crushes task inertia)"
           >
-            <Waves className={`w-3.5 h-3.5 ${isAmbienceActive ? "text-amber-400 animate-pulse" : "text-cyan-400"}`} />
+            <Waves className={`w-3.5 h-3.5 ${isAmbienceActive ? "text-rust-400 animate-pulse" : "text-rebel-400"}`} />
             <span className="hidden sm:inline text-[10px] uppercase font-bold">
               {isAmbienceActive ? "BROWN NOISE: ON" : "BROWN NOISE"}
             </span>
             {isAmbienceActive && (
-              <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping" />
+              <span className="w-1.5 h-1.5 rounded-full bg-rust-400 animate-ping" />
             )}
           </button>
 
@@ -1132,7 +1143,7 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
             className="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 font-mono text-xs flex items-center gap-1.5 transition-colors"
             title="View Landing Page & Verified Success Stories"
           >
-            <Layout className="w-3.5 h-3.5 text-cyan-400" />
+            <Layout className="w-3.5 h-3.5 text-rebel-400" />
             <span className="hidden sm:inline">LANDING</span>
           </button>
 
@@ -1146,10 +1157,10 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
                 playClick();
                 setShowFounderPerksModal(true);
               }}
-              className="px-2.5 py-1.5 rounded-lg bg-gradient-to-r from-amber-500/20 to-amber-600/20 hover:from-amber-500/30 hover:to-amber-600/30 border border-amber-400/50 text-amber-300 font-mono text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm shadow-amber-950/40"
+              className="px-2.5 py-1.5 rounded-lg bg-gradient-to-r from-rust-500/20 to-rust-600/20 hover:from-rust-500/30 hover:to-rust-600/30 border border-rust-400/50 text-rust-300 font-mono text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm shadow-rust-950/40"
               title="View Creator / Founder Genesis Pass & Perks"
             >
-              <Award className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
+              <Award className="w-3.5 h-3.5 text-rust-400 animate-pulse" />
               <span>
                 {userProfile.isCreator ||
                 userProfile.founderNumber === 0 ||
@@ -1168,10 +1179,10 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
               playClick();
               setShowPromoModal(true);
             }}
-            className="px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-cyan-500/10 border border-white/10 hover:border-cyan-400/40 text-gray-400 hover:text-cyan-300 font-mono text-xs flex items-center gap-1 transition-colors"
+            className="px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-rebel-500/10 border border-white/10 hover:border-rebel-400/40 text-gray-400 hover:text-rebel-300 font-mono text-xs flex items-center gap-1 transition-colors"
             title="Redeem Founder, Family, or VIP Access Key"
           >
-            <KeyRound className="w-3.5 h-3.5 text-cyan-400" />
+            <KeyRound className="w-3.5 h-3.5 text-rebel-400" />
             <span className="hidden lg:inline text-[10px] uppercase font-bold">VIP KEY</span>
           </button>
 
@@ -1181,11 +1192,11 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
               playDrawer(true);
               setShowPaywallModal(true);
             }}
-            className="px-2.5 py-1.5 rounded-lg bg-gradient-to-r from-cyan-950/70 to-fuchsia-950/70 hover:from-cyan-900/80 hover:to-fuchsia-900/80 border border-cyan-500/40 text-xs font-mono font-bold flex items-center gap-1.5 transition-all shadow-sm shadow-cyan-950/40"
+            className="px-2.5 py-1.5 rounded-lg bg-gradient-to-r from-rebel-950/70 to-rebel-950/70 hover:from-rebel-900/80 hover:to-rebel-900/80 border border-rebel-500/40 text-xs font-mono font-bold flex items-center gap-1.5 transition-all shadow-sm shadow-rebel-950/40"
             title="Open Protocol Upgrades & Entitlements"
           >
-            <Shield className="w-3.5 h-3.5 text-amber-400" />
-            <span className="uppercase text-cyan-300">
+            <Shield className="w-3.5 h-3.5 text-rust-400" />
+            <span className="uppercase text-rebel-300">
               {userProfile.isCreator || userProfile.founderNumber === 0
                 ? "CREATOR"
                 : userProfile.tier === "founder_lifetime" || userProfile.isFounderLifetime
@@ -1200,7 +1211,7 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
               ({userGoalsList.length}/{userProfile.atomizationLimit === 999999 ? "∞" : userProfile.atomizationLimit})
             </span>
             {userProfile.tier === "operative" && (
-              <span className="ml-1 px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 text-[8px] font-bold border border-amber-500/30">
+              <span className="ml-1 px-1.5 py-0.2 rounded bg-rust-500/20 text-rust-300 text-[8px] font-bold border border-rust-500/30">
                 UPGRADE
               </span>
             )}
@@ -1222,16 +1233,16 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
               playDrawer(true);
               setShowLiveVoiceModal(true);
             }}
-            className="px-3 py-1.5 rounded-lg bg-gradient-to-r from-cyan-950/80 to-fuchsia-950/80 hover:from-cyan-900 hover:to-fuchsia-900 border border-cyan-400/40 text-cyan-300 font-mono text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all shadow-md shadow-cyan-950/40"
+            className="px-3 py-1.5 rounded-lg bg-gradient-to-r from-rebel-950/80 to-rebel-950/80 hover:from-rebel-900 hover:to-rebel-900 border border-rebel-400/40 text-rebel-300 font-mono text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all shadow-md shadow-rebel-950/40"
             title={
               userProfile.voiceMinutesRemaining > 0
                 ? `${userProfile.voiceMinutesRemaining} voice minutes remaining`
                 : "Live Voice requires Vanguard Tier, Founder Pass, or Voice Minute refill"
             }
           >
-            <Radio className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
+            <Radio className="w-3.5 h-3.5 text-rebel-400 animate-pulse" />
             <span className="hidden sm:inline">LIVE VOICE</span>
-            <span className="text-[9px] font-mono text-fuchsia-300 px-1 py-0.2 rounded bg-fuchsia-950/60 border border-fuchsia-500/30">
+            <span className="text-[9px] font-mono text-rebel-300 px-1 py-0.2 rounded bg-rebel-950/60 border border-rebel-500/30">
               {userProfile.voiceMinutesRemaining}m
             </span>
           </button>
@@ -1254,20 +1265,20 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
             }
           >
             {!isOnline ? (
-              <span className="text-amber-400 flex items-center gap-1 font-bold">
-                <WifiOff className="w-3 h-3 text-amber-400 animate-pulse" /> OFFLINE (CACHED)
+              <span className="text-rust-400 flex items-center gap-1 font-bold">
+                <WifiOff className="w-3 h-3 text-rust-400 animate-pulse" /> OFFLINE (CACHED)
               </span>
             ) : isSyncing ? (
-              <span className="text-cyan-400 flex items-center gap-1 font-bold animate-pulse">
-                <Wifi className="w-3 h-3 text-cyan-400" /> SYNCING ({pendingCount})...
+              <span className="text-rebel-400 flex items-center gap-1 font-bold animate-pulse">
+                <Wifi className="w-3 h-3 text-rebel-400" /> SYNCING ({pendingCount})...
               </span>
             ) : pendingCount > 0 ? (
-              <span className="text-cyan-300 flex items-center gap-1 font-bold">
-                <Database className="w-3 h-3 text-cyan-400" /> QUEUED ({pendingCount})
+              <span className="text-rebel-300 flex items-center gap-1 font-bold">
+                <Database className="w-3 h-3 text-rebel-400" /> QUEUED ({pendingCount})
               </span>
             ) : syncStatus === "saving" ? (
-              <span className="text-amber-300 flex items-center gap-1 font-bold animate-pulse">
-                <Database className="w-3 h-3 text-amber-300" /> SAVING...
+              <span className="text-rust-300 flex items-center gap-1 font-bold animate-pulse">
+                <Database className="w-3 h-3 text-rust-300" /> SAVING...
               </span>
             ) : (
               <span className="text-emerald-400 flex items-center gap-1 font-bold">
@@ -1278,15 +1289,15 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
 
           {/* Google Auth Sign In / Profile */}
           {user ? (
-            <div className="flex items-center gap-2 bg-black/50 border border-cyan-900/40 rounded-lg p-1 pr-2.5">
+            <div className="flex items-center gap-2 bg-black/50 border border-rebel-900/40 rounded-lg p-1 pr-2.5">
               {user.photoURL ? (
                 <img
                   src={user.photoURL}
                   alt={user.displayName || "User"}
-                  className="w-7 h-7 rounded-full border border-cyan-400/30"
+                  className="w-7 h-7 rounded-full border border-rebel-400/30"
                 />
               ) : (
-                <div className="w-7 h-7 rounded-full bg-cyan-950 border border-cyan-400/30 flex items-center justify-center text-cyan-300 font-bold text-xs">
+                <div className="w-7 h-7 rounded-full bg-rebel-950 border border-rebel-400/30 flex items-center justify-center text-rebel-300 font-bold text-xs">
                   {user.displayName?.[0] || user.email?.[0] || "U"}
                 </div>
               )}
@@ -1294,7 +1305,7 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
                 <span className="block text-[10px] text-white font-semibold leading-tight truncate max-w-[90px]">
                   {user.displayName || user.email?.split("@")[0]}
                 </span>
-                <span className="block text-[8px] text-cyan-400/80">AUTHENTICATED</span>
+                <span className="block text-[8px] text-rebel-400/80">AUTHENTICATED</span>
               </div>
               <button
                 onClick={() => {
@@ -1316,7 +1327,7 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
               disabled={authLoading}
               className="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-gray-200 font-mono text-xs uppercase tracking-tight transition-all duration-300 flex items-center gap-1.5"
             >
-              <LogIn className="w-3.5 h-3.5 text-cyan-400" />
+              <LogIn className="w-3.5 h-3.5 text-rebel-400" />
               <span>{authLoading ? "LINKING..." : "SIGN IN"}</span>
             </button>
           )}
@@ -1335,7 +1346,7 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
               playDrawer(true);
               setShowAtomizeModal(true);
             }}
-            className="px-3.5 py-1.5 rounded-lg bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/50 text-cyan-400 font-mono text-xs uppercase tracking-tight transition-all duration-300 font-bold"
+            className="px-3.5 py-1.5 rounded-lg bg-rebel-500/10 hover:bg-rebel-500/20 border border-rebel-500/50 text-rebel-400 font-mono text-xs uppercase tracking-tight transition-all duration-300 font-bold"
             title="Decompose a goal into atomic actionable phases and tasks"
           >
             ⚡ DECOMPOSE
@@ -1346,8 +1357,8 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
       {/* Auth Error Notification Banner */}
       {authError && (
         <div className="relative z-20 max-w-7xl mx-auto px-6 pt-4">
-          <div className="p-3.5 rounded-xl bg-amber-950/80 border border-amber-500/50 text-amber-200 font-mono text-xs flex items-center gap-2 shadow-lg shadow-black/50">
-            <AlertCircle className="w-4 h-4 text-amber-400 shrink-0" />
+          <div className="p-3.5 rounded-xl bg-rust-950/80 border border-rust-500/50 text-rust-200 font-mono text-xs flex items-center gap-2 shadow-lg shadow-black/50">
+            <AlertCircle className="w-4 h-4 text-rust-400 shrink-0" />
             <span className="leading-relaxed">{authError}</span>
           </div>
         </div>
@@ -1359,7 +1370,7 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
         <section className="lg:col-span-8 flex flex-col gap-6">
           <div className="h-[460px] flex flex-col">
             <div className="flex items-center justify-between mb-3">
-              <h2 className="font-sans font-bold text-xs tracking-wider text-cyan-400 uppercase flex items-center gap-2">
+              <h2 className="font-sans font-bold text-xs tracking-wider text-rebel-400 uppercase flex items-center gap-2">
                 <Activity className="w-4 h-4" /> Interactive Node Map
               </h2>
               <span className="text-[9px] text-gray-500 font-mono uppercase">
@@ -1378,13 +1389,13 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
 
           {/* Node Inspector details panel */}
           {selectedNode && (
-            <div className="border border-cyan-900/40 bg-black/50 rounded-xl p-5 backdrop-blur-sm relative overflow-hidden shadow-lg shadow-black/40 animate-fade-in">
+            <div className="border border-rebel-900/40 bg-black/50 rounded-xl p-5 backdrop-blur-sm relative overflow-hidden shadow-lg shadow-black/40 animate-fade-in">
               {/* Highlight scanner line decoration */}
-              <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-cyan-400 to-purple-500" />
+              <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-rebel-400 to-purple-500" />
 
-              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-cyan-900/30 pb-4 mb-4">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-rebel-900/30 pb-4 mb-4">
                 <div>
-                  <span className="text-[9px] font-mono text-cyan-400 uppercase tracking-widest bg-cyan-950/20 border border-cyan-400/10 px-2 py-0.5 rounded">
+                  <span className="text-[9px] font-mono text-rebel-400 uppercase tracking-widest bg-rebel-950/20 border border-rebel-400/10 px-2 py-0.5 rounded">
                     {selectedNode.type === "goal"
                       ? "GOAL OBJECTIVE"
                       : selectedNode.type === "phase"
@@ -1413,17 +1424,17 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
                     <>
                       <button
                         onClick={() => handleScheduleTask(selectedNode.item as Task)}
-                        className="px-3.5 py-1.5 rounded-lg border border-cyan-500/20 bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 font-mono text-xs font-semibold transition-all duration-300 flex items-center gap-1.5"
+                        className="px-3.5 py-1.5 rounded-lg border border-rebel-500/20 bg-rebel-500/10 hover:bg-rebel-500/20 text-rebel-400 font-mono text-xs font-semibold transition-all duration-300 flex items-center gap-1.5"
                       >
                         <Clock className="w-4 h-4" />
                         SCHEDULE
                       </button>
                       <button
                         onClick={() => handleConsultTask(selectedNode.item as Task)}
-                        className="px-3.5 py-1.5 rounded-lg border border-fuchsia-500/30 bg-fuchsia-500/10 hover:bg-fuchsia-500/20 text-fuchsia-300 font-mono text-xs font-semibold transition-all duration-300 flex items-center gap-1.5"
+                        className="px-3.5 py-1.5 rounded-lg border border-rebel-500/30 bg-rebel-500/10 hover:bg-rebel-500/20 text-rebel-300 font-mono text-xs font-semibold transition-all duration-300 flex items-center gap-1.5"
                         title="Get tactical advice on completing this task without altering the main goal"
                       >
-                        <Sparkles className="w-4 h-4 text-fuchsia-400" />
+                        <Sparkles className="w-4 h-4 text-rebel-400" />
                         ADVISE ON TASK
                       </button>
                     </>
@@ -1447,7 +1458,7 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
                   {selectedNode.type === "task" && (selectedNode.item as Task).atoms && (
                     <div>
                       <h4 className="text-[9px] font-mono text-gray-500 uppercase tracking-widest mb-2 flex items-center gap-1.5">
-                        <Layers className="w-3.5 h-3.5 text-cyan-400" /> Action Checklist
+                        <Layers className="w-3.5 h-3.5 text-rebel-400" /> Action Checklist
                       </h4>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                         {(selectedNode.item as Task).atoms?.map((atom) => (
@@ -1492,8 +1503,8 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
                   {/* Overview details for Goal */}
                   {selectedNode.type === "goal" && (
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
-                      <div className="p-3 border border-cyan-900/40 bg-cyan-950/20 rounded-lg">
-                        <h5 className="text-[9px] font-mono text-cyan-400 uppercase tracking-widest mb-1">
+                      <div className="p-3 border border-rebel-900/40 bg-rebel-950/20 rounded-lg">
+                        <h5 className="text-[9px] font-mono text-rebel-400 uppercase tracking-widest mb-1">
                           Tactical Warning
                         </h5>
                         <p className="text-[11px] italic text-gray-300 font-sans leading-relaxed">
@@ -1513,8 +1524,8 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
                 </div>
 
                 {/* Sidebar details */}
-                <div className="bg-black/40 border border-cyan-900/40 p-4 rounded-lg space-y-3 font-mono text-[10px]">
-                  <div className="flex justify-between items-center pb-2 border-b border-cyan-900/30">
+                <div className="bg-black/40 border border-rebel-900/40 p-4 rounded-lg space-y-3 font-mono text-[10px]">
+                  <div className="flex justify-between items-center pb-2 border-b border-rebel-900/30">
                     <span className="text-gray-500 uppercase tracking-tight">TIMEFRAME</span>
                     <span className="text-white font-bold">
                       {selectedNode.type === "goal"
@@ -1523,14 +1534,14 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
                     </span>
                   </div>
 
-                  <div className="flex justify-between items-center pb-2 border-b border-cyan-900/30">
+                  <div className="flex justify-between items-center pb-2 border-b border-rebel-900/30">
                     <span className="text-gray-500 uppercase tracking-tight">PRIORITY</span>
                     <span
                       className={`font-bold uppercase ${
                         selectedNode.item.priority === "Critical" ||
                         selectedNode.item.priority === "High"
                           ? "text-rose-500"
-                          : "text-cyan-400"
+                          : "text-rebel-400"
                       }`}
                     >
                       {selectedNode.item.priority || "Medium"}
@@ -1539,7 +1550,7 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
 
                   {selectedNode.type === "task" && (
                     <>
-                      <div className="pb-2 border-b border-cyan-900/30">
+                      <div className="pb-2 border-b border-rebel-900/30">
                         <span className="text-gray-500 uppercase tracking-tight block mb-1">
                           TOOLS REQUIRED
                         </span>
@@ -1547,7 +1558,7 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
                           {(selectedNode.item as Task).tools?.map((tool, i) => (
                             <span
                               key={i}
-                              className="px-1.5 py-0.5 rounded bg-black/40 border border-cyan-900/40 text-gray-300 text-[9px]"
+                              className="px-1.5 py-0.5 rounded bg-black/40 border border-rebel-900/40 text-gray-300 text-[9px]"
                             >
                               {tool}
                             </span>
@@ -1574,7 +1585,7 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
                       <div className="flex flex-col gap-1.5">
                         {goal.resources?.map((resName, i) => (
                           <div key={i} className="flex items-center gap-1.5 text-gray-300">
-                            <Wrench className="w-3 h-3 text-cyan-400 shrink-0" />
+                            <Wrench className="w-3 h-3 text-rebel-400 shrink-0" />
                             <span className="truncate font-sans">{resName}</span>
                           </div>
                         ))}
@@ -1599,11 +1610,11 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
                 onScheduleTask={handleScheduleTask}
               />
             ) : (
-              <div className="border border-fuchsia-900/40 bg-black/60 rounded-xl p-6 backdrop-blur-sm text-center relative overflow-hidden shadow-lg shadow-black/50">
-                <div className="w-10 h-10 rounded-xl bg-fuchsia-950/80 border border-fuchsia-500/40 flex items-center justify-center text-fuchsia-400 mx-auto mb-3">
+              <div className="border border-rebel-900/40 bg-black/60 rounded-xl p-6 backdrop-blur-sm text-center relative overflow-hidden shadow-lg shadow-black/50">
+                <div className="w-10 h-10 rounded-xl bg-rebel-950/80 border border-rebel-500/40 flex items-center justify-center text-rebel-400 mx-auto mb-3">
                   <Lock className="w-5 h-5" />
                 </div>
-                <h3 className="font-mono text-xs font-bold uppercase tracking-wider text-fuchsia-300">
+                <h3 className="font-mono text-xs font-bold uppercase tracking-wider text-rebel-300">
                   Eisenhower Matrix Locked
                 </h3>
                 <p className="text-[11px] text-gray-400 mt-2 max-w-xs mx-auto leading-relaxed">
@@ -1612,7 +1623,7 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
                 <div className="mt-4 flex flex-col gap-2 max-w-xs mx-auto">
                   <button
                     onClick={() => setShowPaywallModal(true)}
-                    className="w-full py-2 px-3 rounded-lg bg-fuchsia-500 hover:bg-fuchsia-400 text-black font-mono text-xs font-bold uppercase tracking-wider transition-colors shadow-md shadow-fuchsia-950/50"
+                    className="w-full py-2 px-3 rounded-lg bg-rebel-500 hover:bg-rebel-400 text-black font-mono text-xs font-bold uppercase tracking-wider transition-colors shadow-md shadow-rebel-950/50"
                   >
                     Upgrade Tier to Unlock
                   </button>
@@ -1663,11 +1674,11 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
               }}
             />
           ) : (
-            <div className="border border-cyan-900/40 bg-black/60 rounded-xl p-8 backdrop-blur-sm text-center relative overflow-hidden shadow-lg shadow-black/50">
-              <div className="w-10 h-10 rounded-xl bg-cyan-950/80 border border-cyan-500/40 flex items-center justify-center text-cyan-400 mx-auto mb-3">
+            <div className="border border-rebel-900/40 bg-black/60 rounded-xl p-8 backdrop-blur-sm text-center relative overflow-hidden shadow-lg shadow-black/50">
+              <div className="w-10 h-10 rounded-xl bg-rebel-950/80 border border-rebel-500/40 flex items-center justify-center text-rebel-400 mx-auto mb-3">
                 <Lock className="w-5 h-5" />
               </div>
-              <h3 className="font-mono text-xs font-bold uppercase tracking-wider text-cyan-300">
+              <h3 className="font-mono text-xs font-bold uppercase tracking-wider text-rebel-300">
                 Chrono Schedule Planner Locked
               </h3>
               <p className="text-[11px] text-gray-400 mt-2 max-w-sm mx-auto leading-relaxed">
@@ -1679,13 +1690,13 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
                     playClick();
                     await requestCalendarAccess();
                   }}
-                  className="py-2 px-4 rounded-lg bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-black font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-md shadow-cyan-950/50 flex items-center gap-2"
+                  className="py-2 px-4 rounded-lg bg-gradient-to-r from-blue-600 to-rebel-500 hover:from-blue-500 hover:to-rebel-400 text-black font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-md shadow-rebel-950/50 flex items-center gap-2"
                 >
                   Connect Google Calendar
                 </button>
                 <button
                   onClick={() => setShowPaywallModal(true)}
-                  className="py-2 px-4 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-400/40 text-cyan-300 font-mono text-xs font-bold uppercase tracking-wider transition-colors"
+                  className="py-2 px-4 rounded-lg bg-rebel-500/20 hover:bg-rebel-500/30 border border-rebel-400/40 text-rebel-300 font-mono text-xs font-bold uppercase tracking-wider transition-colors"
                 >
                   Upgrade Tier
                 </button>
@@ -1702,43 +1713,43 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
       </main>
 
       {/* FOOTER COCKPIT TELEMETRY - Immersive UI styled */}
-      <footer className="relative z-10 h-10 bg-black/90 border-t border-cyan-900/40 flex items-center px-6 justify-between select-none">
+      <footer className="relative z-10 h-10 bg-black/90 border-t border-rebel-900/40 flex items-center px-6 justify-between select-none">
         <div className="flex gap-4 items-center">
           <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
           <span className="text-[9px] font-mono text-gray-400 tracking-wider">
-            PROJECT: <span className="text-cyan-400 font-bold">A.T.O.M<span className="lowercase font-mono text-cyan-300">-i</span></span> • OPERATOR: <span className="text-white">{effectiveUid}</span>
+            PROJECT: <span className="text-rebel-400 font-bold">A.T.O.M<span className="lowercase font-mono text-rebel-300">-i</span></span> • OPERATOR: <span className="text-white">{effectiveUid}</span>
           </span>
         </div>
         <div className="hidden md:flex flex-1 mx-8 gap-6 overflow-hidden justify-center pointer-events-none">
-          <span className="text-[9px] font-mono text-cyan-700/80 whitespace-nowrap">
+          <span className="text-[9px] font-mono text-rebel-700/80 whitespace-nowrap">
             NODE_CLUSTER: 104.22.1 • LATENCY: 14ms • ATOMIC_STEPS: {activeTasks.length} • TARGET_PROGRESS: {goal.progress}%
           </span>
-          <span className="text-[9px] font-mono text-fuchsia-700/70 whitespace-nowrap hidden lg:inline">
+          <span className="text-[9px] font-mono text-rebel-700/70 whitespace-nowrap hidden lg:inline">
             TIER: {userProfile.tier.toUpperCase()} • LIMIT: {userGoalsList.length}/{userProfile.atomizationLimit === 999999 ? "∞" : userProfile.atomizationLimit}
           </span>
         </div>
         <div className="flex items-center gap-3">
           <button
             onClick={() => handleOpenTerms("terms")}
-            className="text-[9px] font-mono text-gray-500 hover:text-cyan-300 transition-colors uppercase tracking-wider"
+            className="text-[9px] font-mono text-gray-500 hover:text-rebel-300 transition-colors uppercase tracking-wider"
           >
             [TERMS]
           </button>
           <button
             onClick={() => handleOpenTerms("refunds")}
-            className="text-[9px] font-mono text-gray-500 hover:text-cyan-300 transition-colors uppercase tracking-wider"
+            className="text-[9px] font-mono text-gray-500 hover:text-rebel-300 transition-colors uppercase tracking-wider"
           >
             [REFUNDS]
           </button>
           <button
             onClick={() => handleOpenTerms("support")}
-            className="text-[9px] font-mono text-cyan-400/80 hover:text-cyan-300 transition-colors uppercase tracking-wider"
+            className="text-[9px] font-mono text-rebel-400/80 hover:text-rebel-300 transition-colors uppercase tracking-wider"
           >
             [SUPPORT]
           </button>
           <button
             onClick={() => setShowPaywallModal(true)}
-            className="text-[9px] font-mono text-cyan-400 hover:text-cyan-300 transition-colors uppercase tracking-wider"
+            className="text-[9px] font-mono text-rebel-400 hover:text-rebel-300 transition-colors uppercase tracking-wider"
           >
             [MANAGE TIERS]
           </button>
@@ -1804,7 +1815,7 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
       {/* --- DECOMPOSE GOAL SETUP DIALOG MODAL --- */}
       {showAtomizeModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-md p-4 animate-fade-in">
-          <div className="relative w-full max-w-lg border border-cyan-500/20 bg-[#04040a] p-6 rounded-2xl shadow-2xl shadow-black/80 space-y-5">
+          <div className="relative w-full max-w-lg border border-rebel-500/20 bg-[#04040a] p-6 rounded-2xl shadow-2xl shadow-black/80 space-y-5">
             <button
               onClick={() => !isAtomizing && setShowAtomizeModal(false)}
               className="absolute top-4 right-4 text-gray-500 hover:text-white transition-colors disabled:opacity-40"
@@ -1814,7 +1825,7 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
             </button>
 
             <div className="text-center space-y-1.5">
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-500 to-purple-600 mx-auto flex items-center justify-center text-white shadow-md shadow-cyan-500/10">
+              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-rebel-500 to-purple-600 mx-auto flex items-center justify-center text-white shadow-md shadow-rebel-500/10">
                 <Sparkles className="w-6 h-6 animate-pulse" />
               </div>
               <h3 className="font-sans font-black text-lg text-white uppercase tracking-wider">
@@ -1827,9 +1838,9 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
 
             {/* Quota Check Banner */}
             {userGoalsList.length >= userProfile.atomizationLimit && (
-              <div className="p-3 border border-amber-500/30 bg-amber-500/10 rounded-xl text-amber-300 font-mono text-[11px] leading-relaxed flex items-center justify-between gap-3">
+              <div className="p-3 border border-rust-500/30 bg-rust-500/10 rounded-xl text-rust-300 font-mono text-[11px] leading-relaxed flex items-center justify-between gap-3">
                 <div className="flex items-center gap-2">
-                  <AlertCircle className="w-4 h-4 shrink-0 text-amber-400" />
+                  <AlertCircle className="w-4 h-4 shrink-0 text-rust-400" />
                   <span>Quota reached ({userGoalsList.length}/{userProfile.atomizationLimit} objectives).</span>
                 </div>
                 <button
@@ -1837,7 +1848,7 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
                     setShowAtomizeModal(false);
                     setShowPaywallModal(true);
                   }}
-                  className="px-2.5 py-1 rounded bg-amber-400 text-black font-bold text-[10px] uppercase shrink-0 hover:bg-amber-300 transition-colors"
+                  className="px-2.5 py-1 rounded bg-rust-400 text-black font-bold text-[10px] uppercase shrink-0 hover:bg-rust-300 transition-colors"
                 >
                   Upgrade
                 </button>
@@ -1845,15 +1856,15 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
             )}
 
             {atomizeError && (
-              <div className="p-3 border border-amber-500/20 bg-amber-500/10 rounded-xl text-amber-400 font-mono text-[10px] leading-relaxed flex gap-2 items-start">
-                <AlertCircle className="w-4 h-4 shrink-0 text-amber-400" />
+              <div className="p-3 border border-rust-500/20 bg-rust-500/10 rounded-xl text-rust-400 font-mono text-[10px] leading-relaxed flex gap-2 items-start">
+                <AlertCircle className="w-4 h-4 shrink-0 text-rust-400" />
                 <span>{atomizeError}</span>
               </div>
             )}
 
             <div className="space-y-4">
               <div>
-                <label className="block text-[10px] font-mono text-cyan-400 uppercase tracking-widest mb-1.5">
+                <label className="block text-[10px] font-mono text-rebel-400 uppercase tracking-widest mb-1.5">
                   Target Objective Title
                 </label>
                 <input
@@ -1862,12 +1873,12 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
                   onChange={(e) => setNewGoalTitle(e.target.value)}
                   placeholder="e.g., Run a full marathon, Learn Web3 development, Launch SaaS..."
                   disabled={isAtomizing}
-                  className="w-full bg-black/40 border border-cyan-500/20 focus:border-cyan-400 rounded-xl px-4 py-2.5 text-xs text-white placeholder-gray-700 outline-none transition-all"
+                  className="w-full bg-black/40 border border-rebel-500/20 focus:border-rebel-400 rounded-xl px-4 py-2.5 text-xs text-white placeholder-gray-700 outline-none transition-all"
                 />
               </div>
 
               <div>
-                <label className="block text-[10px] font-mono text-cyan-400 uppercase tracking-widest mb-1.5">
+                <label className="block text-[10px] font-mono text-rebel-400 uppercase tracking-widest mb-1.5">
                   Context, Resource Details & Constraints
                 </label>
                 <textarea
@@ -1876,19 +1887,19 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
                   placeholder="Include any critical parameters: timeline limits, tech preferences, your active skills, or custom constraints..."
                   rows={3}
                   disabled={isAtomizing}
-                  className="w-full bg-black/40 border border-cyan-500/20 focus:border-cyan-400 rounded-xl px-4 py-2.5 text-xs text-white placeholder-gray-700 outline-none transition-all resize-none"
+                  className="w-full bg-black/40 border border-rebel-500/20 focus:border-rebel-400 rounded-xl px-4 py-2.5 text-xs text-white placeholder-gray-700 outline-none transition-all resize-none"
                 />
               </div>
 
               {isAtomizing ? (
                 <div className="flex flex-col items-center justify-center py-4 space-y-3">
                   <div className="relative w-12 h-12 flex items-center justify-center">
-                    <span className="absolute border-2 border-cyan-500/20 w-full h-full rounded-full" />
-                    <span className="absolute border-2 border-t-cyan-400 w-full h-full rounded-full animate-spin" />
-                    <Cpu className="w-5 h-5 text-cyan-400 animate-pulse" />
+                    <span className="absolute border-2 border-rebel-500/20 w-full h-full rounded-full" />
+                    <span className="absolute border-2 border-t-rebel-400 w-full h-full rounded-full animate-spin" />
+                    <Cpu className="w-5 h-5 text-rebel-400 animate-pulse" />
                   </div>
                   <div className="text-center">
-                    <p className="text-xs font-mono text-cyan-400 uppercase tracking-widest animate-pulse">
+                    <p className="text-xs font-mono text-rebel-400 uppercase tracking-widest animate-pulse">
                       ATOM COMPILING ROADMAP
                     </p>
                     <p className="text-[10px] text-gray-500 mt-1 uppercase tracking-tighter">
@@ -1900,7 +1911,7 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
                 <button
                   onClick={handleAtomizeGoal}
                   disabled={!newGoalTitle.trim() || userGoalsList.length >= userProfile.atomizationLimit}
-                  className="w-full py-3.5 rounded-xl bg-gradient-to-br from-cyan-500 to-purple-600 hover:from-cyan-400 hover:to-purple-500 text-white font-sans text-xs font-bold uppercase tracking-wider disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-300 shadow-lg shadow-cyan-500/10"
+                  className="w-full py-3.5 rounded-xl bg-gradient-to-br from-rebel-500 to-purple-600 hover:from-rebel-400 hover:to-purple-500 text-white font-sans text-xs font-bold uppercase tracking-wider disabled:opacity-40 disabled:cursor-not-allowed transition-all duration-300 shadow-lg shadow-rebel-500/10"
                 >
                   ⚡ Execute Atomizer Pipeline
                 </button>
