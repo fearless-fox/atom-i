@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, Dispatch, SetStateAction } from "react";
+import { useEffect, useState, useCallback, useRef, Dispatch, SetStateAction } from "react";
 import {
   collection,
   doc,
@@ -7,6 +7,7 @@ import {
   getDocs,
   query,
   where,
+  orderBy,
   onSnapshot,
   deleteDoc,
   runTransaction,
@@ -41,6 +42,9 @@ export function useFirestorePersistence(
   const { user, loading: authLoading } = useAuth();
   const [syncStatus, setSyncStatus] = useState<"idle" | "saving" | "synced" | "error">("idle");
   const [userGoalsList, setUserGoalsList] = useState<Array<{ id: string; title: string; progress: number }>>([]);
+  // Tracks whether the latest-goal restore has run for the current session,
+  // so a logout/login cycle without reload still restores correctly.
+  const goalRestoredRef = useRef(false);
   
   // Active test persona override or real user UID
   const [activePersonaId, setActivePersonaId] = useState<string | null>(null);
@@ -132,6 +136,7 @@ export function useFirestorePersistence(
   useEffect(() => {
     if (authLoading || user) return;
     if (!wipeStaleOwnerSession()) return;
+    goalRestoredRef.current = false;
     setUserProfile({ ...DEFAULT_TRIAL_PROFILE });
     setGoal(DEFAULT_GOAL);
     setPlannerTasks([]);
@@ -295,6 +300,33 @@ export function useFirestorePersistence(
 
     return () => unsubscribe();
   }, [effectiveUid]);
+
+  // Restore the user's most recent goal on sign-in. After a logged-out wipe
+  // (or a first sign-in on a new device) the active goal is the default demo;
+  // this pulls their latest real decompose back from Firestore so no history
+  // is ever stranded. The demo goal itself is never restored.
+  useEffect(() => {
+    if (!effectiveUid || !user) return;
+    if (goalRestoredRef.current) return;
+    if (initialGoal.id !== DEFAULT_GOAL.id) return;
+    goalRestoredRef.current = true;
+    (async () => {
+      try {
+        const goalsRef = collection(db, "users", effectiveUid, "goals");
+        const snap = await getDocs(query(goalsRef, orderBy("updatedAt", "desc")));
+        for (const docSnap of snap.docs) {
+          if (docSnap.id === DEFAULT_GOAL.id) continue;
+          const d = docSnap.data();
+          if (d.phases && d.phases.length > 0) {
+            setGoal(d as Goal);
+            return;
+          }
+        }
+      } catch (err) {
+        console.warn("Could not restore latest goal on sign-in:", err);
+      }
+    })();
+  }, [effectiveUid, user, initialGoal.id, setGoal]);
 
   // 3. Fetch "success_stories" for Landing Page
   useEffect(() => {
