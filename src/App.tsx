@@ -19,6 +19,7 @@ import { FounderPerksModal } from "./components/FounderPerksModal";
 import { PromoCodeModal } from "./components/PromoCodeModal";
 import { AmbienceFocusModal } from "./components/AmbienceFocusModal";
 import { HyperfocusMode } from "./components/HyperfocusMode";
+import { GuidePage } from "./components/GuidePage";
 import { cyberAudio } from "./lib/cyberAudio";
 import { useAuth } from "./contexts/AuthContext";
 import { useFirestorePersistence } from "./hooks/useFirestorePersistence";
@@ -59,6 +60,7 @@ import {
   KeyRound,
   Gift,
   Waves,
+  BookOpen,
 } from "lucide-react";
 import { useCyberAudio } from "./hooks/useCyberAudio";
 import { useOfflineSync } from "./hooks/useOfflineSync";
@@ -94,7 +96,7 @@ export default function App() {
   });
 
   // --- CORE STATE ---
-  const [viewMode, setViewMode] = useState<"cockpit" | "landing">(() => {
+  const [viewMode, setViewMode] = useState<"cockpit" | "landing" | "guide">(() => {
     if (typeof window !== "undefined") {
       const params = new URLSearchParams(window.location.search);
       if (params.get("view") === "cockpit" || params.get("mode") === "cockpit") {
@@ -1009,6 +1011,18 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
     );
   }
 
+  if (viewMode === "guide") {
+    return (
+      <GuidePage
+        onBack={() => setViewMode("cockpit")}
+        onAtomizeFirstGoal={() => {
+          setViewMode("cockpit");
+          setShowAtomizeModal(true);
+        }}
+      />
+    );
+  }
+
   return (
     <div className="min-h-screen bg-[#050508] text-gray-300 font-sans selection:bg-rebel-500/30 selection:text-white flex flex-col relative overflow-x-hidden">
       {/* Interactive Cyber Particle Background */}
@@ -1149,6 +1163,19 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
 
           {/* PWA Install Button */}
           <PWAInstallButton onInstalledSound={() => playBranchSuccess()} />
+
+          {/* Guide / Field Manual Button */}
+          <button
+            onClick={() => {
+              playClick();
+              setViewMode("guide");
+            }}
+            className="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-gray-300 font-mono text-xs flex items-center gap-1.5 transition-colors"
+            title="Open the ATOM-I Field Manual — what every feature does"
+          >
+            <BookOpen className="w-3.5 h-3.5 text-rebel-400" />
+            <span className="hidden sm:inline">GUIDE</span>
+          </button>
 
           {/* Landing Page Button */}
           <button
