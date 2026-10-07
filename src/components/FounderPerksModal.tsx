@@ -255,11 +255,11 @@ export const FounderPerksModal: React.FC<FounderPerksModalProps> = ({
   return (
     <div
       id="founder-perks-modal"
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-md animate-fade-in overflow-y-auto"
+      className="fixed inset-0 z-50 flex p-4 bg-black/90 backdrop-blur-md animate-fade-in overflow-y-auto"
       onClick={onClose}
     >
       <div
-        className="bg-[#070a12] border-2 border-rust-500/50 rounded-2xl w-full max-w-3xl overflow-hidden shadow-2xl shadow-rust-950/40 flex flex-col relative my-6"
+        className="bg-[#070a12] border-2 border-rust-500/50 rounded-2xl w-full max-w-3xl overflow-hidden shadow-2xl shadow-rust-950/40 flex flex-col relative m-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header Ribbon */}
