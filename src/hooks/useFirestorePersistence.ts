@@ -315,7 +315,9 @@ export function useFirestorePersistence(
         const goalsRef = collection(db, "users", effectiveUid, "goals");
         const snap = await getDocs(query(goalsRef, orderBy("updatedAt", "desc")));
         for (const docSnap of snap.docs) {
-          if (docSnap.id === DEFAULT_GOAL.id) continue;
+          // Never restore the welcome node, and never the legacy SaaS demo
+          // doc that older autosaves may have written.
+          if (docSnap.id === DEFAULT_GOAL.id || docSnap.id === "saas-launch") continue;
           const d = docSnap.data();
           if (d.phases && d.phases.length > 0) {
             setGoal(d as Goal);
