@@ -130,7 +130,7 @@ export function useFirestorePersistence(
   }, [userProfile, user]);
 
   // Logged-out hardening: once auth definitively resolves with no user, a
-  // stale owner session must not leak its creator badge, privileges, NFT
+  // stale owner session must not leak its creator badge, privileges, 3D art pass
   // access, or last decompose into the visit. Anonymous trial state (no
   // owner markers) is left untouched so the free-trial funnel keeps working.
   useEffect(() => {

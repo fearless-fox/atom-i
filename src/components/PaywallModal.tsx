@@ -370,11 +370,11 @@ export default function PaywallModal({
                 Strictly limited to the first <strong>199 operators</strong>. Unlocks Lifetime Tactical Pro (unlimited objectives, 4-Quadrant Eisenhower Matrix, Chrono Day Planner, and live voice debriefs).
               </p>
 
-              {/* Bonus Freebies & NFT collectible note */}
+              {/* Bonus Freebies & collectible art note */}
               <div className="flex flex-wrap items-center gap-2 text-[11px] font-mono text-rust-300/90 pt-1">
                 <span className="flex items-center gap-1">
                   <Award className="w-3.5 h-3.5 text-rust-400" />
-                  Holographic Genesis NFT Badge
+                  Holographic Genesis 3D Art Badge
                 </span>
                 <span>•</span>
                 <span className="flex items-center gap-1">
@@ -413,7 +413,7 @@ export default function PaywallModal({
                     className="w-full md:w-auto px-5 py-3 rounded-xl bg-gradient-to-r from-rust-400 to-rust-500 hover:from-rust-300 hover:to-rust-400 text-black font-mono text-xs font-black uppercase tracking-wider transition-all shadow-lg shadow-rust-500/20 flex items-center justify-center gap-2"
                   >
                     <Award className="w-4 h-4" />
-                    View Founder NFT &amp; Sticker Kit
+                    View Founder 3D Art &amp; Sticker Kit
                   </button>
                   <span className="text-[10px] font-mono text-rust-300/80 text-center">
                     Founder Privileges Active
@@ -430,7 +430,7 @@ export default function PaywallModal({
                     title="Preview the Interactive 3D Holographic Founder Card"
                   >
                     <Sparkles className="w-3.5 h-3.5 text-rust-400" />
-                    Preview 3D NFT Badge
+                    Preview 3D Art Badge
                   </button>
                   <button
                     onClick={handleClaimFounder}
