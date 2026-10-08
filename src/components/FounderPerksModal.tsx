@@ -10,15 +10,12 @@ import {
   Sparkles,
   Package,
   Check,
-  Shield,
   Download,
   Share2,
-  Cpu,
   Flame,
   Truck,
   MapPin,
   ExternalLink,
-  QrCode,
   RotateCw,
   RefreshCw,
   Eye,
@@ -365,194 +362,103 @@ export const FounderPerksModal: React.FC<FounderPerksModalProps> = ({
                       : "transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1)",
                 }}
               >
-                {/* FRONT FACE (0 deg) */}
+                {/* FRONT FACE (0 deg) — founder's original circuit artwork, animated HUD */}
                 <div
-                  className="absolute inset-0 rounded-2xl p-6 overflow-hidden shadow-2xl border-2 border-rust-400/80 bg-gradient-to-br from-[#0c0d1c] via-[#1a1233] to-[#0a1622] text-white flex flex-col justify-between"
+                  className="absolute inset-0 rounded-2xl overflow-hidden shadow-2xl border border-cyan-200/30 text-white"
                   style={{
                     backfaceVisibility: "hidden",
                     WebkitBackfaceVisibility: "hidden",
                     transform: `rotateY(0deg) translateZ(${CARD_HALF}px)`,
-                    backgroundColor: "#0c0d1c",
+                    backgroundColor: "#000000",
                     visibility: isBackFacing ? "hidden" : "visible",
                     opacity: isBackFacing ? 0 : 1,
                     pointerEvents: isBackFacing ? "none" : "auto",
                     transition: "opacity 0.15s ease",
+                    boxShadow: "0 0 32px rgba(103,232,249,0.18), 0 25px 50px -12px rgba(0,0,0,0.8)",
                   }}
                 >
-                  {/* Holographic Shimmer Sheen Layer */}
-                  <div
-                    className="absolute inset-0 opacity-40 group-hover:opacity-75 transition-opacity pointer-events-none"
-                    style={{
-                      background:
-                        "linear-gradient(135deg, rgba(255,215,0,0.15) 0%, rgba(34,211,238,0.2) 25%, rgba(168,85,247,0.2) 50%, rgba(251,191,36,0.3) 100%)",
-                    }}
-                  />
-
-                  {/* Animated Corner Brackets */}
-                  <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-rust-400/80" />
-                  <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-rust-400/80" />
-                  <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-rust-400/80" />
-                  <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-rust-400/80" />
-
-                  <div className="relative flex flex-col justify-between h-full">
-                    {/* Top Row */}
-                    <div className="flex items-start justify-between">
-                      <div className="flex items-center gap-2.5">
-                        <div className="w-8 h-8 rounded-lg bg-rust-400/20 border border-rust-400/60 flex items-center justify-center">
-                          <Cpu className="w-4 h-4 text-rust-300" />
-                        </div>
-                        <div>
-                          <div className="text-[10px] font-mono tracking-widest text-rust-400 uppercase font-black">
-                            {isCreatorRoot ? "atom-i • ROOT PASS" : "atom-i • GENESIS PASS"}
-                          </div>
-                          <div className="text-xs font-sans font-bold text-gray-200">
-                            {isCreatorRoot ? "ROOT ARCHITECT & CREATOR" : "FOUNDING OPERATOR"}
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="text-right">
-                        <span className={`inline-block px-2.5 py-1 rounded-md font-mono text-xs font-black tracking-widest shadow-inner ${
-                          isCreatorRoot
-                            ? "bg-rust-400/30 border-2 border-rust-300 text-rust-200 shadow-rust-500/30"
-                            : "bg-rust-500/20 border border-rust-400/70 text-rust-300"
-                        }`}>
-                          #{formattedNumber} / 199
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Center Chip & Graphic */}
-                    <div className="my-auto py-1">
-                      <div className="flex items-center justify-between mb-2">
-                        <div className="w-11 h-8 rounded bg-gradient-to-tr from-rust-400 via-rust-200 to-rust-500 border border-rust-300 shadow-md flex items-center justify-center">
-                          <div className="w-8 h-5 border border-rust-800/40 rounded-sm grid grid-cols-2 gap-0.5 p-0.5">
-                            <div className="bg-rust-800/30 rounded-xs" />
-                            <div className="bg-rust-800/30 rounded-xs" />
-                          </div>
-                        </div>
-                        <div className="text-right">
-                          <div className="text-[9px] font-mono text-rebel-300 uppercase">ACCESS LEVEL</div>
-                          <div className="text-sm font-black font-sans text-white tracking-wider">
-                            {isCreatorRoot ? "ROOT ARCHITECT #000" : "VANGUARD LIFETIME"}
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="p-2.5 rounded-lg bg-black/60 border border-white/10 text-[11px] font-mono text-gray-300 space-y-1">
-                        <div className="flex justify-between">
-                          <span className="text-gray-400">BENEFICIARY:</span>
-                          <strong className="text-white">{userProfile.displayName || "Founding Member"}</strong>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-gray-400">PRIVILEGES:</span>
-                          <strong className="text-rust-300">Unlimited Core + Live Voice</strong>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Bottom Row */}
-                    <div className="pt-2 border-t border-white/10 flex items-end justify-between text-[9px] font-mono text-gray-400">
-                      <div>
-                        <div>COLLECTIBLE 3D ORIGINAL ART</div>
-                        <div className="text-rebel-400 font-bold tracking-wider">by the founder</div>
-                      </div>
-                      <div className="flex items-center gap-1 text-emerald-400 font-bold">
-                        <Check className="w-3 h-3" />
-                        <span>FOUNDER ISSUED</span>
-                      </div>
-                    </div>
+                  <div className="absolute -inset-3 hud-flicker">
+                    <img
+                      src="/founder-card-front.png"
+                      alt="Original circuit artwork by the founder"
+                      className="w-full h-full object-cover hud-drift"
+                      draggable={false}
+                    />
                   </div>
+                  {/* HUD scanline sweep */}
+                  <div
+                    className="absolute left-0 right-0 h-24 hud-scan pointer-events-none"
+                    style={{ background: "linear-gradient(to bottom, transparent, rgba(103,232,249,0.16), rgba(103,232,249,0.05), transparent)" }}
+                  />
+                  {/* Holographic sheen slide */}
+                  <div
+                    className="absolute inset-y-[-10%] w-1/4 hud-sheen-slide pointer-events-none"
+                    style={{ background: "linear-gradient(to right, transparent, rgba(255,255,255,0.10), transparent)" }}
+                  />
+                  {/* Blinking status lights */}
+                  <div className="absolute top-[3.5%] left-[4.5%] w-2 h-2 rounded-full bg-cyan-300 hud-blink" style={{ boxShadow: "0 0 10px rgba(103,232,249,0.9)" }} />
+                  <div className="absolute top-[3.5%] right-[5%] w-2 h-2 rounded-full bg-rose-500 hud-blink-slow" style={{ boxShadow: "0 0 10px rgba(244,63,94,0.9)" }} />
+                  <div className="absolute bottom-[4%] left-[4.5%] w-2 h-2 rounded-full bg-emerald-400 hud-blink-slow" style={{ boxShadow: "0 0 10px rgba(52,211,153,0.9)", animationDelay: "0.7s" }} />
+                  {/* CRT vignette + pulsing edge glow */}
+                  <div className="absolute inset-0 pointer-events-none rounded-2xl" style={{ boxShadow: "inset 0 0 70px rgba(0,0,0,0.62)" }} />
+                  <div className="absolute inset-0 pointer-events-none rounded-2xl hud-glow-pulse" style={{ boxShadow: "inset 0 0 24px rgba(103,232,249,0.22)" }} />
                 </div>
-
-                {/* BACK FACE (180 deg) */}
+{/* BACK FACE (180 deg) — Genesis Pass frame + live member data */}
                 <div
-                  className="absolute inset-0 rounded-2xl p-6 overflow-hidden shadow-2xl border-2 border-rebel-400/80 bg-gradient-to-br from-[#060814] via-[#0b1329] to-[#04060f] text-white flex flex-col justify-between"
+                  className="absolute inset-0 rounded-2xl overflow-hidden shadow-2xl border border-cyan-200/30 text-white"
                   style={{
                     backfaceVisibility: "hidden",
                     WebkitBackfaceVisibility: "hidden",
                     transform: `rotateY(180deg) translateZ(${CARD_HALF}px)`,
-                    backgroundColor: "#060814",
+                    backgroundColor: "#000000",
                     visibility: isBackFacing ? "visible" : "hidden",
                     opacity: isBackFacing ? 1 : 0,
                     pointerEvents: isBackFacing ? "auto" : "none",
                     transition: "opacity 0.15s ease",
+                    boxShadow: "0 0 32px rgba(103,232,249,0.18), 0 25px 50px -12px rgba(0,0,0,0.8)",
                   }}
                 >
-                  {/* Cybernetic Circuit Trace Overlay */}
+                  <div className="absolute -inset-3 hud-flicker">
+                    <img
+                      src="/founder-card-back.png"
+                      alt="Genesis pass frame artwork by the founder"
+                      className="w-full h-full object-cover hud-drift"
+                      style={{ animationDuration: "18s" }}
+                      draggable={false}
+                    />
+                  </div>
                   <div
-                    className="absolute inset-0 opacity-25 pointer-events-none"
-                    style={{
-                      backgroundImage:
-                        "radial-gradient(circle at 50% 50%, rgba(34,211,238,0.2) 0%, transparent 60%), linear-gradient(0deg, rgba(34,211,238,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(34,211,238,0.08) 1px, transparent 1px)",
-                      backgroundSize: "100% 100%, 20px 20px, 20px 20px",
-                    }}
+                    className="absolute left-0 right-0 h-24 hud-scan pointer-events-none"
+                    style={{ background: "linear-gradient(to bottom, transparent, rgba(103,232,249,0.12), transparent)", animationDuration: "6s" }}
                   />
-
-                  {/* Corner Tech Brackets */}
-                  <div className="absolute top-2 left-2 w-4 h-4 border-t-2 border-l-2 border-rebel-400/80" />
-                  <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-rebel-400/80" />
-                  <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-rebel-400/80" />
-                  <div className="absolute bottom-2 right-2 w-4 h-4 border-b-2 border-r-2 border-rebel-400/80" />
-
-                  <div className="relative flex flex-col justify-between h-full">
-                    {/* Back Header */}
-                    <div className="flex items-center justify-between border-b border-rebel-500/30 pb-2">
-                      <div className="flex items-center gap-2">
-                        <Shield className="w-4 h-4 text-rebel-400" />
-                        <span className="text-[10px] font-mono text-rebel-300 font-bold tracking-widest uppercase">
-                          GENESIS HARDWARE SECURITY SPEC
-                        </span>
-                      </div>
-                      <span className="text-[10px] font-mono text-gray-400">
-                        REV 3.8.0
-                      </span>
+                  <div
+                    className="absolute inset-y-[-10%] w-1/4 hud-sheen-slide pointer-events-none"
+                    style={{ background: "linear-gradient(to right, transparent, rgba(255,255,255,0.08), transparent)", animationDuration: "7s" }}
+                  />
+                  {/* Live member data in the frame's empty center */}
+                  <div className="absolute inset-x-0 top-[40%] flex flex-col items-center text-center px-10 pointer-events-none">
+                    <div className="font-mono text-[10px] tracking-[0.4em] uppercase text-cyan-200/75">
+                      {isCreatorRoot ? "Root Architect" : "Founding Operator"}
                     </div>
-
-                    {/* Technical Matrix Readout */}
-                    <div className="grid grid-cols-3 gap-3 items-center py-2">
-                      {/* Encrypted QR Authentication Block */}
-                      <div className="col-span-1 p-2 rounded-xl bg-black/80 border border-rebel-500/40 flex flex-col items-center justify-center text-center">
-                        <QrCode className="w-14 h-14 text-rebel-300 p-0.5" />
-                        <span className="text-[8px] font-mono text-gray-400 mt-1 uppercase">
-                          HASH VERIFIED
-                        </span>
-                      </div>
-
-                      {/* Technical Specs List */}
-                      <div className="col-span-2 space-y-1.5 text-[10px] font-mono">
-                        <div className="flex justify-between border-b border-white/5 pb-0.5">
-                          <span className="text-gray-400">ENGINE:</span>
-                          <span className="text-rebel-300 font-bold">Gemini 3.8 Live</span>
-                        </div>
-                        <div className="flex justify-between border-b border-white/5 pb-0.5">
-                          <span className="text-gray-400">SECURITY:</span>
-                          <span className="text-emerald-400 font-bold">256-Bit Firestore</span>
-                        </div>
-                        <div className="flex justify-between border-b border-white/5 pb-0.5">
-                          <span className="text-gray-400">ALLOCATION:</span>
-                          <span className="text-rust-300 font-bold">
-                            {isCreatorRoot ? "Genesis Slot #000 (Root Architect)" : `Slot #${formattedNumber} / 199`}
-                          </span>
-                        </div>
-                        <div className="flex justify-between">
-                          <span className="text-gray-400">STICKER KIT:</span>
-                          <span className="text-purple-300 font-bold">Batch #01 Included</span>
-                        </div>
-                      </div>
+                    <div
+                      className="font-black text-6xl tracking-widest text-white mt-2"
+                      style={{ textShadow: "0 0 22px rgba(103,232,249,0.7), 0 0 44px rgba(103,232,249,0.3)" }}
+                    >
+                      #{formattedNumber}
                     </div>
-
-                    {/* Back Footer */}
-                    <div className="pt-2 border-t border-rebel-500/30 flex items-center justify-between text-[9px] font-mono text-gray-400">
-                      <div>ID: <span className="text-white font-bold">Founder #{formattedNumber}</span></div>
-                      <div className="text-rebel-400 uppercase tracking-widest font-bold">
-                        ATOM-I CERTIFIED
-                      </div>
+                    <div className="font-mono text-sm text-cyan-100/90 mt-2 tracking-wide">
+                      {userProfile.displayName || "Founding Member"}
+                    </div>
+                    <div className="mt-3 pt-3 border-t border-cyan-200/25 font-mono text-[9px] tracking-[0.3em] uppercase text-cyan-200/60 leading-relaxed">
+                      Collectible 3D original art<br />by the founder
                     </div>
                   </div>
+                  <div className="absolute top-[3.5%] left-[4.5%] w-2 h-2 rounded-full bg-cyan-300 hud-blink" style={{ boxShadow: "0 0 10px rgba(103,232,249,0.9)" }} />
+                  <div className="absolute top-[3.5%] right-[5%] w-2 h-2 rounded-full bg-rose-500 hud-blink-slow" style={{ boxShadow: "0 0 10px rgba(244,63,94,0.9)" }} />
+                  <div className="absolute inset-0 pointer-events-none rounded-2xl" style={{ boxShadow: "inset 0 0 70px rgba(0,0,0,0.62)" }} />
+                  <div className="absolute inset-0 pointer-events-none rounded-2xl hud-glow-pulse" style={{ boxShadow: "inset 0 0 24px rgba(103,232,249,0.22)" }} />
                 </div>
-
-                {/* Card thickness: metallic edge strips bridging front/back faces.
+{/* Card thickness: metallic edge strips bridging front/back faces.
                     Always visible (no backface culling) so the spin reads as a
                     solid card instead of flickering hollow at edge-on angles. */}
                 <div
