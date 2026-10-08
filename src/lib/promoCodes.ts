@@ -83,7 +83,7 @@ export const VALID_PROMO_CODES: PromoCodeDefinition[] = [
     tier: "founder_lifetime",
     voiceMinutes: 999999,
     label: "Official Founder Genesis Pass",
-    description: "Unlocks Option B Lifetime Founder Pass + Genesis Holographic NFT badge.",
+    description: "Unlocks Option B Lifetime Founder Pass + Genesis Holographic 3D Art badge.",
     founderNumber: 88,
     isFounder: true,
   },

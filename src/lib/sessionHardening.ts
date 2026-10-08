@@ -3,7 +3,7 @@
  *
  * A previous signed-in session (notably the project owner's) persists its
  * profile in localStorage. When Firebase auth resolves with no user, that
- * stale identity must never leak its creator badge, privileges, NFT access,
+ * stale identity must never leak its creator badge, privileges, 3D art pass access,
  * or last decompose into the logged-out visit.
  *
  * Detection is read-only and idempotent; the wipe records that it ran so

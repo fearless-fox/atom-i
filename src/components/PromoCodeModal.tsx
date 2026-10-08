@@ -138,7 +138,7 @@ export const PromoCodeModal: React.FC<PromoCodeModalProps> = ({
                   • Unlimited AI Goal Decomposition &amp; Sub-tasks<br />
                   • 4-Quadrant Eisenhower Matrix &amp; Chrono Day Planner<br />
                   • Unlimited Gemini 3.8 Live Voice Minutes<br />
-                  • Genesis Founder NFT Digital Card &amp; Free Sticker Kit
+                  • Genesis Founder 3D Art Card &amp; Free Sticker Kit
                 </div>
               </div>
 
@@ -153,7 +153,7 @@ export const PromoCodeModal: React.FC<PromoCodeModalProps> = ({
                     className="w-full py-2.5 rounded-xl bg-gradient-to-r from-rust-400 to-rust-500 hover:from-rust-300 hover:to-rust-400 text-black font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-md shadow-rust-500/20 flex items-center justify-center gap-1.5"
                   >
                     <Gift className="w-4 h-4" />
-                    View Founder NFT Badge &amp; Freebie Kit
+                    View Founder 3D Art Badge &amp; Freebie Kit
                   </button>
                 )}
 
@@ -203,7 +203,7 @@ export const PromoCodeModal: React.FC<PromoCodeModalProps> = ({
                 disabled={isRedeeming || !code.trim()}
                 className="w-full py-3 rounded-xl bg-gradient-to-r from-rebel-500 to-indigo-600 hover:from-rebel-400 hover:to-indigo-500 text-white font-sans text-xs font-bold uppercase tracking-wider transition-all shadow-lg shadow-rebel-500/20 disabled:opacity-40 flex items-center justify-center gap-2"
               >
-                {isRedeeming ? "Verifying Cryptographic Pass..." : "Redeem Full Access Pass"}
+                {isRedeeming ? "Verifying Founder Pass..." : "Redeem Full Access Pass"}
                 <ArrowRight className="w-4 h-4" />
               </button>
 

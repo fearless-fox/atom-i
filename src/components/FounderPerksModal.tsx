@@ -101,7 +101,6 @@ export const FounderPerksModal: React.FC<FounderPerksModalProps> = ({
           : 138);
   const formattedNumber = String(founderNumber).padStart(3, "0");
   const isCreatorRoot = formattedNumber === "000";
-  const authHash = isCreatorRoot ? "0x000ATOM...ROOT01" : `0x7A${formattedNumber}F9C...E42B`;
 
   // Physical card thickness (px). Faces sit at +/- half; four metallic edge
   // strips bridge the gap so a spin never shows a hollow flicker edge-on.
@@ -240,8 +239,8 @@ export const FounderPerksModal: React.FC<FounderPerksModalProps> = ({
       <text x="50" y="340" font-family="sans-serif" font-size="15" fill="#e5e7eb">• Exclusive Die-Cut Metallic Holographic Sticker Kit Access</text>
       
       <rect x="50" y="390" width="300" height="50" rx="8" fill="#111827" stroke="#374151"/>
-      <text x="65" y="412" font-family="monospace" font-size="10" fill="#9ca3af">CRYPTOGRAPHIC VERIFICATION HASH</text>
-      <text x="65" y="430" font-family="monospace" font-size="12" fill="#FF4D1C">${authHash}</text>
+      <text x="65" y="412" font-family="monospace" font-size="10" fill="#9ca3af">COLLECTIBLE 3D ORIGINAL ART</text>
+      <text x="65" y="430" font-family="monospace" font-size="12" fill="#FF4D1C">by the founder</text>
       
       <text x="600" y="440" font-family="monospace" font-size="12" fill="#7C3AED" text-anchor="middle">CERTIFIED ATOM-I</text>
     </svg>
@@ -289,7 +288,7 @@ export const FounderPerksModal: React.FC<FounderPerksModalProps> = ({
                 </span>
               </div>
               <p className="text-xs text-rust-200/70 font-mono">
-                Operator Pass #{formattedNumber} / 199 • {isCreatorRoot ? "Master Creator Root Pass" : "Official Collectible NFT & Physical Freebie Kit"}
+                Operator Pass #{formattedNumber} / 199 • {isCreatorRoot ? "Master Creator Root Pass" : "Collectible 3D Original Art by the Founder & Physical Freebie Kit"}
               </p>
             </div>
           </div>
@@ -318,7 +317,7 @@ export const FounderPerksModal: React.FC<FounderPerksModalProps> = ({
             }`}
           >
             <Sparkles className="w-4 h-4 text-rust-400" />
-            <span>Digital NFT Genesis Pass</span>
+            <span>3D Art Genesis Pass</span>
           </button>
 
           <button
@@ -340,7 +339,7 @@ export const FounderPerksModal: React.FC<FounderPerksModalProps> = ({
           </button>
         </div>
 
-        {/* Tab 1: Holographic NFT Collectible Badge */}
+        {/* Tab 1: Holographic 3D Art Collectible Badge */}
         {activeTab === "nft_badge" && (
           <div className="p-6 flex flex-col items-center justify-center space-y-5 bg-gradient-to-b from-black/60 to-[#070a14]">
             {/* 360-Degree Interactive 3D Card Container */}
@@ -455,12 +454,12 @@ export const FounderPerksModal: React.FC<FounderPerksModalProps> = ({
                     {/* Bottom Row */}
                     <div className="pt-2 border-t border-white/10 flex items-end justify-between text-[9px] font-mono text-gray-400">
                       <div>
-                        <div>CRYPTOGRAPHIC SIGNATURE</div>
-                        <div className="text-rebel-400 font-bold tracking-wider">{authHash}</div>
+                        <div>COLLECTIBLE 3D ORIGINAL ART</div>
+                        <div className="text-rebel-400 font-bold tracking-wider">by the founder</div>
                       </div>
                       <div className="flex items-center gap-1 text-emerald-400 font-bold">
                         <Check className="w-3 h-3" />
-                        <span>AUTHENTICATED</span>
+                        <span>FOUNDER ISSUED</span>
                       </div>
                     </div>
                   </div>
@@ -545,7 +544,7 @@ export const FounderPerksModal: React.FC<FounderPerksModalProps> = ({
 
                     {/* Back Footer */}
                     <div className="pt-2 border-t border-rebel-500/30 flex items-center justify-between text-[9px] font-mono text-gray-400">
-                      <div>ID: <span className="text-white font-bold">{authHash}</span></div>
+                      <div>ID: <span className="text-white font-bold">Founder #{formattedNumber}</span></div>
                       <div className="text-rebel-400 uppercase tracking-widest font-bold">
                         ATOM-I CERTIFIED
                       </div>
@@ -652,7 +651,7 @@ export const FounderPerksModal: React.FC<FounderPerksModalProps> = ({
                 className="px-4 py-2 rounded-xl bg-gradient-to-r from-rust-400 to-rust-500 hover:from-rust-300 hover:to-rust-400 text-black font-mono text-xs font-bold uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-rust-500/20 transition-all"
               >
                 <Download className="w-4 h-4" />
-                Download Digital NFT Certificate (SVG)
+                Download 3D Art Certificate (SVG)
               </button>
 
               <button
