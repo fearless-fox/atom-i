@@ -67,28 +67,28 @@ export default function LandingPage({
     userProfile.tier === "founder_lifetime" || userProfile.isFounderLifetime;
 
   return (
-    <div className="min-h-screen bg-[#06090e] text-gray-100 font-sans selection:bg-cyan-500 selection:text-black">
+    <div className="min-h-screen bg-[#0B0B0F] text-gray-100 font-sans selection:bg-rebel-500 selection:text-black">
       {/* Background Ambience */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-gradient-to-b from-cyan-600/15 via-fuchsia-600/10 to-transparent blur-3xl opacity-70" />
-        <div className="absolute top-1/3 -right-60 w-[500px] h-[500px] bg-cyan-500/10 blur-3xl rounded-full" />
-        <div className="absolute bottom-10 -left-40 w-[600px] h-[600px] bg-fuchsia-500/10 blur-3xl rounded-full" />
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#0c132215_1px,transparent_1px),linear-gradient(to_bottom,#0c132215_1px,transparent_1px)] bg-[size:40px_40px]" />
+        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-gradient-to-b from-rebel-600/15 via-rebel-600/10 to-transparent blur-3xl opacity-70" />
+        <div className="absolute top-1/3 -right-60 w-[500px] h-[500px] bg-rebel-500/10 blur-3xl rounded-full" />
+        <div className="absolute bottom-10 -left-40 w-[600px] h-[600px] bg-rebel-500/10 blur-3xl rounded-full" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#0B0B0F15_1px,transparent_1px),linear-gradient(to_bottom,#0B0B0F15_1px,transparent_1px)] bg-[size:40px_40px]" />
       </div>
 
       {/* Navigation */}
-      <header className="relative z-20 border-b border-cyan-900/30 bg-[#06090e]/80 backdrop-blur-md sticky top-0">
+      <header className="relative z-20 border-b border-rebel-900/30 bg-[#0B0B0F]/80 backdrop-blur-md sticky top-0">
         <div className="max-w-7xl mx-auto px-6 h-18 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-400 to-cyan-700 flex items-center justify-center text-black font-extrabold shadow-lg shadow-cyan-500/20">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-rebel-400 to-rebel-700 flex items-center justify-center text-black font-extrabold shadow-lg shadow-rebel-500/20">
               <Zap className="w-5 h-5 text-black fill-current" />
             </div>
             <div>
               <div className="flex items-center gap-2">
                 <span className="text-lg font-black tracking-tight text-white">
-                  A.T.O.M<span className="text-cyan-400 lowercase">-i</span>
+                  A.T.O.M<span className="text-rebel-400 lowercase">-i</span>
                 </span>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-950/80 border border-cyan-500/40 text-cyan-400">
+                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-rebel-950/80 border border-rebel-500/40 text-rebel-400">
                   v3.8
                 </span>
               </div>
@@ -103,12 +103,12 @@ export default function LandingPage({
               onClick={onOpenPaywall}
               className="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-mono text-gray-300 transition-colors"
             >
-              <Shield className="w-3.5 h-3.5 text-cyan-400" />
+              <Shield className="w-3.5 h-3.5 text-rebel-400" />
               <span>PACKAGES & FOUNDER PASS</span>
             </button>
             <button
               onClick={onEnterCockpit}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-cyan-400 hover:bg-cyan-300 text-black font-mono text-xs font-extrabold uppercase tracking-wider transition-all shadow-lg shadow-cyan-500/30 hover:scale-[1.02]"
+              className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-rebel-400 hover:bg-rebel-300 text-black font-mono text-xs font-extrabold uppercase tracking-wider transition-all shadow-lg shadow-rebel-500/30 hover:scale-[1.02]"
             >
               <span>ENTER COCKPIT</span>
               <ArrowRight className="w-4 h-4" />
@@ -119,8 +119,8 @@ export default function LandingPage({
 
       {/* Hero Section */}
       <section className="relative z-10 pt-20 pb-20 px-6 text-center max-w-5xl mx-auto">
-        <div className="inline-flex flex-wrap items-center justify-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-950/70 border border-cyan-500/40 text-cyan-300 font-mono text-xs uppercase tracking-widest mb-8">
-          <Sparkles className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
+        <div className="inline-flex flex-wrap items-center justify-center gap-2 px-3.5 py-1.5 rounded-full bg-rebel-950/70 border border-rebel-500/40 text-rebel-300 font-mono text-xs uppercase tracking-widest mb-8">
+          <Sparkles className="w-3.5 h-3.5 text-rebel-400 animate-pulse" />
           <span>CONNECTED TO FIRESTORE: ATOM-I</span>
           <span className="text-gray-500">•</span>
           <span className="text-emerald-400 flex items-center gap-1 font-bold">
@@ -130,7 +130,7 @@ export default function LandingPage({
 
         <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight leading-[1.08] mb-6">
           DECONSTRUCT AMBITION. <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-teal-300 to-fuchsia-400">
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-rebel-400 via-teal-300 to-rebel-400">
             EXECUTE WITH NEURAL PRECISION.
           </span>
         </h1>
@@ -143,7 +143,7 @@ export default function LandingPage({
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <button
             onClick={onEnterCockpit}
-            className="w-full sm:w-auto flex items-center justify-center gap-3 px-8 py-4 rounded-xl bg-cyan-400 hover:bg-cyan-300 text-black font-mono text-sm font-black uppercase tracking-wider transition-all shadow-xl shadow-cyan-500/30 hover:scale-[1.02]"
+            className="w-full sm:w-auto flex items-center justify-center gap-3 px-8 py-4 rounded-xl bg-rebel-400 hover:bg-rebel-300 text-black font-mono text-sm font-black uppercase tracking-wider transition-all shadow-xl shadow-rebel-500/30 hover:scale-[1.02]"
           >
             <span>LAUNCH ATOM-I COCKPIT</span>
             <ArrowRight className="w-5 h-5" />
@@ -152,38 +152,38 @@ export default function LandingPage({
             onClick={onOpenPaywall}
             className="w-full sm:w-auto flex items-center justify-center gap-2 px-7 py-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/15 text-white font-mono text-sm font-bold tracking-wide transition-colors"
           >
-            <Shield className="w-4 h-4 text-amber-400" />
+            <Shield className="w-4 h-4 text-rust-400" />
             <span>FOUNDER PASS & TIERS</span>
           </button>
         </div>
 
         {/* Performance Metrics */}
         <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto font-mono text-left">
-          <div className="p-4 rounded-xl bg-black/40 border border-cyan-900/30">
+          <div className="p-4 rounded-xl bg-black/40 border border-rebel-900/30">
             <div className="text-xs text-gray-500 uppercase">INFERENCE SPEED</div>
             <div className="text-xl font-bold text-emerald-400 mt-1">&lt;0.4s Latency</div>
             <div className="text-[11px] text-gray-400 mt-1">Multi-Core Neural Engine</div>
           </div>
-          <div className="p-4 rounded-xl bg-black/40 border border-cyan-900/30">
+          <div className="p-4 rounded-xl bg-black/40 border border-rebel-900/30">
             <div className="text-xs text-gray-500 uppercase">DECOMPOSITION</div>
-            <div className="text-xl font-bold text-cyan-400 mt-1">3-Tier Hierarchy</div>
+            <div className="text-xl font-bold text-rebel-400 mt-1">3-Tier Hierarchy</div>
             <div className="text-[11px] text-gray-400 mt-1">Goal → Phase → Atom</div>
           </div>
-          <div className="p-4 rounded-xl bg-black/40 border border-cyan-900/30">
+          <div className="p-4 rounded-xl bg-black/40 border border-rebel-900/30">
             <div className="text-xs text-gray-500 uppercase">PRIORITIZATION</div>
-            <div className="text-xl font-bold text-fuchsia-400 mt-1">Eisenhower 4Q</div>
+            <div className="text-xl font-bold text-rebel-400 mt-1">Eisenhower 4Q</div>
             <div className="text-[11px] text-gray-400 mt-1">Urgency vs Importance</div>
           </div>
-          <div className="p-4 rounded-xl bg-black/40 border border-cyan-900/30">
+          <div className="p-4 rounded-xl bg-black/40 border border-rebel-900/30">
             <div className="text-xs text-gray-500 uppercase">PERSISTENCE</div>
-            <div className="text-xl font-bold text-amber-400 mt-1">atom-i Firestore</div>
+            <div className="text-xl font-bold text-rust-400 mt-1">atom-i Firestore</div>
             <div className="text-[11px] text-gray-400 mt-1">Real-time cloud sync & offline persistence</div>
           </div>
         </div>
       </section>
 
       {/* Feature Pillar Highlights */}
-      <section className="relative z-10 py-16 px-6 max-w-7xl mx-auto border-t border-cyan-900/20">
+      <section className="relative z-10 py-16 px-6 max-w-7xl mx-auto border-t border-rebel-900/20">
         <div className="text-center max-w-2xl mx-auto mb-14">
           <h2 className="text-3xl font-extrabold text-white tracking-tight">
             ENGINEERED FOR SUPREME EXECUTION VELOCITY
@@ -194,9 +194,9 @@ export default function LandingPage({
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="p-6 rounded-2xl bg-[#090e17] border border-cyan-500/20 hover:border-cyan-400/50 transition-all flex flex-col justify-between">
+          <div className="p-6 rounded-2xl bg-[#0B0B0F] border border-rebel-500/20 hover:border-rebel-400/50 transition-all flex flex-col justify-between">
             <div>
-              <div className="w-11 h-11 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 mb-5">
+              <div className="w-11 h-11 rounded-xl bg-rebel-500/10 border border-rebel-500/30 flex items-center justify-center text-rebel-400 mb-5">
                 <Layers className="w-5 h-5" />
               </div>
               <h3 className="text-base font-bold text-white mb-2">Hierarchical Node Map</h3>
@@ -204,15 +204,15 @@ export default function LandingPage({
                 Visual interactive mindmap graph decomposing enterprise objectives into sequential phases and atomic task nodes.
               </p>
             </div>
-            <div className="mt-5 pt-3 border-t border-white/5 flex items-center gap-1.5 text-[11px] font-mono text-cyan-400">
+            <div className="mt-5 pt-3 border-t border-white/5 flex items-center gap-1.5 text-[11px] font-mono text-rebel-400">
               <CheckCircle2 className="w-3.5 h-3.5" />
               <span>All Tiers Included</span>
             </div>
           </div>
 
-          <div className="p-6 rounded-2xl bg-[#090e17] border border-fuchsia-500/20 hover:border-fuchsia-400/50 transition-all flex flex-col justify-between">
+          <div className="p-6 rounded-2xl bg-[#0B0B0F] border border-rebel-500/20 hover:border-rebel-400/50 transition-all flex flex-col justify-between">
             <div>
-              <div className="w-11 h-11 rounded-xl bg-fuchsia-500/10 border border-fuchsia-500/30 flex items-center justify-center text-fuchsia-400 mb-5">
+              <div className="w-11 h-11 rounded-xl bg-rebel-500/10 border border-rebel-500/30 flex items-center justify-center text-rebel-400 mb-5">
                 <Grid className="w-5 h-5" />
               </div>
               <h3 className="text-base font-bold text-white mb-2">Eisenhower Tactical Grid</h3>
@@ -220,13 +220,13 @@ export default function LandingPage({
                 4-quadrant urgent-important triage sorting. Distinguish high-impact needle-movers from distractions instantly.
               </p>
             </div>
-            <div className="mt-5 pt-3 border-t border-white/5 flex items-center gap-1.5 text-[11px] font-mono text-fuchsia-400">
+            <div className="mt-5 pt-3 border-t border-white/5 flex items-center gap-1.5 text-[11px] font-mono text-rebel-400">
               <CheckCircle2 className="w-3.5 h-3.5" />
               <span>Tactical Pro & Vanguard</span>
             </div>
           </div>
 
-          <div className="p-6 rounded-2xl bg-[#090e17] border border-emerald-500/20 hover:border-emerald-400/50 transition-all flex flex-col justify-between">
+          <div className="p-6 rounded-2xl bg-[#0B0B0F] border border-emerald-500/20 hover:border-emerald-400/50 transition-all flex flex-col justify-between">
             <div>
               <div className="w-11 h-11 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 mb-5">
                 <Calendar className="w-5 h-5" />
@@ -242,9 +242,9 @@ export default function LandingPage({
             </div>
           </div>
 
-          <div className="p-6 rounded-2xl bg-[#090e17] border border-amber-500/20 hover:border-amber-400/50 transition-all flex flex-col justify-between">
+          <div className="p-6 rounded-2xl bg-[#0B0B0F] border border-rust-500/20 hover:border-rust-400/50 transition-all flex flex-col justify-between">
             <div>
-              <div className="w-11 h-11 rounded-xl bg-amber-500/10 border border-amber-400/30 flex items-center justify-center text-amber-400 mb-5">
+              <div className="w-11 h-11 rounded-xl bg-rust-500/10 border border-rust-400/30 flex items-center justify-center text-rust-400 mb-5">
                 <Waves className="w-5 h-5" />
               </div>
               <h3 className="text-base font-bold text-white mb-2">Brown Noise Ambience</h3>
@@ -252,7 +252,7 @@ export default function LandingPage({
                 Procedural 1/f² soundscape & 4.5Hz theta brainwave audio. Suppresses ADHD task inertia and ambient speech.
               </p>
             </div>
-            <div className="mt-5 pt-3 border-t border-white/5 flex items-center gap-1.5 text-[11px] font-mono text-amber-400">
+            <div className="mt-5 pt-3 border-t border-white/5 flex items-center gap-1.5 text-[11px] font-mono text-rust-400">
               <CheckCircle2 className="w-3.5 h-3.5" />
               <span>Zero Bandwidth • Built-in</span>
             </div>
@@ -261,10 +261,10 @@ export default function LandingPage({
       </section>
 
       {/* Real Success Stories from Firestore */}
-      <section className="relative z-10 py-16 px-6 max-w-6xl mx-auto border-t border-cyan-900/20">
+      <section className="relative z-10 py-16 px-6 max-w-6xl mx-auto border-t border-rebel-900/20">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
           <div>
-            <div className="inline-flex items-center gap-2 text-amber-400 font-mono text-xs uppercase tracking-widest mb-2">
+            <div className="inline-flex items-center gap-2 text-rust-400 font-mono text-xs uppercase tracking-widest mb-2">
               <Award className="w-4 h-4" />
               <span>VERIFIED OPERATOR EXPERIENCES (atom-i/success_stories)</span>
             </div>
@@ -281,10 +281,10 @@ export default function LandingPage({
           {successStories.map((story) => (
             <div
               key={story.id}
-              className="p-6 rounded-2xl bg-[#080d15] border border-cyan-900/30 hover:border-cyan-500/40 transition-all flex flex-col justify-between shadow-lg"
+              className="p-6 rounded-2xl bg-[#0B0B0F] border border-rebel-900/30 hover:border-rebel-500/40 transition-all flex flex-col justify-between shadow-lg"
             >
               <div>
-                <div className="flex items-center gap-2 text-cyan-400 font-mono text-xs uppercase mb-3">
+                <div className="flex items-center gap-2 text-rebel-400 font-mono text-xs uppercase mb-3">
                   <Sparkles className="w-3.5 h-3.5" />
                   <span>{story.goalTitle}</span>
                 </div>
@@ -316,7 +316,7 @@ export default function LandingPage({
                   <div className="text-sm font-bold text-white">{story.authorName}</div>
                   <div className="text-xs font-mono text-gray-500">Operator ID: {story.userId}</div>
                 </div>
-                <div className="flex items-center gap-1 text-amber-400">
+                <div className="flex items-center gap-1 text-rust-400">
                   <Star className="w-4 h-4 fill-current" />
                   <Star className="w-4 h-4 fill-current" />
                   <Star className="w-4 h-4 fill-current" />
@@ -330,9 +330,9 @@ export default function LandingPage({
       </section>
 
       {/* Pricing & Packages Section with Option B & Option C */}
-      <section className="relative z-10 py-16 px-6 max-w-7xl mx-auto border-t border-cyan-900/20">
+      <section className="relative z-10 py-16 px-6 max-w-7xl mx-auto border-t border-rebel-900/20">
         <div className="text-center max-w-2xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 text-cyan-400 font-mono text-xs uppercase tracking-widest mb-3">
+          <div className="inline-flex items-center gap-2 text-rebel-400 font-mono text-xs uppercase tracking-widest mb-3">
             <Shield className="w-4 h-4" />
             <span>DEPLOYMENT TIERS & FOUNDER OFFER</span>
           </div>
@@ -345,38 +345,38 @@ export default function LandingPage({
         </div>
 
         {/* Option B Founder Banner in Landing Page */}
-        <div className="mb-10 rounded-2xl border-2 border-amber-500/60 bg-gradient-to-r from-amber-950/50 via-purple-950/30 to-cyan-950/40 p-6 shadow-2xl">
+        <div className="mb-10 rounded-2xl border-2 border-rust-500/60 bg-gradient-to-r from-rust-950/50 via-purple-950/30 to-rebel-950/40 p-6 shadow-2xl">
           <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
             <div className="space-y-2 max-w-2xl">
               <div className="flex flex-wrap items-center gap-2">
-                <span className="px-2.5 py-0.5 rounded-full bg-amber-400 text-black font-mono text-[10px] font-black uppercase tracking-wider flex items-center gap-1">
+                <span className="px-2.5 py-0.5 rounded-full bg-rust-400 text-black font-mono text-[10px] font-black uppercase tracking-wider flex items-center gap-1">
                   <Flame className="w-3 h-3 fill-black" />
                   FIRST 199 OPERATORS ONLY
                 </span>
-                <span className="text-amber-300 font-mono text-xs font-bold">{String(founderStats.claimed).padStart(3, "0")} / 199 CLAIMED • {founderStats.remaining} REMAINING</span>
+                <span className="text-rust-300 font-mono text-xs font-bold">{String(founderStats.claimed).padStart(3, "0")} / 199 CLAIMED • {founderStats.remaining} REMAINING</span>
               </div>
               <h3 className="text-xl sm:text-2xl font-black text-white">
                 The Founder Lifetime Pass — $99 One-Time (No Subscriptions)
               </h3>
               <p className="text-sm text-gray-300 leading-relaxed">
-                Full Tactical Pro capabilities (unlimited objectives, Eisenhower Matrix, Chrono Planner, Firestore sync) forever. Includes 60 included Live Voice minutes, exclusive <strong>Genesis Holographic NFT Badge</strong>, and complimentary <strong>Official atom-i Die-Cut Metallic Sticker Pack</strong> mailed free worldwide.
+                Full Tactical Pro capabilities (unlimited objectives, Eisenhower Matrix, Chrono Planner, Firestore sync) forever. Includes 60 included Live Voice minutes, exclusive <strong>Genesis Holographic 3D Art Badge</strong>, and complimentary <strong>Official atom-i Die-Cut Metallic Sticker Pack</strong> mailed free worldwide.
               </p>
             </div>
             <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
               {onOpenFounderPerks && (
                 <button
                   onClick={onOpenFounderPerks}
-                  className="w-full sm:w-auto px-4 py-3.5 rounded-xl bg-white/10 hover:bg-white/15 border border-amber-400/40 text-amber-300 font-mono text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-lg"
+                  className="w-full sm:w-auto px-4 py-3.5 rounded-xl bg-white/10 hover:bg-white/15 border border-rust-400/40 text-rust-300 font-mono text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-lg"
                   title="Preview the Interactive 3D Holographic Genesis Badge"
                 >
-                  <Sparkles className="w-4 h-4 text-amber-400" />
-                  Preview 3D NFT Badge
+                  <Sparkles className="w-4 h-4 text-rust-400" />
+                  Preview 3D Art Badge
                 </button>
               )}
               <button
                 onClick={handleClaimFounder}
                 disabled={founderStats.soldOut}
-                className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-black font-mono text-xs font-black uppercase tracking-wider transition-all shadow-xl shadow-amber-500/20 whitespace-nowrap cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-gradient-to-r from-rust-400 to-rust-500 hover:from-rust-300 hover:to-rust-400 text-black font-mono text-xs font-black uppercase tracking-wider transition-all shadow-xl shadow-rust-500/20 whitespace-nowrap cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isFounder
                   ? "Founder Status Active"
@@ -388,7 +388,7 @@ export default function LandingPage({
           </div>
           {founderMsg && (
             <div className="mt-4 flex flex-wrap items-center gap-3">
-              <p className="text-xs font-mono text-amber-300">{founderMsg}</p>
+              <p className="text-xs font-mono text-rust-300">{founderMsg}</p>
               {!user && (
                 <button
                   onClick={() => signInWithGoogle()}
@@ -413,12 +413,12 @@ export default function LandingPage({
                   config.border
                 } ${config.bg} ${
                   isCurrent
-                    ? "ring-2 ring-cyan-400 shadow-2xl shadow-cyan-950/60"
+                    ? "ring-2 ring-rebel-400 shadow-2xl shadow-rebel-950/60"
                     : "hover:border-white/20"
                 }`}
               >
                 {config.popular && (
-                  <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-gradient-to-r from-cyan-400 to-fuchsia-500 text-[10px] font-mono font-bold text-black uppercase tracking-wider">
+                  <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-gradient-to-r from-rebel-400 to-rebel-500 text-[10px] font-mono font-bold text-black uppercase tracking-wider">
                     MOST POPULAR
                   </div>
                 )}
@@ -464,18 +464,18 @@ export default function LandingPage({
                     <div className="flex items-center gap-2">
                       <CheckCircle2
                         className={`w-4 h-4 shrink-0 ${
-                          config.hasLiveVoice ? "text-fuchsia-400" : "text-gray-600"
+                          config.hasLiveVoice ? "text-rebel-400" : "text-gray-600"
                         }`}
                       />
-                      <span className={config.hasLiveVoice ? "text-fuchsia-300 font-bold" : "text-gray-500"}>
+                      <span className={config.hasLiveVoice ? "text-rebel-300 font-bold" : "text-gray-500"}>
                         {config.voiceMinutesIncluded > 0
                           ? `Live Voice (${config.voiceMinutesIncluded} min/mo)`
                           : "Live Voice Coach"}
                       </span>
                     </div>
                     {config.featuredEligible && (
-                      <div className="flex items-center gap-2 text-amber-300 font-semibold">
-                        <Award className="w-4 h-4 text-amber-400 shrink-0" />
+                      <div className="flex items-center gap-2 text-rust-300 font-semibold">
+                        <Award className="w-4 h-4 text-rust-400 shrink-0" />
                         <span>Featured Story Eligible</span>
                       </div>
                     )}
@@ -505,7 +505,7 @@ export default function LandingPage({
                         ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 cursor-default"
                         : isFounder
                         ? "bg-white/5 text-gray-500 cursor-not-allowed border border-white/5"
-                        : "bg-cyan-400 hover:bg-cyan-300 text-black shadow-lg shadow-cyan-950/40 hover:scale-[1.02]"
+                        : "bg-rebel-400 hover:bg-rebel-300 text-black shadow-lg shadow-rebel-950/40 hover:scale-[1.02]"
                     }`}
                   >
                     {isCurrent
@@ -523,9 +523,9 @@ export default function LandingPage({
         </div>
 
         {/* Option C Voice Top-Up Upsell info */}
-        <div className="p-6 rounded-2xl bg-[#080d16] border border-fuchsia-900/40 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="p-6 rounded-2xl bg-[#080d16] border border-rebel-900/40 flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
-            <div className="flex items-center gap-2 text-fuchsia-400 font-mono text-xs uppercase mb-1">
+            <div className="flex items-center gap-2 text-rebel-400 font-mono text-xs uppercase mb-1">
               <Mic className="w-4 h-4" />
               <span>OPTION C • VOICE MINUTE REFILL PACKS</span>
             </div>
@@ -536,7 +536,7 @@ export default function LandingPage({
           </div>
           <button
             onClick={onOpenPaywall}
-            className="px-5 py-2.5 rounded-xl bg-fuchsia-500 hover:bg-fuchsia-400 text-black font-mono text-xs font-bold uppercase tracking-wider transition-colors shrink-0"
+            className="px-5 py-2.5 rounded-xl bg-rebel-500 hover:bg-rebel-400 text-black font-mono text-xs font-bold uppercase tracking-wider transition-colors shrink-0"
           >
             Browse Voice Packs
           </button>
@@ -544,42 +544,42 @@ export default function LandingPage({
       </section>
 
       {/* Footer CTA */}
-      <footer className="relative z-10 border-t border-cyan-900/30 py-12 px-6 bg-[#04060a]">
+      <footer className="relative z-10 border-t border-rebel-900/30 py-12 px-6 bg-[#04060a]">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
           <div>
             <div className="text-base font-black text-white tracking-wider flex items-center justify-center md:justify-start gap-2">
-              <Zap className="w-4 h-4 text-cyan-400 fill-current" />
+              <Zap className="w-4 h-4 text-rebel-400 fill-current" />
               <span>A.T.O.M-i TACTICAL SYSTEMS</span>
             </div>
             <p className="text-xs text-gray-500 font-mono mt-1">
-              Firestore: <span className="text-gray-400">atom-i</span> • Engine: <span className="text-cyan-400">Multi-Model Neural Core</span> • Security: <span className="text-emerald-400">Encrypted Cloud Storage</span>
+              Firestore: <span className="text-gray-400">atom-i</span> • Engine: <span className="text-rebel-400">Multi-Model Neural Core</span> • Security: <span className="text-emerald-400">Encrypted Cloud Storage</span>
             </p>
             {/* Legal Links */}
             <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 mt-3 text-[11px] font-mono text-gray-400">
               <button
                 onClick={() => onOpenTerms && onOpenTerms("terms")}
-                className="hover:text-cyan-300 underline transition-colors"
+                className="hover:text-rebel-300 underline transition-colors"
               >
                 Terms of Service
               </button>
               <span>•</span>
               <button
                 onClick={() => onOpenTerms && onOpenTerms("refunds")}
-                className="hover:text-cyan-300 underline transition-colors"
+                className="hover:text-rebel-300 underline transition-colors"
               >
                 Return &amp; Refund Policy
               </button>
               <span>•</span>
               <button
                 onClick={() => onOpenTerms && onOpenTerms("privacy")}
-                className="hover:text-cyan-300 underline transition-colors"
+                className="hover:text-rebel-300 underline transition-colors"
               >
                 Privacy Policy
               </button>
               <span>•</span>
               <button
                 onClick={() => onOpenTerms && onOpenTerms("support")}
-                className="hover:text-cyan-300 underline text-cyan-400 transition-colors font-semibold"
+                className="hover:text-rebel-300 underline text-rebel-400 transition-colors font-semibold"
               >
                 Support: faux.machine@gmail.com
               </button>
@@ -595,7 +595,7 @@ export default function LandingPage({
             </button>
             <button
               onClick={onEnterCockpit}
-              className="px-5 py-2 rounded-lg bg-cyan-400 hover:bg-cyan-300 text-black font-mono text-xs font-bold uppercase tracking-wider shadow-lg shadow-cyan-500/20"
+              className="px-5 py-2 rounded-lg bg-rebel-400 hover:bg-rebel-300 text-black font-mono text-xs font-bold uppercase tracking-wider shadow-lg shadow-rebel-500/20"
             >
               Launch Cockpit
             </button>
