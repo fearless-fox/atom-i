@@ -1831,7 +1831,7 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
         defaultTab={termsTab}
       />
 
-      {/* Founder Genesis NFT Badge & Physical Freebie Merch Modal */}
+      {/* Founder Genesis 3D Art Badge & Physical Freebie Merch Modal */}
       <FounderPerksModal
         isOpen={showFounderPerksModal}
         onClose={() => setShowFounderPerksModal(false)}
