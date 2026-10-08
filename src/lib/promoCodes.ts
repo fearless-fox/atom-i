@@ -79,7 +79,7 @@ export const VALID_PROMO_CODES: PromoCodeDefinition[] = [
   {
     code: "ATOM-FOUNDER",
     singleUse: true,
-    maxUses: 05,
+    maxUses: 5,
     action: "grant_tier",
     tier: "founder_lifetime",
     voiceMinutes: 120,
@@ -148,7 +148,7 @@ export const VALID_PROMO_CODES: PromoCodeDefinition[] = [
   {
     code: "PH-FOUNDER-50",
     singleUse: true,
-    maxUses: 02,
+    maxUses: 2,
     action: "founder_discount",
     founderDiscountPercent: 50, // 50% off $99 = $49
     bonusVoiceMinutes: 30,
@@ -158,7 +158,7 @@ export const VALID_PROMO_CODES: PromoCodeDefinition[] = [
   {
     code: "UPVOTER-50",
     singleUse: true,
-    maxUses: 02,
+    maxUses: 2,
     action: "founder_discount",
     founderDiscountPercent: 50,
     bonusVoiceMinutes: 30,
