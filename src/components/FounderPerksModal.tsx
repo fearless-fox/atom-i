@@ -103,6 +103,17 @@ export const FounderPerksModal: React.FC<FounderPerksModalProps> = ({
   const isCreatorRoot = formattedNumber === "000";
   const authHash = isCreatorRoot ? "0x000ATOM...ROOT01" : `0x7A${formattedNumber}F9C...E42B`;
 
+  // Physical card thickness (px). Faces sit at +/- half; four metallic edge
+  // strips bridge the gap so a spin never shows a hollow flicker edge-on.
+  const CARD_T = 14;
+  const CARD_HALF = CARD_T / 2;
+  const edgeSheenH = isCreatorRoot
+    ? "linear-gradient(90deg, #4c1d95, #a78bfa 30%, #ede9fe 50%, #a78bfa 70%, #4c1d95)"
+    : "linear-gradient(90deg, #8a6d2f, #f5d67b 30%, #fff3c4 50%, #f5d67b 70%, #8a6d2f)";
+  const edgeSheenV = isCreatorRoot
+    ? "linear-gradient(180deg, #4c1d95, #a78bfa 30%, #ede9fe 50%, #a78bfa 70%, #4c1d95)"
+    : "linear-gradient(180deg, #8a6d2f, #f5d67b 30%, #fff3c4 50%, #f5d67b 70%, #8a6d2f)";
+
   // Trigger one-shot 360-degree flip
   const handleTrigger360Spin = () => {
     if (isSpinning) return;
@@ -361,7 +372,7 @@ export const FounderPerksModal: React.FC<FounderPerksModalProps> = ({
                   style={{
                     backfaceVisibility: "hidden",
                     WebkitBackfaceVisibility: "hidden",
-                    transform: "rotateY(0deg) translateZ(2px)",
+                    transform: `rotateY(0deg) translateZ(${CARD_HALF}px)`,
                     backgroundColor: "#0c0d1c",
                     visibility: isBackFacing ? "hidden" : "visible",
                     opacity: isBackFacing ? 0 : 1,
@@ -461,7 +472,7 @@ export const FounderPerksModal: React.FC<FounderPerksModalProps> = ({
                   style={{
                     backfaceVisibility: "hidden",
                     WebkitBackfaceVisibility: "hidden",
-                    transform: "rotateY(180deg) translateZ(2px)",
+                    transform: `rotateY(180deg) translateZ(${CARD_HALF}px)`,
                     backgroundColor: "#060814",
                     visibility: isBackFacing ? "visible" : "hidden",
                     opacity: isBackFacing ? 1 : 0,
@@ -541,6 +552,42 @@ export const FounderPerksModal: React.FC<FounderPerksModalProps> = ({
                     </div>
                   </div>
                 </div>
+
+                {/* Card thickness: metallic edge strips bridging front/back faces.
+                    Always visible (no backface culling) so the spin reads as a
+                    solid card instead of flickering hollow at edge-on angles. */}
+                <div
+                  aria-hidden
+                  className="absolute pointer-events-none"
+                  style={{
+                    top: -CARD_HALF, left: 0, width: "100%", height: CARD_T,
+                    transform: "rotateX(-90deg)", background: edgeSheenH,
+                  }}
+                />
+                <div
+                  aria-hidden
+                  className="absolute pointer-events-none"
+                  style={{
+                    bottom: -CARD_HALF, left: 0, width: "100%", height: CARD_T,
+                    transform: "rotateX(90deg)", background: edgeSheenH,
+                  }}
+                />
+                <div
+                  aria-hidden
+                  className="absolute pointer-events-none"
+                  style={{
+                    left: -CARD_HALF, top: 0, height: "100%", width: CARD_T,
+                    transform: "rotateY(-90deg)", background: edgeSheenV,
+                  }}
+                />
+                <div
+                  aria-hidden
+                  className="absolute pointer-events-none"
+                  style={{
+                    right: -CARD_HALF, top: 0, height: "100%", width: CARD_T,
+                    transform: "rotateY(90deg)", background: edgeSheenV,
+                  }}
+                />
               </div>
             </div>
 
