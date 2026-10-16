@@ -1887,7 +1887,11 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
 
       {/* Hyperfocus Mode — fullscreen violet particle field + brown noise */}
       {showHyperfocus && (
-        <HyperfocusMode goal={goal} onClose={() => setShowHyperfocus(false)} />
+        <HyperfocusMode
+          goal={goal}
+          onClose={() => setShowHyperfocus(false)}
+          onCompleteTask={(taskId) => handleToggleComplete(taskId, "task")}
+        />
       )}
 
       {/* --- DECOMPOSE GOAL SETUP DIALOG MODAL --- */}
