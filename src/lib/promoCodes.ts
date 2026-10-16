@@ -31,7 +31,7 @@ export interface PromoCodeDefinition {
 export const VALID_PROMO_CODES: PromoCodeDefinition[] = [
   // 1. MASTER FOUNDER & OWNER BYPASS CODES
   // FAUX-VIP is the project owner's master key. It is ONLY redeemable by
-  // faux.fuax@gmail.com (enforced in redeemPromoCode) — absolutely nobody
+  // faux.fuax@gmail.com (enforced in redeemPromoCode) â absolutely nobody
   // else may receive creator #000 or its privileges through any code.
   {
     code: "FAUX-VIP",
@@ -57,7 +57,7 @@ export const VALID_PROMO_CODES: PromoCodeDefinition[] = [
   {
     code: "ATOM-FAMILY",
     singleUse: true,
-    maxUSes: 20,
+    maxUses: 20,
     action: "grant_tier",
     tier: "founder_lifetime",
     voiceMinutes: 120,
