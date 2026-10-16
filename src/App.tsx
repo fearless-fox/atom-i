@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Goal, Phase, Task, Atom, PlannerTask, ChatMessage } from "./types";
 import { DEFAULT_GOAL } from "./defaultGoal";
 import ParticleBackground from "./components/ParticleBackground";
@@ -105,6 +105,15 @@ export default function App() {
     }
     return "landing";
   });
+
+  // Full-page view transitions (landing <-> cockpit <-> guide) always start
+  // at the top. Navigation is state-based, so the window keeps its scroll
+  // position across views — entering the cockpit from the bottom of the
+  // landing page would otherwise land you at the bottom of the cockpit.
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [viewMode]);
+
   const [showPaywallModal, setShowPaywallModal] = useState(false);
   const [showTermsModal, setShowTermsModal] = useState<boolean>(() => {
     if (typeof window !== "undefined") {
@@ -202,6 +211,23 @@ export default function App() {
   const [showPromoModal, setShowPromoModal] = useState(false);
   const [showAmbienceModal, setShowAmbienceModal] = useState(false);
   const [showHyperfocus, setShowHyperfocus] = useState(false);
+
+  // First-ever decompose lands in Hyperfocus (fullscreen particle field +
+  // deep brown noise) instead of the plain cockpit — the "wow" moment.
+  // Persisted in localStorage so it fires exactly once per browser; the ref
+  // guards the current session if storage is unavailable.
+  const decomposedOnceRef = useRef<boolean>(false);
+  const celebrateFirstDecomposition = () => {
+    if (decomposedOnceRef.current) return;
+    decomposedOnceRef.current = true;
+    try {
+      if (localStorage.getItem("atom_i_decomposed_once") === "1") return;
+      localStorage.setItem("atom_i_decomposed_once", "1");
+    } catch {
+      /* storage blocked — ref still guards this session */
+    }
+    setShowHyperfocus(true);
+  };
   const [isAmbienceActive, setIsAmbienceActive] = useState<boolean>(() => {
     return cyberAudio.getAmbienceState().isPlaying;
   });
@@ -760,6 +786,7 @@ Tactical Directive: "${freshGoal.encouragement}"`,
           setNewGoalTitle("");
           setNewGoalDesc("");
           setIsAtomizing(false);
+          celebrateFirstDecomposition();
           return;
         }
       } catch (puterErr) {
@@ -800,6 +827,7 @@ Tactical Warning: "${freshGoal.encouragement}"`,
       setShowAtomizeModal(false);
       setNewGoalTitle("");
       setNewGoalDesc("");
+      celebrateFirstDecomposition();
     } catch (err: any) {
       console.warn("Decomposition API error. Trying Puter.ai or heuristic fallback...", err);
 
@@ -825,6 +853,7 @@ Sequential milestones synchronized to your command dashboard.`,
             setNewGoalTitle("");
             setNewGoalDesc("");
             setIsAtomizing(false);
+            celebrateFirstDecomposition();
             return;
           }
         } catch (puterErr2) {
@@ -953,6 +982,7 @@ Note: Running in offline/local mode. To unlock live AI decomposition and real-ti
         ]);
         setIsAtomizing(false);
         setShowAtomizeModal(false);
+        celebrateFirstDecomposition();
         setNewGoalTitle("");
         setNewGoalDesc("");
         setAtomizeError(null);
