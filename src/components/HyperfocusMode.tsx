@@ -13,6 +13,7 @@ import { Goal } from "../types";
 interface HyperfocusModeProps {
   goal: Goal;
   onClose: () => void;
+  onCompleteTask: (taskId: string) => void;
 }
 
 function formatElapsed(totalSeconds: number): string {
@@ -21,7 +22,16 @@ function formatElapsed(totalSeconds: number): string {
   return `${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`;
 }
 
-export const HyperfocusMode: React.FC<HyperfocusModeProps> = ({ goal, onClose }) => {
+function eisenhowerQuadrant(urgency: string, importance: string): string {
+  const u = urgency === "Urgent";
+  const i = importance === "Important";
+  if (u && i) return "DO";
+  if (!u && i) return "SCHEDULE";
+  if (u && !i) return "DELEGATE";
+  return "DROP";
+}
+
+export const HyperfocusMode: React.FC<HyperfocusModeProps> = ({ goal, onClose, onCompleteTask }) => {
   const rawId = useId().replace(/[^a-zA-Z0-9]/g, "");
   const containerId = `hyperfocus-vfx-${rawId}`;
   const visualizerRef = useRef<VFXParticlesVisualizer | null>(null);
@@ -37,6 +47,39 @@ export const HyperfocusMode: React.FC<HyperfocusModeProps> = ({ goal, onClose })
     const viz = new VFXParticlesVisualizer(containerId);
     visualizerRef.current = viz;
     viz.init();
+
+    // Seed the field with live goal nodes — the particles ARE the plan.
+    // Click a node to expand it, complete it from the card. Completing a
+    // phase triggers the blast and unlocks the next phase's nodes.
+    const flat = goal.phases.flatMap((phase, phaseIdx) =>
+      phase.tasks.map((task) => ({ task, phase, phaseIdx }))
+    );
+    const firstOpenIdx = flat.findIndex(({ task }) => !task.completed);
+    const firstOpenPhase = firstOpenIdx >= 0 ? flat[firstOpenIdx].phaseIdx : -1;
+    flat.forEach(({ task, phase, phaseIdx }, seq) => {
+      const status: "active" | "upcoming" | "locked" | "completed" =
+        task.completed
+          ? "completed"
+          : seq === firstOpenIdx
+            ? "active"
+            : phaseIdx === firstOpenPhase
+              ? "upcoming"
+              : "locked";
+      const tag =
+        phase.title.length > 26 ? phase.title.slice(0, 26) + "…" : phase.title;
+      viz.addNodeLabel(
+        {
+          id: task.id,
+          title: task.title,
+          quadrant: eisenhowerQuadrant(task.urgency, task.importance),
+          tag,
+        },
+        seq,
+        phaseIdx,
+        status
+      );
+    });
+    viz.onTaskCompleted = (taskId: string) => onCompleteTask(taskId);
 
     try {
       cyberAudio.setAmbienceProfile("deep_brown");

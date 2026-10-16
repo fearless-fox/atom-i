@@ -153,7 +153,12 @@ export class VFXParticlesVisualizer {
     this.scene.add(this.particleMesh);
   }
 
-  addNodeLabel(task: ParticleTask, index: number, phaseIdx = 0): void {
+  addNodeLabel(
+    task: ParticleTask,
+    index: number,
+    phaseIdx = 0,
+    initialStatus?: "active" | "upcoming" | "locked" | "completed"
+  ): void {
     if (!this.positions) return;
     const particleIndex = (index * 12 + 15) % this.count;
 
@@ -161,14 +166,25 @@ export class VFXParticlesVisualizer {
     this.positions[particleIndex * 3 + 1] = (Math.random() - 0.5) * 8;
     this.positions[particleIndex * 3 + 2] = (Math.random() - 0.5) * 6;
 
-    const isCurrentTaskAtHand = index === 0;
-    const isCurrentPhase = phaseIdx === 0;
+    // Explicit status wins (e.g. seeding from a live goal); otherwise fall
+    // back to the original positional convention: first node active,
+    // phase-0 nodes upcoming, everything else locked.
+    const isCurrentTaskAtHand = initialStatus
+      ? initialStatus === "active"
+      : index === 0;
+    const status: "active" | "upcoming" | "locked" | "completed" = initialStatus
+      ? initialStatus
+      : isCurrentTaskAtHand
+        ? "active"
+        : phaseIdx === 0
+          ? "upcoming"
+          : "locked";
 
     const labelEl = document.createElement("div");
     labelEl.className = `particle-node-label ${isCurrentTaskAtHand ? "node-active-burn" : ""}`;
     labelEl.dataset.taskId = task.id;
 
-    if (!isCurrentPhase) {
+    if (status === "locked" || status === "completed") {
       labelEl.style.display = "none";
     }
 
@@ -186,7 +202,10 @@ export class VFXParticlesVisualizer {
       }
     });
 
-    document.body.appendChild(labelEl);
+    // Labels mount inside the visualizer's container (not document.body) so
+    // they paint above the canvas when the visualizer runs inside a
+    // fullscreen overlay like HyperfocusMode.
+    (this.container ?? document.body).appendChild(labelEl);
     this.nodeLabels.push({
       id: task.id,
       element: labelEl,
@@ -194,7 +213,7 @@ export class VFXParticlesVisualizer {
       taskData: task,
       sequenceIdx: index,
       phaseIdx,
-      status: isCurrentTaskAtHand ? "active" : isCurrentPhase ? "upcoming" : "locked",
+      status,
       expanded: false,
     });
   }
