@@ -274,7 +274,8 @@ export default function PaywallModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md p-4 overflow-y-auto">
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/90 backdrop-blur-md">
+      <div className="flex min-h-full items-center justify-center p-4">
       <div className="relative w-full max-w-5xl rounded-2xl bg-[#0B0B0F] border border-rebel-500/30 p-6 md:p-8 shadow-2xl shadow-rebel-950/50 my-8">
         {/* Close Button */}
         <button
@@ -856,6 +857,7 @@ export default function PaywallModal({
         {/* Footer info */}
         <div className="mt-3 text-center font-mono text-[10px] text-gray-500">
           Connected to Firestore Project: <span className="text-rebel-400">atom-i</span> • Collections: <span className="text-gray-400">users, atomizations, success_stories</span>
+        </div>
         </div>
       </div>
     </div>
