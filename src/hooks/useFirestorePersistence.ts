@@ -135,12 +135,13 @@ export function useFirestorePersistence(
   // owner markers) is left untouched so the free-trial funnel keeps working.
   useEffect(() => {
     if (authLoading || user) return;
-    if (!wipeStaleOwnerSession()) return;
     goalRestoredRef.current = false;
+    setActivePersonaId(null);
+    if (!wipeStaleOwnerSession()) return;
     setUserProfile({ ...DEFAULT_TRIAL_PROFILE });
     setGoal(DEFAULT_GOAL);
     setPlannerTasks([]);
-  }, [authLoading, user, setGoal, setPlannerTasks]);
+  }, [authLoading, user, setGoal, setPlannerTasks, setActivePersonaId]);
 
   // Success stories for landing page
   const [successStories, setSuccessStories] = useState<SuccessStory[]>([]);
@@ -329,6 +330,39 @@ export function useFirestorePersistence(
       }
     })();
   }, [effectiveUid, user, initialGoal.id, setGoal]);
+
+  // Seed the decompose history list explicitly on sign-in. The live
+  // subscription above keeps it fresh afterwards, but a logout/login cycle
+  // must not depend on the listener re-attaching to repopulate history.
+  // Signed-out users never reach this (no user, no uid) so the clean
+  // logged-out reset is untouched.
+  useEffect(() => {
+    if (!effectiveUid || !user) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const snap = await getDocs(
+          query(collection(db, "atomizations"), where("userId", "==", effectiveUid))
+        );
+        if (cancelled) return;
+        const goals: Array<{ id: string; title: string; progress: number }> = [];
+        snap.forEach((docSnap) => {
+          const data = docSnap.data();
+          goals.push({
+            id: docSnap.id,
+            title: data.title || "Untitled Objective",
+            progress: data.progress || 0,
+          });
+        });
+        setUserGoalsList(goals);
+      } catch (err) {
+        console.warn("Could not restore decompose history on sign-in:", err);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [effectiveUid, user]);
 
   // 3. Fetch "success_stories" for Landing Page
   useEffect(() => {
